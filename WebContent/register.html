@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>注册页面 - 超市会员管理系统</title>
+<link rel="icon" href="favicon.ico" type="image/ico">
+<meta name="author" content="Xueting Wu">
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/materialdesignicons.min.css" rel="stylesheet">
+<link href="css/style.min.css" rel="stylesheet">
+<style>
+.lyear-wrapper {
+    position: relative;
+}
+.lyear-login {
+    display: flex !important;
+    min-height: 100vh;
+    align-items: center !important;
+    justify-content: center !important;
+}
+.login-center {
+    background: #fff;
+    min-width: 38.25rem;
+    padding: 2.14286em 3.57143em;
+    border-radius: 5px;
+    margin: 2.85714em 0;
+}
+.login-header {
+    margin-bottom: 1.5rem !important;
+}
+.login-center .has-feedback.feedback-left .form-control {
+    padding-left: 38px;
+    padding-right: 12px;
+}
+.login-center .has-feedback.feedback-left .form-control-feedback {
+    left: 0;
+    right: auto;
+    width: 38px;
+    height: 38px;
+    line-height: 38px;
+    z-index: 4;
+    color: #dcdcdc;
+}
+.login-center .has-feedback.feedback-left.row .form-control-feedback {
+    left: 15px;
+}
+</style>
+</head>
+  
+<body>
+<div class="row lyear-wrapper">
+  <div class="lyear-login">
+    <div class="login-center">
+    	<div class="login-header text-center">
+  			<a href="index.html"> <img alt="light year admin" src="images/logo-sidebar.png" width="260"> </a>
+      	</div>
+      	<div>
+      		<h3 align="center" style="color: #33cabb;">注册</h3>
+      		<hr style="margin-top: 0;"/>
+      	</div>
+      	
+      	<div class="card-body">
+      		
+            <form id="info" action="#" method="post" class="guide-box" data-navigateable="true" >
+              	<ul class="nav-step step-dots">
+                	<li class="nav-step-item active">
+                  		<span>步骤一</span>
+                  		<a class="active" data-toggle="tab" href="#step-1"></a>
+                	</li>
+
+                	<li class="nav-step-item">
+		                <span>步骤二</span>
+		                <a data-toggle="tab" href="#step-2"></a>
+	                </li>
+
+                	<li class="nav-step-item">
+                  		<span>步骤三</span>
+                  		<a data-toggle="tab" href="#step-3"></a>
+                	</li>
+
+                	
+              	</ul>
+              	<!--对应内容-->
+              	<div class="nav-step-content">
+                	<div class="nav-step-pane hidden active" id="step-1">
+              			<div class="form-group">
+                    		<label for="example-nf-username">用户名</label>
+                    		<input class="form-control" type="text" id="example-nf-username" name="example-nf-username" placeholder="请输入用户名..">
+                  		</div>
+              			<div class="form-group">
+                    		<label for="example-nf-password">密码</label>
+                    		<input class="form-control" type="password" id="example-nf-password" name="example-nf-password" placeholder="请输入密码..">
+                  		</div>
+                  		<div class="form-group">
+                    		<label for="example-nf-repassword">确认密码</label>
+                    		<input class="form-control" type="password" id="example-nf-repassword" name="example-nf-repassword" placeholder="请再次输入密码..">
+                  		</div>
+                  		<div class="form-group">
+                    		<label for="example-nf-question">密保问题</label>
+                    		<div class="col-xs-13">
+			                    <select class="form-control" id="example-select" name="example-select" size="1">
+			                    	<option value="0">请选择</option>
+			                        <option value="1">您毕业于那个初中</option>
+			                        <option value="2">您喜欢看的电影是？</option>
+			                        <option value="3">您最熟悉的童年好友名字是？</option>
+			                        <option value="4">您最喜欢的明星是？</option>	
+			                        <option value="5">您配偶的生日是? </option>
+			                    </select>
+                    </div>
+                  		</div>
+                  		<div class="form-group">
+                    		<label for="example-nf-answer">答案</label>
+                    		<input class="form-control" type="text" id="example-nf-answer" name="example-nf-answer" placeholder="请输入密保答案..">
+                  		</div>
+                	</div>
+
+                	<div class="nav-step-pane hidden" id="step-2">
+                  		<div class="form-group">
+                    		<label for="example-nf-realname">真实姓名</label>
+                    		<input class="form-control" type="text" id="example-nf-realname" name="example-nf-realname" placeholder="请输入真实姓名..">
+                  		</div>
+              			<div class="form-group">
+                    		<label for="example-nf-sex">性别</label>&nbsp;
+                    		<label class="lyear-radio radio-inline radio-primary">
+			                    <input type="radio" id="sex" name="sex" checked="checked" value="male"><span>男</span>
+		                  	</label>
+		                  	<label class="lyear-radio radio-inline radio-primary">
+		                    	<input type="radio" name="sex" value="female"><span>女</span>
+		                  	</label>
+                  		</div>
+                  		<div class="form-group">
+                    		<label for="example-nf-birth">生日</label>
+                    <!--	<input class="form-control" type="text" id="example-nf-birth" name="example-nf-birth" placeholder="yyyy-mm-dd">-->
+                    		<input class="form-control" type="date" id="example-nf-birth" name="example-nf-birth" placeholder="yyyy-mm-dd">
+                  		</div>
+                  		<div class="form-group">
+                    		<label for="example-nf-address">地址</label>
+                    		<input class="form-control" type="text" id="example-nf-address" name="example-nf-address" placeholder="请输入家庭住址..">
+                  		</div>
+                  		<div class="form-group">
+                    		<label for="example-nf-tel">电话</label>
+                    		<input class="form-control" type="text" id="example-nf-tel" name="example-nf-tel" placeholder="请输入电话号码..">
+                  		</div>
+                  		<div class="form-group">
+                    		<label for="example-nf-email">邮箱</label>
+                    		<input class="form-control" type="text" id="example-nf-email" name="example-nf-email" placeholder="请输入邮箱地址..">
+                  		</div>
+                	</div>
+
+	                <div class="nav-step-pane hidden" id="step-3">
+	                	<h5><strong>最终确认</strong></h5>
+		                <table class="table table-condensed">
+		                  	<tbody>
+		                    	<tr>
+			                      <th>用户名</th>
+			                      <td></td>
+			                      <td>修改</td>
+			                    </tr>
+			               
+			                    <tr>
+			                      <th>密码</th>
+			                      <td></td>
+			                      <td>修改</td>
+			                    </tr>
+			                    <tr>
+			                      <th>密保问题</th>
+			                      <td></td>
+			                      <td>修改</td>
+			                    </tr>
+			                    <tr>
+			                      <th>密保回答</th>
+			                      <td></td>
+			                      <td>修改</td>
+			                    </tr>
+			                    <tr>
+			                      <th>真实姓名</th>
+			                      <td></td>
+			                      <td>修改</td>
+			                    </tr>
+			                    <tr>
+			                      <th>性别</th>
+			                      <td></td>
+			                      <td>修改</td>
+			                    </tr>
+			                    <tr>
+			                      <th>生日</th>
+			                      <td></td>
+			                      <td>修改</td>
+			                    </tr>
+			                    <tr>
+			                      <th>地址</th>
+			                      <td></td>
+			                      <td>修改</td>
+			                    </tr>
+			                    <tr>
+			                      <th>电话</th>
+			                      <td></td>
+			                      <td>修改</td>
+			                    </tr>
+			                    <tr>
+			                      <th>邮箱</th>
+			                      <td></td>
+			                      <td>修改</td>
+			                    </tr>
+			                </tbody>
+			            </table>
+                  		
+	                </div>
+
+	                
+              	</div>
+              	<!--End 对应内容-->
+              	<hr>
+              	<div class="nav-step-button">
+                	<button class="btn btn-secondary disabled" data-wizard="prev" type="button">上一步</button>
+                	<button class="btn btn-secondary" data-wizard="next" type="button">下一步</button>
+                	<button class="btn btn-primary hidden" data-wizard="finish" type="submit">完成</button>
+              	</div>
+            </form>
+   
+        </div>
+     
+        <div class="col-xs-13">
+			<span>已有帐号？</span><a href="login.html">马上登录</a>
+		</div>
+      	
+      	<hr>
+		<footer class="col-sm-12 text-center">
+			<p class="m-b-0">Copyright © 2020 snow. All right reserved</p>
+		</footer>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+
+<!--向导插件-->
+<script type="text/javascript" src="js/jquery.bootstrap.wizard.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('.guide-box').bootstrapWizard({
+        'tabClass': 'nav-step',
+        'nextSelector': '[data-wizard="next"]',
+        'previousSelector': '[data-wizard="prev"]',
+        'finishSelector': '[data-wizard="finish"]',
+        'onTabClick': function(e, t, i) {
+            if (!$('.guide-box').is('[data-navigateable="true"]')) return ! 1
+        },
+        'onTabShow': function(e, t, i) {
+            t.children(":gt(" + i + ").complete").removeClass("complete");
+            t.children(":lt(" + i + "):not(.complete)").addClass("complete");
+        },
+        'onFinish': function(e, t, i) {
+            // 点击完成后处理提交
+        }
+    });
+});
+
+//var formData = $('#info').serialize();
+
+$("#info").submit(function(){
+	//if(){}
+  $.post("user/regist",$(this).serialize(),function(data){
+  	
+  });
+});
+</script>
+</body>
+</html>
