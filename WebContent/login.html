@@ -86,7 +86,7 @@
 			</div>
 		</div>
         <div class="form-group">
-          	<button class="btn btn-block btn-primary" type="button" onclick="location.href='index.html'">立即登录</button>
+          	<button class="btn btn-block btn-primary" type="button" id="signIn">立即登录</button>
         </div>
         <div class="col-xs-13">
 			<span>还没有帐号？</span><a href="register.html">马上注册</a>
@@ -101,6 +101,67 @@
 </div>
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
-<script type="text/javascript">;</script>
+<script type="text/javascript">
+$('#signIn').click(function(){
+	
+	var url = baseUrl + '/LoginServlet';
+				
+	var params = {
+		username:$('#username').val(),
+		password:$('#password').val()
+	}
+	
+	$.post(url,params,function(data){
+		
+		if (data == 1) {
+			layer.msg('用户名不存在');
+		} else if (data == 2) {
+			layer.msg('密码错误');
+		} else {
+			layer.msg('登录成功');
+			
+			setTimeout(function(){
+				location.href = 'userPage.html';
+			},1000);
+		}
+		
+	});
+
+	
+	
+	/*
+	if($('#username').val()=="admin" && $('#password').val()=="123456"){
+		layer.msg("登录成功");
+		
+		setTimeout(function(){
+			location.href = 'adminPage.html';
+		},1000);
+	}else if($('#username').val()==''){
+		layer.msg("请输入管理员用户名....");
+	}else if($('#password').val()==''){
+		layer.msg("请输入管理员密码...");
+	}else if($('#username').val()=='' || $('#password').val()==''){
+		layer.msg("用户名或密码错误.....");
+	}else{
+		setTimeout(function(){
+			location.href = 'userPage.html';
+		},1000);
+	}
+	*/''
+	if($('#username').val()=="admin" && $('#password').val()=="123456"){
+		layer.msg("登录成功");
+		
+		setTimeout(function(){
+			location.href = 'adminPage.html';
+		},1000);
+	}
+});
+
+$(document).keyup(function(event) {
+	if(event.keyCode == 13) {
+		$("#signIn").trigger("click");
+	}
+});
+</script>
 </body>
 </html>
