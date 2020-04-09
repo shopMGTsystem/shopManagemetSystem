@@ -74,32 +74,33 @@
 		                <a data-toggle="tab" href="#step-2"></a>
 	                </li>
 
-                	<li class="nav-step-item">
-                  		<span>步骤三</span>
-                  		<a data-toggle="tab" href="#step-3"></a>
-                	</li>
+         
 
                 	
               	</ul>
               	<!--对应内容-->
               	<div class="nav-step-content">
+                	<!--步骤一开始-->
                 	<div class="nav-step-pane hidden active" id="step-1">
               			<div class="form-group">
-                    		<label for="example-nf-username">用户名</label>
-                    		<input class="form-control" type="text" id="example-nf-username" name="example-nf-username" placeholder="请输入用户名..">
+                    		<label for="username_input">用户名</label>
+                			<span id="username_hint" style="font-size: 10px; color: orangered; display: none;">(请输入4到16位用户名，可包含字母、数字、下划线、减号)</span>
+                    		<input class="form-control" type="text" id="username_input" name="username_input" placeholder="请输入用户名.." >
                   		</div>
               			<div class="form-group">
-                    		<label for="example-nf-password">密码</label>
-                    		<input class="form-control" type="password" id="example-nf-password" name="example-nf-password" placeholder="请输入密码..">
+                    		<label for="password_input">密码</label>
+                    		<span id="password_hint" style="font-size: 10px; color: orangered; display: none;">(最少6位，包括至少1个大写字母，1个小写字母，1个数字)</span>
+                    		<input class="form-control" type="password" id="password_input" name="password_input" placeholder="请输入密码..">
                   		</div>
                   		<div class="form-group">
-                    		<label for="example-nf-repassword">确认密码</label>
-                    		<input class="form-control" type="password" id="example-nf-repassword" name="example-nf-repassword" placeholder="请再次输入密码..">
+                    		<label for="repassword_input">确认密码</label>
+                    		<span id="repassword_hint" style="font-size: 10px; color: orangered; display: none;">(两次密码输入不一致)</span>
+                    		<input class="form-control" type="password" id="repassword_input" name="repassword_input" placeholder="请再次输入密码..">
                   		</div>
                   		<div class="form-group">
-                    		<label for="example-nf-question">密保问题</label>
+                    		<label for="question-input">密保问题</label>
                     		<div class="col-xs-13">
-			                    <select class="form-control" id="example-select" name="example-select" size="1">
+			                    <select class="form-control" id="elect-input" name="select-input" size="1">
 			                    	<option value="0">请选择</option>
 			                        <option value="1">您毕业于那个初中</option>
 			                        <option value="2">您喜欢看的电影是？</option>
@@ -110,18 +111,21 @@
                     </div>
                   		</div>
                   		<div class="form-group">
-                    		<label for="example-nf-answer">答案</label>
-                    		<input class="form-control" type="text" id="example-nf-answer" name="example-nf-answer" placeholder="请输入密保答案..">
+                    		<label for="answer-input">答案</label>
+                    		<span id="answer_hint" style="font-size: 10px; color: orangered; display: none;">(密保答案不能为空)</span>
+                    		<input class="form-control" type="text" id="answer_input" name="answer-input" placeholder="请输入密保答案..">
                   		</div>
                 	</div>
-
+					<!--步骤一结束-->
+                	<!--步骤二开始-->
                 	<div class="nav-step-pane hidden" id="step-2">
                   		<div class="form-group">
-                    		<label for="example-nf-realname">真实姓名</label>
-                    		<input class="form-control" type="text" id="example-nf-realname" name="example-nf-realname" placeholder="请输入真实姓名..">
+                    		<label for="realname-input">真实姓名</label>
+                    		<span id="realname_hint" style="font-size: 10px; color: orangered; display: none;">(不能为空)</span>
+                    		<input class="form-control" type="text" id="realname_input" name="realname-input" placeholder="请输入真实姓名..">
                   		</div>
               			<div class="form-group">
-                    		<label for="example-nf-sex">性别</label>&nbsp;
+                    		<label for="sex-input">性别</label>&nbsp;
                     		<label class="lyear-radio radio-inline radio-primary">
 			                    <input type="radio" id="sex" name="sex" checked="checked" value="male"><span>男</span>
 		                  	</label>
@@ -130,92 +134,35 @@
 		                  	</label>
                   		</div>
                   		<div class="form-group">
-                    		<label for="example-nf-birth">生日</label>
-                    <!--	<input class="form-control" type="text" id="example-nf-birth" name="example-nf-birth" placeholder="yyyy-mm-dd">-->
-                    		<input class="form-control" type="date" id="example-nf-birth" name="example-nf-birth" placeholder="yyyy-mm-dd">
+                    		<label for="birth-input">生日</label>
+                    		<span id="birth_hint" style="font-size: 10px; color: orangered; display: none;">(不能为空)</span>
+                    		<input class="form-control" type="date" id="birth_input" name="birth-input" placeholder="yyyy-mm-dd">
                   		</div>
                   		<div class="form-group">
-                    		<label for="example-nf-address">地址</label>
-                    		<input class="form-control" type="text" id="example-nf-address" name="example-nf-address" placeholder="请输入家庭住址..">
+                    		<label for="address-input">地址</label>
+                    		<span id="address_hint" style="font-size: 10px; color: orangered; display: none;">(不能为空)</span>
+							<input class="form-control" type="text" id="address_input" name="address-input" placeholder="请输入家庭住址..">
                   		</div>
                   		<div class="form-group">
-                    		<label for="example-nf-tel">电话</label>
-                    		<input class="form-control" type="text" id="example-nf-tel" name="example-nf-tel" placeholder="请输入电话号码..">
+                    		<label for="tel-input">电话</label>
+                    		<span id="tel_hint" style="font-size: 10px; color: orangered; display: none;">(不能为空)</span>
+							<input class="form-control" type="text" id="tel_input" name="tel-input" placeholder="请输入电话号码..">
                   		</div>
                   		<div class="form-group">
-                    		<label for="example-nf-email">邮箱</label>
-                    		<input class="form-control" type="text" id="example-nf-email" name="example-nf-email" placeholder="请输入邮箱地址..">
+                    		<label for="email-input">邮箱</label>
+                    		<span id="email_hint" style="font-size: 10px; color: orangered; display: none;">(邮箱格式不正确)</span>
+                    		<input class="form-control" type="text" id="email_input" name="email-input" placeholder="请输入邮箱地址..">
                   		</div>
                 	</div>
-
-	                <div class="nav-step-pane hidden" id="step-3">
-	                	<h5><strong>最终确认</strong></h5>
-		                <table class="table table-condensed">
-		                  	<tbody>
-		                    	<tr>
-			                      <th>用户名</th>
-			                      <td></td>
-			                      <td>修改</td>
-			                    </tr>
-			               
-			                    <tr>
-			                      <th>密码</th>
-			                      <td></td>
-			                      <td>修改</td>
-			                    </tr>
-			                    <tr>
-			                      <th>密保问题</th>
-			                      <td></td>
-			                      <td>修改</td>
-			                    </tr>
-			                    <tr>
-			                      <th>密保回答</th>
-			                      <td></td>
-			                      <td>修改</td>
-			                    </tr>
-			                    <tr>
-			                      <th>真实姓名</th>
-			                      <td></td>
-			                      <td>修改</td>
-			                    </tr>
-			                    <tr>
-			                      <th>性别</th>
-			                      <td></td>
-			                      <td>修改</td>
-			                    </tr>
-			                    <tr>
-			                      <th>生日</th>
-			                      <td></td>
-			                      <td>修改</td>
-			                    </tr>
-			                    <tr>
-			                      <th>地址</th>
-			                      <td></td>
-			                      <td>修改</td>
-			                    </tr>
-			                    <tr>
-			                      <th>电话</th>
-			                      <td></td>
-			                      <td>修改</td>
-			                    </tr>
-			                    <tr>
-			                      <th>邮箱</th>
-			                      <td></td>
-			                      <td>修改</td>
-			                    </tr>
-			                </tbody>
-			            </table>
-                  		
-	                </div>
-
+                	<!--步骤二结束-->
 	                
               	</div>
               	<!--End 对应内容-->
               	<hr>
               	<div class="nav-step-button">
                 	<button class="btn btn-secondary disabled" data-wizard="prev" type="button">上一步</button>
-                	<button class="btn btn-secondary" data-wizard="next" type="button">下一步</button>
-                	<button class="btn btn-primary hidden" data-wizard="finish" type="submit">完成</button>
+                	<button class="btn btn-secondary" id="next" data-wizard="next" type="button">下一步</button>
+                	<button class="btn btn-primary hidden" id="finish" data-wizard="finish" type="submit">完成</button>
               	</div>
             </form>
    
@@ -234,12 +181,15 @@
 </div>
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/baseURL.js"></script>
 
 <!--向导插件-->
 <script type="text/javascript" src="js/jquery.bootstrap.wizard.min.js"></script>
 <script type="text/javascript">
-	
+
 $(document).ready(function() {
+	//初始化时不能点击下一步
+	
     $('.guide-box').bootstrapWizard({
         'tabClass': 'nav-step',
         'nextSelector': '[data-wizard="next"]',
@@ -258,6 +208,153 @@ $(document).ready(function() {
     });
 });
 
+//检查用户名格式是否正确
+function username_test(){
+	//用户名正则，4到16位（字母，数字，下划线，减号）
+	var uPattern = /^[a-zA-Z0-9_-]{4,16}$/;
+	var username = $("#username_input").val();
+	//用户名格式验证
+	var utest = uPattern.test(username);
+	
+	if(utest && username != ''){
+		$("#username_hint").css("display","none");
+		return true;
+	}else{
+		$("#username_hint").css("display","inline");
+		$('#next').attr("disabled",true);
+		return false;
+	}
+	
+	return false;
+}
+
+//检查密码格式是否正确
+function password_test(){
+	//密码正则，最少6位，包括至少1个大写字母，1个小写字母，1个数字
+	var pPattern = /^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).*$/;
+	var password = $("#password_input").val();
+	//密码格式验证
+	var ptest = pPattern.test(password);
+	
+	if(ptest && password != ''){
+		$("#password_hint").css("display","none");
+		return true;
+	}else{
+		$("#password_hint").css("display","inline");
+		$('#next').attr("disabled",true);
+		return false;
+	}
+	return false;
+}
+
+//两次密码是否一致
+function password_same(){
+	var password = $('#password_input').val();
+	var repassword = $('#repassword_input').val();
+	
+	if((password == repassword) && repassword != '') {
+		$("#repassword_hint").css("display","none");
+		return true;
+	}else{
+		$("#repassword_hint").css("display","inline");
+		$('#next').attr("disabled",true);
+		return false;
+	}
+	return false;
+}
+
+//判断密保答案是否为空
+function answer_blank(){
+	var answer = $('#answer_input').val();
+	if(answer == ""){
+		$("#answer_hint").css("display","inline");
+		$('#next').attr("disabled",true);
+		return false;
+	}else{
+		$("#answer_hint").css("display","none");
+		$('#next').attr("disabled",false);
+		return true;
+	}
+	return false;
+}
+
+//判断真实姓名是否为空
+function realname_blank(){
+	var value = $('#realname_input').val();
+	if(value == ""){
+		$("#realname_hint").css("display","inline");
+		$('#finish').attr("disabled",true);
+		return false;
+	}else{
+		$("#realname_hint").css("display","none");
+		return true;
+	}
+	return false;
+}
+
+//判断生日是否为空
+function birth_blank(){
+	var value = $('#birth_input').val();
+	if(value == ""){
+		$("#birth_hint").css("display","inline");
+		$('#finish').attr("disabled",true);
+		return false;
+	}else{
+		$("#birth_hint").css("display","none");
+		return true;
+	}
+	return false;
+}
+
+//判断地址是否为空
+function address_blank(){
+	var value = $('#address_input').val();
+	if(value == ""){
+		$("#address_hint").css("display","inline");
+		$('#finish').attr("disabled",true);
+		return false;
+	}else{
+		$("#address_hint").css("display","none");
+		return true;
+	}
+	return false;
+}
+
+//用户名-检查是否重名
+$("#username_input").blur(function(){
+	var url = baseUrl + '/RegisterServlet';			
+	var params = {
+		username_input:$('#username_input').val()
+	}
+
+	
+	$.post(url,params,function(data){
+		
+		if (data) {
+		//	alert("此用户名已被使用，请换一个用户名");
+		} 
+	});
+});
+
+$('#username_input').click(function() {
+	
+});
+
+//步骤一失焦触发
+$('#username_input').blur(username_test);
+$('#password_input').blur(password_test);
+$('#repassword_input').blur(password_same);
+$('#answer_input').blur(answer_blank);
+
+//步骤一通过，进入步骤二
+
+
+/*
+	else if(!username_test()){document.getElementById("username_hint").style.display = "inline";}
+	else if(!password_test()){document.getElementById("password_hint").style.display = "inline";}
+	else if(!password_same()){document.getElementById("repassword_hint").style.display = "inline";}
+	else if(!answer_blank()){document.getElementById("answer_hint").style.display = "inline";}
+	*/
 //var formData = $('#info').serialize();
 
 $("#info").submit(function(){
