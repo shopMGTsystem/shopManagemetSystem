@@ -11,6 +11,9 @@ public class UserService {
 		dao.insert(user);
 	}
 	
+	public boolean queryByName(Integer username){
+		return dao.queryByName(username);
+	}
 	/*
 	public User queryUserById(Integer userId){
 		return dao.queryById(userId);
@@ -19,7 +22,23 @@ public class UserService {
 	public ArrayList<User> queryUser(){
 		return dao.query();
 	}
+	
 	*/
+	/**
+	 * 查看用户名是否存在
+	 * @param username
+	 * @return
+	 */
+	public boolean checkUernameExist(String username) {
+		User user = dao.queryByName(username);
+		if(dao.queryByName(username).equals(username)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	
 	/**
 	 *   检查用户名和密码
 	 *   返回值

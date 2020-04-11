@@ -135,22 +135,22 @@
                   		</div>
                   		<div class="form-group">
                     		<label for="birth-input">生日</label>
-                    		<span id="birth_hint" style="font-size: 10px; color: orangered; display: none;">(不能为空)</span>
+                    		<span id="birth_hint" style="font-size: 10px; color: orangered; display: none;">(请选择生日)</span>
                     		<input class="form-control" type="date" id="birth_input" name="birth-input" placeholder="yyyy-mm-dd">
                   		</div>
                   		<div class="form-group">
                     		<label for="address-input">地址</label>
-                    		<span id="address_hint" style="font-size: 10px; color: orangered; display: none;">(不能为空)</span>
+                    		<span id="address_hint" style="font-size: 10px; color: orangered; display: none;">(家庭住址不能为空)</span>
 							<input class="form-control" type="text" id="address_input" name="address-input" placeholder="请输入家庭住址..">
                   		</div>
                   		<div class="form-group">
                     		<label for="tel-input">电话</label>
-                    		<span id="tel_hint" style="font-size: 10px; color: orangered; display: none;">(不能为空)</span>
+                    		<span id="tel_hint" style="font-size: 10px; color: orangered; display: none;">(电话号码不能为空)</span>
 							<input class="form-control" type="text" id="tel_input" name="tel-input" placeholder="请输入电话号码..">
                   		</div>
                   		<div class="form-group">
                     		<label for="email-input">邮箱</label>
-                    		<span id="email_hint" style="font-size: 10px; color: orangered; display: none;">(邮箱格式不正确)</span>
+                    		<span id="email_hint" style="font-size: 10px; color: orangered; display: none;">(邮箱不能为空)</span>
                     		<input class="form-control" type="text" id="email_input" name="email-input" placeholder="请输入邮箱地址..">
                   		</div>
                 	</div>
@@ -161,8 +161,8 @@
               	<hr>
               	<div class="nav-step-button">
                 	<button class="btn btn-secondary disabled" data-wizard="prev" type="button">上一步</button>
-                	<button class="btn btn-secondary" id="next" data-wizard="next" type="button">下一步</button>
-                	<button class="btn btn-primary hidden" id="finish" data-wizard="finish" type="submit">完成</button>
+                	<button class="btn btn-secondary" id="next" data-wizard="next" type="button" disabled="true">下一步</button>
+                	<button class="btn btn-primary hidden" id="finish" data-wizard="finish" type="submit" disabled="true">完成</button>
               	</div>
             </form>
    
@@ -218,6 +218,7 @@ function username_test(){
 	
 	if(utest && username != ''){
 		$("#username_hint").css("display","none");
+		$('#next').attr("disabled",true);
 		return true;
 	}else{
 		$("#username_hint").css("display","inline");
@@ -238,6 +239,7 @@ function password_test(){
 	
 	if(ptest && password != ''){
 		$("#password_hint").css("display","none");
+		$('#next').attr("disabled",true);
 		return true;
 	}else{
 		$("#password_hint").css("display","inline");
@@ -254,6 +256,7 @@ function password_same(){
 	
 	if((password == repassword) && repassword != '') {
 		$("#repassword_hint").css("display","none");
+		$('#next').attr("disabled",true);
 		return true;
 	}else{
 		$("#repassword_hint").css("display","inline");
@@ -287,6 +290,7 @@ function realname_blank(){
 		return false;
 	}else{
 		$("#realname_hint").css("display","none");
+		$('#finish').attr("disabled",true);
 		return true;
 	}
 	return false;
@@ -301,6 +305,7 @@ function birth_blank(){
 		return false;
 	}else{
 		$("#birth_hint").css("display","none");
+		$('#finish').attr("disabled",true);
 		return true;
 	}
 	return false;
@@ -315,11 +320,64 @@ function address_blank(){
 		return false;
 	}else{
 		$("#address_hint").css("display","none");
+		$('#finish').attr("disabled",true);
 		return true;
 	}
 	return false;
 }
 
+//判断电话是否为空
+function tel_blank(){
+	var value = $('#tel_input').val();
+	if(value == ""){
+		$("#tel_hint").css("display","inline");
+		$('#finish').attr("disabled",true);
+		return false;
+	}else{
+		$("#tel_hint").css("display","none");
+		$('#finish').attr("disabled",true);
+		return true;
+	}
+	return false;
+}
+
+//判断邮箱是否为空
+function email_blank(){
+	var value = $('#email_input').val();
+	if(value == ""){
+		$("#email_hint").css("display","inline");
+		$('#finish').attr("disabled",true);
+		return false;
+	}else{
+		$("#email_hint").css("display","none");
+		$('#finish').attr("disabled",false);
+		return true;
+	}
+	return false;
+}
+
+/*
+//检查邮箱格式是否正确
+function email_test(){
+	//用户名正则，4到16位（字母，数字，下划线，减号）
+	var ePattern = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+	var email = $("#username_input").val();
+	//用户名格式验证
+	var etest = ePattern.test(email);
+	
+	if(etest && email != ''){
+		$("#email_hint").css("display","none");
+		$('#finish').attr("disabled",false);
+		return true;
+	}else{
+		$("#email_hint").css("display","inline");
+		$('#finish').attr("disabled",true);
+		return false;
+	}
+	
+	return false;
+}
+*/
 //用户名-检查是否重名
 $("#username_input").blur(function(){
 	var url = baseUrl + '/RegisterServlet';			
@@ -346,20 +404,25 @@ $('#password_input').blur(password_test);
 $('#repassword_input').blur(password_same);
 $('#answer_input').blur(answer_blank);
 
-//步骤一通过，进入步骤二
 
 
-/*
-	else if(!username_test()){document.getElementById("username_hint").style.display = "inline";}
-	else if(!password_test()){document.getElementById("password_hint").style.display = "inline";}
-	else if(!password_same()){document.getElementById("repassword_hint").style.display = "inline";}
-	else if(!answer_blank()){document.getElementById("answer_hint").style.display = "inline";}
-	*/
+/*//当所有都满足条件时可以点下一步
+if(username_test() && password_test() && password_same() && answer_blank()){
+	$('#next').attr("disabled",false);
+}
+*/
+//步骤二失焦触发
+$('#realname_input').blur(realname_blank);
+$('#birth_input').blur(birth_blank);
+$('#address_input').blur(address_blank);
+$('#tel_input').blur(tel_blank);
+$('#email_input').blur(email_blank);
+
 //var formData = $('#info').serialize();
 
 $("#info").submit(function(){
-	//if(){}
-  $.post("user/regist",$(this).serialize(),function(data){
+	
+  $.post(baseUrl + '/RegisterServlet',$(this).serialize(),function(data){
   	
   });
 });
