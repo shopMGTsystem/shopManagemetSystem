@@ -53,6 +53,27 @@ public class User {
 		this.answer = answer;
 		this.signUpTime = signUpTime;
 	}
+	
+	
+	
+	public User(String userName, String password, String realName, String sex, String birthday, String address,
+			String telephone, String email, String question, String answer, String signUpTime) {
+		super();
+		this.userName = userName;
+		this.password = password;
+		this.realName = realName;
+		this.sex = sex;
+		this.birthday = birthday;
+		this.address = address;
+		this.telephone = telephone;
+		this.email = email;
+		this.question = question;
+		this.answer = answer;
+		this.signUpTime = signUpTime;
+	}
+
+
+
 	public Integer getuID() {
 		return uID;
 	}

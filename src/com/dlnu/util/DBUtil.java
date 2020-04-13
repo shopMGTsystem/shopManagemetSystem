@@ -22,7 +22,7 @@ public class DBUtil {
 		
 		//获取数据库连接
 		public static Connection getConnection(){
-			String url = "jdbc:mysql://localhost:3306/jf?useUnicode=true&characterEncoding=utf8";
+			String url = "jdbc:mysql://localhost:3306/shopmgt";
 			String user = "root";
 			String password = "root";
 			
@@ -46,9 +46,6 @@ public class DBUtil {
 	private Connection conn;
 	private Statement stmt;
   	private DataSource ds;
-	
-	public DBUtil(){
-	}
 
 /*
 	//	关闭数据库，将连接返还给连接池

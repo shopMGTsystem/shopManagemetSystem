@@ -100,20 +100,20 @@
                   		<div class="form-group">
                     		<label for="question-input">密保问题</label>
                     		<div class="col-xs-13">
-			                    <select class="form-control" id="elect-input" name="select-input" size="1">
+			                    <select class="form-control" id="select_input" name="select_input" size="1">
 			                    	<option value="0">请选择</option>
-			                        <option value="1">您毕业于那个初中</option>
-			                        <option value="2">您喜欢看的电影是？</option>
-			                        <option value="3">您最熟悉的童年好友名字是？</option>
-			                        <option value="4">您最喜欢的明星是？</option>	
-			                        <option value="5">您配偶的生日是? </option>
+			                        <option value="您毕业于那个初中？">您毕业于那个初中？</option>
+			                        <option value="您喜欢看的电影是？">您喜欢看的电影是？</option>
+			                        <option value="您最熟悉的童年好友名字是？">您最熟悉的童年好友名字是？</option>
+			                        <option value="您最喜欢的明星是？">您最喜欢的明星是？</option>	
+			                        <option value="您配偶的生日是?">您配偶的生日是? </option>
 			                    </select>
                     </div>
                   		</div>
                   		<div class="form-group">
                     		<label for="answer-input">答案</label>
                     		<span id="answer_hint" style="font-size: 10px; color: orangered; display: none;">(密保答案不能为空)</span>
-                    		<input class="form-control" type="text" id="answer_input" name="answer-input" placeholder="请输入密保答案..">
+                    		<input class="form-control" type="text" id="answer_input" name="answer_input" placeholder="请输入密保答案..">
                   		</div>
                 	</div>
 					<!--步骤一结束-->
@@ -122,7 +122,7 @@
                   		<div class="form-group">
                     		<label for="realname-input">真实姓名</label>
                     		<span id="realname_hint" style="font-size: 10px; color: orangered; display: none;">(不能为空)</span>
-                    		<input class="form-control" type="text" id="realname_input" name="realname-input" placeholder="请输入真实姓名..">
+                    		<input class="form-control" type="text" id="realname_input" name="realname_input" placeholder="请输入真实姓名..">
                   		</div>
               			<div class="form-group">
                     		<label for="sex-input">性别</label>&nbsp;
@@ -136,22 +136,22 @@
                   		<div class="form-group">
                     		<label for="birth-input">生日</label>
                     		<span id="birth_hint" style="font-size: 10px; color: orangered; display: none;">(请选择生日)</span>
-                    		<input class="form-control" type="date" id="birth_input" name="birth-input" placeholder="yyyy-mm-dd">
+                    		<input class="form-control" type="date" id="birth_input" name="birth_input" placeholder="yyyy-mm-dd">
                   		</div>
                   		<div class="form-group">
                     		<label for="address-input">地址</label>
                     		<span id="address_hint" style="font-size: 10px; color: orangered; display: none;">(家庭住址不能为空)</span>
-							<input class="form-control" type="text" id="address_input" name="address-input" placeholder="请输入家庭住址..">
+							<input class="form-control" type="text" id="address_input" name="address_input" placeholder="请输入家庭住址..">
                   		</div>
                   		<div class="form-group">
                     		<label for="tel-input">电话</label>
                     		<span id="tel_hint" style="font-size: 10px; color: orangered; display: none;">(电话号码不能为空)</span>
-							<input class="form-control" type="text" id="tel_input" name="tel-input" placeholder="请输入电话号码..">
+							<input class="form-control" type="text" id="tel_input" name="tel_input" placeholder="请输入电话号码..">
                   		</div>
                   		<div class="form-group">
                     		<label for="email-input">邮箱</label>
                     		<span id="email_hint" style="font-size: 10px; color: orangered; display: none;">(邮箱不能为空)</span>
-                    		<input class="form-control" type="text" id="email_input" name="email-input" placeholder="请输入邮箱地址..">
+                    		<input class="form-control" type="text" id="email_input" name="email_input" placeholder="请输入邮箱地址..">
                   		</div>
                 	</div>
                 	<!--步骤二结束-->
@@ -378,39 +378,41 @@ function email_test(){
 	return false;
 }
 */
+
+
+//步骤一失焦触发
+
 //用户名-检查是否重名
 $("#username_input").blur(function(){
-	var url = baseUrl + '/RegisterServlet';			
+	
+
+	var url = baseUrl + '/user/checkUsernameExist';
 	var params = {
 		username_input:$('#username_input').val()
 	}
-
 	
 	$.post(url,params,function(data){
 		
 		if (data) {
-		//	alert("此用户名已被使用，请换一个用户名");
-		} 
+			alert("此用户名已被使用，请换一个用户名");
+			$("#username_input").val("");
+		}else{
+			username_test();
+		}
 	});
-});
 
-$('#username_input').click(function() {
 	
 });
-
-//步骤一失焦触发
-$('#username_input').blur(username_test);
 $('#password_input').blur(password_test);
 $('#repassword_input').blur(password_same);
 $('#answer_input').blur(answer_blank);
-
-
 
 /*//当所有都满足条件时可以点下一步
 if(username_test() && password_test() && password_same() && answer_blank()){
 	$('#next').attr("disabled",false);
 }
 */
+
 //步骤二失焦触发
 $('#realname_input').blur(realname_blank);
 $('#birth_input').blur(birth_blank);
@@ -421,9 +423,17 @@ $('#email_input').blur(email_blank);
 //var formData = $('#info').serialize();
 
 $("#info").submit(function(){
-	
-  $.post(baseUrl + '/RegisterServlet',$(this).serialize(),function(data){
-  	
+	var url = baseUrl + '/user/register';
+	$.post(url,$(this).serialize(),function(data){
+  		if (data) {
+			alert("注册成功! 5秒后跳转到登陆页面");
+			setTimeout(function(){
+				location.href = 'login.html';
+			},5000);
+		}else{
+			alert("注册失败。 请重新注册");
+			window.location.reload();
+		}
   });
 });
 </script>
