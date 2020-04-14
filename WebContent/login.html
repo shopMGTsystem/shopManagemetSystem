@@ -9,6 +9,7 @@
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/materialdesignicons.min.css" rel="stylesheet">
 <link href="css/style.min.css" rel="stylesheet">
+<link href="css/layer.css" rel="stylesheet">
 <style>
 .lyear-wrapper {
     position: relative;
@@ -59,43 +60,43 @@
       		<h3 align="center" style="color: #33cabb;">登录</h3>
       		<hr style="margin-top: 0;"/>
       	</div>
-      	<form action="#!" method="post">
-        <div class="form-group has-feedback feedback-left">
-          	<input type="text" placeholder="请输入您的用户名" class="form-control" id="username" name="username"  />
-          	<span class="mdi mdi-account form-control-feedback" aria-hidden="true"></span>
-        </div>
-        <div class="form-group has-feedback feedback-left">
-          	<input type="password" placeholder="请输入密码" class="form-control" id="password" name="password" />
-          	<span class="mdi mdi-lock form-control-feedback" aria-hidden="true"></span>
-        </div>
-        <div class="form-group has-feedback feedback-left row">
-          	<div class="col-xs-7">
-            	<input type="text" name="captcha" class="form-control" id="input-val" placeholder="验证码">
-            	<span class="mdi mdi-check-all form-control-feedback"  aria-hidden="true"></span>
-          	</div>
-          	<div class="col-xs-5">
-          		<canvas class="pull-right" id="canvas" style="cursor: pointer;" width="100" height="43" title="点击刷新" alt="captcha"></canvas>
-          	</div>
-        </div>
-        <div class="col-xs-13">
-			<div class="pull-left">
-				<label><input name="" type="checkbox"> 下次自动登录</label>
+      	<form id="info"  method="post">
+	        <div class="form-group has-feedback feedback-left">
+	          	<input type="text" placeholder="请输入您的用户名" class="form-control" id="username" name="username"  />
+	          	<span class="mdi mdi-account form-control-feedback" aria-hidden="true"></span>
+	        </div>
+	        <div class="form-group has-feedback feedback-left">
+	          	<input type="password" placeholder="请输入密码" class="form-control" id="password" name="password" />
+	          	<span class="mdi mdi-lock form-control-feedback" aria-hidden="true"></span>
+	        </div>
+	        <div class="form-group has-feedback feedback-left row">
+	          	<div class="col-xs-7">
+	            	<input type="text" name="captcha" class="form-control" id="input-val" placeholder="验证码">
+	            	<span class="mdi mdi-check-all form-control-feedback"  aria-hidden="true"></span>
+	          	</div>
+	          	<div class="col-xs-5">
+	          		<canvas class="pull-right" id="canvas" style="cursor: pointer;" width="100" height="43" title="看不清楚？换一张" alt="captcha"></canvas>
+	          	</div>
+	        </div>
+	        <div class="col-xs-13">
+				<div class="pull-left">
+					<label><input name="" type="checkbox"> 下次自动登录</label>
+				</div>
+				<div class="pull-right">
+					<a href="#">忘记密码</a>
+				</div>
 			</div>
-			<div class="pull-right">
-				<a href="#">忘记密码</a>
+	        <div class="form-group">
+	          	<button class="btn btn-block btn-primary" type="submit" id="signIn">立即登录</button>
+	        </div>
+	        <div class="col-xs-13">
+				<span>还没有帐号？</span><a href="register.html">马上注册</a>
 			</div>
-		</div>
-        <div class="form-group">
-          	<button class="btn btn-block btn-primary" type="button" id="signIn">立即登录</button>
-        </div>
-        <div class="col-xs-13">
-			<span>还没有帐号？</span><a href="register.html">马上注册</a>
-		</div>
-      </form>
-      <hr>
-      <footer class="col-sm-12 text-center">
-        <p class="m-b-0">Copyright © 2020 snow. All right reserved</p>
-      </footer>
+      	</form>
+      	<hr>
+      	<footer class="col-sm-12 text-center">
+        	<p class="m-b-0">Copyright © 2020 snow. All right reserved</p>
+      	</footer>
     </div>
   </div>
 </div>
@@ -103,70 +104,70 @@
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/checkcode.js"></script>
 <script type="text/javascript" src="js/baseURL.js"></script>
+<script type="text/javascript" src="js/layer.js"></script>
 <script type="text/javascript">
 
-$(function(){
-	var show_num = [];
-	draw(show_num);
 
-	$("#canvas").on('click',function(){
-		draw(show_num);
-	})
-	$("#signIn").on('click',function(){
+var show_num = [];
+draw(show_num);
+
+
+$("#info").submit(function(){
+
+	var url = baseUrl + '/user/login';
 		
-		var url = baseUrl + '/user/login';
-		
-		var params = {
-			username:$('#username').val(),
-			password:$('#password').val()
-		}
-		
-		//输入的验证码
-		var checkcode_input = $("#input-val").val().toLowerCase();
-		//图片上的验证码
-		var checkcode = show_num.join("");
-		
-		/**
-		 * 检查用户名和密码
-		 * 返回值
-		 * 1.管理员的账号密码正确
-		 * 2.用户名不存在
-		 * 3.密码错误
-		 * 4.密码正确前提下的用户名存在
-		 * -1:无意义
-		 */
+	var params = {
+		username:$('#username').val(),
+		password:$('#password').val()
+	}
+	 
+	//输入的验证码
+	var checkcode_input = $("#input-val").val().toLowerCase();
+
+	//图片上的验证码
+	var checkcode = show_num.join("");
+	
+	/**检查用户名和密码
+	 * 返回值
+	 * 1.管理员的账号密码正确
+	 * 2.用户名不存在
+	 * 3.密码错误
+	 * 4.密码正确前提下的用户名存在
+	 * -1:无意义
+	 */
+	if(checkcode_input==''){
+			layer.msg('请输入验证码！',{time:10000});
+
+	}else if(checkcode_input === checkcode){
+		//alert('验证码正确！');
 		$.post(url,params,function(data){
-		
-			if (data == 2) {
+			//alert(data);
+			if(data == 1){
+				location.href = 'admin_homepage.html';
+			} else if (data == 2) {
 				layer.msg('用户名不存在');
 			} else if (data == 3) {
-				layer.msg('密码错误');
-			} else {
-				if(checkcode_input==''){
-					alert('请输入验证码！');
-				}else if(checkcode_input == checkcode){
-					if(data == 1){
-						setTimeout(function(){
-							location.href = 'admin_homepage.html';
-						},1000);
-					}else if(data == 4){
-						setTimeout(function(){
-							location.href = 'user_homepage.html';
-						},1000);
-					}
-		
-				}else{
-					alert('验证码错误！请重新输入！');
-					$("#input-val").val('');
-					draw(show_num);
-				}
-				
+				layer.msg('密码错误');	
+			} else if(data == 4){
+					location.href = 'user_homepage.html';
 			}
-			
 		});
-		
-	})
-})
+	}else{
+		layer.msg('验证码错误！请重新输入！');
+		$("#input-val").val('');
+		draw(show_num);
+	}	
+});
+
+	
+
+
+$("#canvas").on('click',function(){
+		draw(show_num);
+	});
+
+
+
 
 /*
 $('#signIn').click(function(){

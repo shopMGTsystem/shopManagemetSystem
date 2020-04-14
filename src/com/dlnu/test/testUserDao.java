@@ -11,7 +11,7 @@ import com.dlnu.service.UserService;
 public class testUserDao {
 	UserDao dao = new UserDao();
 	private UserService Service = new UserService();
-	
+	/*
 	@Test
 	public void testInsert(){
 		User user = new User("lisi", "Zxcv123","李四", "女","1996-08-05", "辽宁省沈阳市","15688925579","2@qq.com","2","密保答案2","2020-4-13 15:46");
@@ -25,14 +25,15 @@ public class testUserDao {
 			System.out.println(user.getUserName());
 		}
 	}
-	
+	*/
+	/*
 	@Test
 	public void testQueryByName(){
-		User user = dao.queryByName("lisi");
+		User user = dao.queryByName("lisis");
 		System.out.println(user.getRealName());
 				
 	}
-	
+	*/
 	/*
 	@Test
 	public void testQueryById(){
@@ -42,11 +43,12 @@ public class testUserDao {
 	}*/
 	
 	
-	/*
+	
 	@Test
 	public void testCheckLogin(){
-		
-		int result = Service.checkLogin("tt", "132465");
+		 
+		int result = Service.checkLogin("admin", "123admin");
 		System.out.println(result);
-	}*/
+	}
+	
 }

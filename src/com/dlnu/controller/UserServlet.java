@@ -34,12 +34,13 @@ public class UserServlet extends BaseServlet {
 		
 		//调用登录功能
 		int result = service.checkLogin(username, password);
-		
+		System.out.println(result);
 		//如果登陆成功,在session范围内存储用户名
+		/*
 		if(result==4){		
 			HttpSession session = request.getSession();
-			session.setAttribute("userName", username);
-		}
+			session.setAttribute("username", username);
+		}*/
 		
 		out.print(result);
 	}
