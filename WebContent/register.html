@@ -9,6 +9,7 @@
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/materialdesignicons.min.css" rel="stylesheet">
 <link href="css/style.min.css" rel="stylesheet">
+<link href="css/layer.css" rel="stylesheet">
 <style>
 .lyear-wrapper {
     position: relative;
@@ -127,10 +128,10 @@
               			<div class="form-group">
                     		<label for="sex-input">性别</label>&nbsp;
                     		<label class="lyear-radio radio-inline radio-primary">
-			                    <input type="radio" id="sex" name="sex" checked="checked" value="male"><span>男</span>
+			                    <input type="radio" id="sex" name="sex" checked="checked" value="男"><span>男</span>
 		                  	</label>
 		                  	<label class="lyear-radio radio-inline radio-primary">
-		                    	<input type="radio" name="sex" value="female"><span>女</span>
+		                    	<input type="radio" name="sex" value="女"><span>女</span>
 		                  	</label>
                   		</div>
                   		<div class="form-group">
@@ -162,7 +163,7 @@
               	<div class="nav-step-button">
                 	<button class="btn btn-secondary disabled" data-wizard="prev" type="button">上一步</button>
                 	<button class="btn btn-secondary" id="next" data-wizard="next" type="button" disabled="true">下一步</button>
-                	<button class="btn btn-primary hidden" id="finish" data-wizard="finish" type="submit" disabled="true">完成</button>
+                	<button class="btn btn-primary hidden" id="finish" data-wizard="finish" type="button" disabled="true">完成</button>
               	</div>
             </form>
    
@@ -182,6 +183,7 @@
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/baseURL.js"></script>
+<script type="text/javascript" src="js/layer.js"></script>
 
 <!--向导插件-->
 <script type="text/javascript" src="js/jquery.bootstrap.wizard.min.js"></script>
@@ -422,16 +424,31 @@ $('#email_input').blur(email_blank);
 
 //var formData = $('#info').serialize();
 
-$("#info").submit(function(){
+$("#finish").on('click',function(){
 	var url = baseUrl + '/user/register';
-	$.post(url,$(this).serialize(),function(data){
+	var params = {
+			'username':$('#username_input').val(),
+			'password':$('#password_input').val(),
+			'realname':$('#realname_input').val(),
+			'sex':$("input[name='sex']:checked").val(),
+			'birth':$('#birth_input').val(),
+			'address':$('#address_input').val(),
+			'tel':$('#tel_input').val(),
+			'email':$('#email_input').val(),
+			'select':$('#select_input').val(),
+			'answer':$('#answer_input').val()
+		}
+	$.post(url,params,function(data){
   		if (data) {
-			alert("注册成功! 5秒后跳转到登陆页面");
+  			
+  			layer.msg("注册成功! 5秒后跳转到登陆页面",{time:2000});
+  			
 			setTimeout(function(){
 				location.href = 'login.html';
 			},5000);
+  			
 		}else{
-			alert("注册失败。 请重新注册");
+			layer.msg("注册失败。 请重新注册",{time:2000});
 			window.location.reload();
 		}
   });

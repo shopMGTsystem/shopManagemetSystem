@@ -1,9 +1,12 @@
 package com.dlnu.test;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import org.junit.Test;
 
+import com.dlnu.controller.UserServlet;
 import com.dlnu.dao.UserDao;
 import com.dlnu.pojo.User;
 import com.dlnu.service.UserService;
@@ -43,12 +46,17 @@ public class testUserDao {
 	}*/
 	
 	
-	
+	/*
 	@Test
 	public void testCheckLogin(){
 		 
 		int result = Service.checkLogin("admin", "123admin");
 		System.out.println(result);
 	}
+	*/
+	
+	
+
+	
 	
 }

@@ -87,7 +87,7 @@
 				</div>
 			</div>
 	        <div class="form-group">
-	          	<button class="btn btn-block btn-primary" type="submit" id="signIn">立即登录</button>
+	          	<button class="btn btn-block btn-primary" type="button" x id="signIn">立即登录</button>
 	        </div>
 	        <div class="col-xs-13">
 				<span>还没有帐号？</span><a href="register.html">马上注册</a>
@@ -112,8 +112,7 @@ var show_num = [];
 draw(show_num);
 
 
-$("#info").submit(function(){
-
+$("#signIn").on('click',function(){
 	var url = baseUrl + '/user/login';
 		
 	var params = {
@@ -136,24 +135,22 @@ $("#info").submit(function(){
 	 * -1:无意义
 	 */
 	if(checkcode_input==''){
-			layer.msg('请输入验证码！',{time:10000});
+			layer.msg('请输入验证码！',{time:2000});
 
 	}else if(checkcode_input === checkcode){
-		//alert('验证码正确！');
 		$.post(url,params,function(data){
-			//alert(data);
 			if(data == 1){
 				location.href = 'admin_homepage.html';
 			} else if (data == 2) {
-				layer.msg('用户名不存在');
+				layer.msg('用户名不存在',{time:2000});
 			} else if (data == 3) {
-				layer.msg('密码错误');	
+				layer.msg('密码错误',{time:2000});	
 			} else if(data == 4){
 					location.href = 'user_homepage.html';
 			}
 		});
 	}else{
-		layer.msg('验证码错误！请重新输入！');
+		layer.msg('验证码错误！请重新输入！',{time:2000});
 		$("#input-val").val('');
 		draw(show_num);
 	}	

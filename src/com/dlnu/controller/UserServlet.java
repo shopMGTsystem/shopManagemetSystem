@@ -20,8 +20,18 @@ import com.sun.org.apache.bcel.internal.generic.DALOAD;
 @WebServlet("/user/*")
 public class UserServlet extends BaseServlet {
 	
-	private String date=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+	//获取当前时间
+	Calendar calendar= Calendar.getInstance();
+	SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
+	String date = dateFormat.format(calendar.getTime());
 	
+	/**loginServlet
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	public void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//获得用户名和密码
 		String username = request.getParameter("username");
@@ -45,6 +55,13 @@ public class UserServlet extends BaseServlet {
 		out.print(result);
 	}
 	
+	/**检查用户名是否已存在
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	public void checkUsernameExist(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//获得用户名
 		String username = request.getParameter("username_input");
@@ -63,24 +80,32 @@ public class UserServlet extends BaseServlet {
 		out.print(result);
 	}
 
+	/**registerServlet
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	public void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		PrintWriter out = response.getWriter();
 		UserService service = new UserService();
 		boolean flag = false;
 		
-		String username = request.getParameter("username_input");
-		String password = request.getParameter("password_input");
-		String realname = request.getParameter("realname_input");
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		String realname = request.getParameter("realname");
 		String sex = request.getParameter("sex");
-		String birth = request.getParameter("birth_input");
-		String address = request.getParameter("address_input");
-		String tel = request.getParameter("tel_input");
-		String email = request.getParameter("email_input");
-		String question = request.getParameter("select_input");
-		String answer = request.getParameter("answer_input");
+		String birth = request.getParameter("birth");
+		String address = request.getParameter("address");
+		String tel = request.getParameter("tel");
+		String email = request.getParameter("email");
+		String question = request.getParameter("select");
+		String answer = request.getParameter("answer");
 		String signuptime = date;
 		
+		System.out.println(" username:"+username+"\n signuptime"+signuptime);
 		User user = new User(username, password, realname, sex, birth, address, tel, email, question, answer, signuptime);
 		
 		flag = service.addUser(user);
