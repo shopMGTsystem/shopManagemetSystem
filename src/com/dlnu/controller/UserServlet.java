@@ -30,11 +30,44 @@ public class UserServlet extends BaseServlet {
 	
 	//获取当前时间
 	Calendar calendar= Calendar.getInstance();
-	SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
-	String date = dateFormat.format(calendar.getTime());
+	//获取今日00：00
+	SimpleDateFormat dateFormat1= new SimpleDateFormat("yyyy-MM-dd");
+	String date1 = dateFormat1.format(calendar.getTime());
+	//获取今日现在时间
+	SimpleDateFormat dateFormat2= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+	String date2 = dateFormat2.format(calendar.getTime());
 	
-	/**查询所有用户信息
-	 * 
+	/**
+	 * 通过id查找用户信息
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void findUserByName(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter out = response.getWriter();
+		User user = new User();
+		//设置编码
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/json;charset=utf-8");
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		//获取用户id
+		String uID_str = request.getParameter("uID");
+		int uID = Integer.parseInt(uID_str); 
+		//调用业务对象
+		UserService service = new UserService();
+		user = service.queryUserById(uID);
+		//序列化参数
+		Gson gson = new Gson();
+		String jsonStr = gson.toJson(user);
+		//System.out.println(jsonStr);
+		//数据返回前台
+		out.print(jsonStr);	
+	}
+	
+	
+	/**
+	 * 查询所有用户信息
 	 * @param request
 	 * @param response
 	 * @throws ServletException
@@ -71,10 +104,41 @@ public class UserServlet extends BaseServlet {
         //5. 将pageBean对象序列化，写回客户端
         out.print(jsonStr);
 	}
+
+	/**
+	 * 查询总注册用户数量
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void searchAllUserCount(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter out = response.getWriter();
+        // 调用service
+        UserService service = new UserService();
+        int count = service.userCount();
+        //写回客户端
+        out.print(count);
+	}
 	
+	/**
+	 * 查询今日注册用户数量
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void searchAllUserCountByDay(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter out = response.getWriter();
+        // 调用service
+        UserService service = new UserService();
+        int count = service.userCountByTime(date1, date2);
+        //写回客户端
+        out.print(count);
+	}
 	
-	/**登录Servlet
-	 * 
+	/**
+	 * 登录Servlet
 	 * @param request
 	 * @param response
 	 * @throws ServletException
@@ -102,34 +166,10 @@ public class UserServlet extends BaseServlet {
 		
 		out.print(result);
 	}
+	 
 	
-	/**检查用户名是否已存在
-	 * 
-	 * @param request
-	 * @param response
-	 * @throws ServletException
-	 * @throws IOException
-	 */
-	public void checkUsernameExist(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//获得用户名
-		String username = request.getParameter("username_input");
-		
-		PrintWriter out = response.getWriter();
-		
-		//调用业务对象
-		UserService service = new UserService();
-		
-		/**
-		 *  判断数据库里是否存在此用户名
-		 * return: true / false
-		 */
-		boolean result = service.checkUsernameExist(username);
-		
-		out.print(result);
-	}
-
-	/**注册Servlet
-	 * 
+	/**
+	 * 注册Servlet
 	 * @param request
 	 * @param response
 	 * @throws ServletException
@@ -154,7 +194,7 @@ public class UserServlet extends BaseServlet {
 		String email = request.getParameter("email");
 		String question = request.getParameter("select");
 		String answer = request.getParameter("answer");
-		String signuptime = date;
+		String signuptime = date2;
 		
 		System.out.println(" username:"+username+"\n signuptime"+signuptime);
 		//将数据封装到User实体类 此user没有uid
@@ -171,4 +211,30 @@ public class UserServlet extends BaseServlet {
 		
 		out.print(flag);
 	}
+
+	/**
+	 * 检查用户名是否已存在
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void checkUsernameExist(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//获得用户名
+		String username = request.getParameter("username_input");
+		
+		PrintWriter out = response.getWriter();
+		
+		//调用业务对象
+		UserService service = new UserService();
+		
+		/**
+		 *  判断数据库里是否存在此用户名
+		 * return: true / false
+		 */
+		boolean result = service.checkUsernameExist(username);
+		
+		out.print(result);
+	}
+
 }

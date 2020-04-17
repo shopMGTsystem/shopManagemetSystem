@@ -216,8 +216,8 @@
             <div class="card bg-primary">
               <div class="card-body clearfix">
                 <div class="pull-right">
-                  <p class="h6 text-white m-t-0">新增用户</p>
-                  <p class="h3 text-white m-b-0">102,125.0</p>
+                  <p class="h6 text-white m-t-0">今日新增用户</p>
+                  <p class="h3 text-white m-b-0" id="newUser"><!--102,125.0--></p>
                 </div>
                 <div class="pull-left"> <span class="img-avatar img-avatar-48 bg-translucent"><i class="mdi mdi-account fa-1-5x"></i></span> </div>
               </div>
@@ -229,7 +229,7 @@
               <div class="card-body clearfix">
                 <div class="pull-right">
                   <p class="h6 text-white m-t-0">用户总数</p>
-                  <p class="h3 text-white m-b-0">920,000</p>
+                  <p class="h3 text-white m-b-0" id="allUser"><!--92000--></p>
                 </div>
                 <div class="pull-left"> <span class="img-avatar img-avatar-48 bg-translucent"><i class="mdi mdi-account fa-1-5x"></i></span> </div>
               </div>
@@ -243,7 +243,7 @@
               <div class="card-body clearfix">
                 <div class="pull-right">
                   <p class="h6 text-white m-t-0">新增留言</p>
-                  <p class="h3 text-white m-b-0">153 条</p>
+                  <p class="h3 text-white m-b-0" id="newNote"><!--153 条--></p>
                 </div>
                 <div class="pull-left"> <span class="img-avatar img-avatar-48 bg-translucent"><i class="mdi mdi-comment-outline fa-1-5x"></i></span> </div>
               </div>
@@ -334,6 +334,19 @@ $(document).ready(function(e) {
         type: 'line',
         data: $dashChartLinesData,
     });
+    
+    /*Start-今日新增用户模块*/
+		$.post("user/searchAllUserCountByDay",function(count) {
+			$("#newUser").append(count);
+		});
+		/*End-今日新增用户模块*/
+		
+		/*Start-总用户数*/
+		$.post("user/searchAllUserCount",function(count) {
+			$("#allUser").append(count);
+		});
+		/*End-总用户数*/
+   	
 });
 </script>
 </body>

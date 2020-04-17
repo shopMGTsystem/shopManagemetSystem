@@ -59,6 +59,34 @@ public class UserDao {
 	}
 	
 	/**
+	 * 通过uid查询
+	 * @param username
+	 * @return
+	 */
+	public User queryById(int uid){
+		Connection conn = DBUtil.getConnection();
+		String sql = "select * from tab_user where uid = ?";
+		User user = null;
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, uid);
+			
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()){
+				user = new User(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),rs.getString(8),rs.getString(9),rs.getString(10),rs.getString(11),rs.getString(12));
+			}
+				
+			rs.close();
+			pstmt.close();
+			conn.close();
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		return user;
+	}
+	
+	/**
 	 * 通过用户名查询
 	 * 20202.4.7
 	 * @param username
@@ -142,4 +170,30 @@ public class UserDao {
 		return userCount;
 	}
 	
+	/**查询总用户数量
+	 * 
+	 * @return
+	 */
+	public int findAllByTime(String time1, String time2) {
+		Connection conn = DBUtil.getConnection();
+		String sql = "select count(*) from tab_user where signuptime between '"+time1+"' and '"+time2+"'";
+		int userCount = 0;//用户总数
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()){
+				userCount = rs.getInt(1);
+			}
+			rs.close();
+			pstmt.close();
+			conn.close();
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		return userCount;
+	}
+	
 }
+
+

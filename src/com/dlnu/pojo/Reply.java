@@ -2,7 +2,13 @@ package com.dlnu.pojo;
 
 public class Reply {
 	//管理员回复ID
-	private Integer ID;
+	private Integer rID;
+	
+	//留言ID， 外键  (实例化留言类)
+	private Guestbook buestbook;
+	
+	//会员ID， 外键  (实例化会员类)
+	private User user;
 	
 	//管理员回复内容
 	private String content;
@@ -10,19 +16,37 @@ public class Reply {
 	//管理员回复时间
 	private String replytime;
 
-	public Reply(Integer iD, String content, String replytime) {
+	public Reply(Integer rID, Guestbook buestbook, User user, String content, String replytime) {
 		super();
-		ID = iD;
+		this.rID = rID;
+		this.buestbook = buestbook;
+		this.user = user;
 		this.content = content;
 		this.replytime = replytime;
 	}
 
-	public Integer getID() {
-		return ID;
+	public Integer getrID() {
+		return rID;
 	}
 
-	public void setID(Integer iD) {
-		ID = iD;
+	public void setrID(Integer rID) {
+		this.rID = rID;
+	}
+
+	public Guestbook getBuestbook() {
+		return buestbook;
+	}
+
+	public void setBuestbook(Guestbook buestbook) {
+		this.buestbook = buestbook;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public String getContent() {
@@ -40,6 +64,6 @@ public class Reply {
 	public void setReplytime(String replytime) {
 		this.replytime = replytime;
 	}
-	
+
 	
 }

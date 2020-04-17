@@ -2,27 +2,43 @@ package com.dlnu.pojo;
 
 public class Guestbook {
 	//用户留言ID
-	private Integer nid;
+	private Integer gbid;
+	
+	//用户ID， 外键  (实例化会员类)
+	private User user;
 	
 	//用户留言内容
 	private String content;
 	
 	//用户留言时间
 	private String addtime;
+	
+	//是否已被回复
+	private boolean flag;
 
-	public Guestbook(Integer nid, String content, String addtime) {
+	public Guestbook(Integer gbid, User user, String content, String addtime, boolean flag) {
 		super();
-		this.nid = nid;
+		this.gbid = gbid;
+		this.user = user;
 		this.content = content;
 		this.addtime = addtime;
+		this.flag = flag;
 	}
 
-	public Integer getNid() {
-		return nid;
+	public Integer getGbid() {
+		return gbid;
 	}
 
-	public void setNid(Integer nid) {
-		this.nid = nid;
+	public void setGbid(Integer gbid) {
+		this.gbid = gbid;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public String getContent() {
@@ -39,6 +55,14 @@ public class Guestbook {
 
 	public void setAddtime(String addtime) {
 		this.addtime = addtime;
+	}
+
+	public boolean isFlag() {
+		return flag;
+	}
+
+	public void setFlag(boolean flag) {
+		this.flag = flag;
 	}
 	
 	

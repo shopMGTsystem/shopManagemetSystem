@@ -8,16 +8,20 @@ public class Goods {
 	private String gName;
 	
 	//商品价格
-	private Integer gPrice;
+	private Double gPrice;
+	
+	//商品积分
+	private Integer gPoint;
 	
 	//商品库存
 	private Integer gStock;
 
-	public Goods(Integer gID, String gName, Integer gPrice, Integer gStock) {
+	public Goods(Integer gID, String gName, Double gPrice, Integer gPoint, Integer gStock) {
 		super();
 		this.gID = gID;
 		this.gName = gName;
 		this.gPrice = gPrice;
+		this.gPoint = gPoint;
 		this.gStock = gStock;
 	}
 
@@ -37,12 +41,20 @@ public class Goods {
 		this.gName = gName;
 	}
 
-	public Integer getgPrice() {
+	public Double getgPrice() {
 		return gPrice;
 	}
 
-	public void setgPrice(Integer gPrice) {
+	public void setgPrice(Double gPrice) {
 		this.gPrice = gPrice;
+	}
+
+	public Integer getgPoint() {
+		return gPoint;
+	}
+
+	public void setgPoint(Integer gPoint) {
+		this.gPoint = gPoint;
 	}
 
 	public Integer getgStock() {
@@ -52,6 +64,5 @@ public class Goods {
 	public void setgStock(Integer gStock) {
 		this.gStock = gStock;
 	}
-	
-	
+
 }

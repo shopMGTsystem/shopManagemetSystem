@@ -360,17 +360,33 @@ function cardLoad(currentPage) {
     /*在表格内显示用户数据*/
     var strlis = '';
     $.each(pb.list, function(i, card) {
+   
+    	$.getJSON("user/findUserByName",{uID:card.user.uID},function (user) {
+    	
+    		str = '';
+		   	str = '<tr>\n'+ 
+		         '	<td>'+card.cID+'</td>\n'+
+		         '	<td>'+card.user.uID+'</td>\n'+
+		         '	<td>'+user.userName+'</td>\n'+
+		         '	<td>'+card.level+'</td>\n'+
+		         '	<td>'+card.point+'</td>\n'+
+		         '</tr>\n';
+		         
+		   	$("#cardTable").append(str);
+    	});
+    	/*
     	alert("id:"+card.cID);
 		   str = '';
 		   str = '<tr>\n'+ 
 		         '	<td>'+card.cID+'</td>\n'+
-		         '	<td></td>\n'+//'	<td>'+card.user.uID+'</td>\n'+
-		         '	<td></td>\n'+//'	<td>'+card.user.userName+'</td>\n'+
+		         '	<td>'+card.user.uID+'</td>\n'+
+		         '	<td>'+card.user.userName+'</td>\n'+
 		         '	<td>'+card.level+'</td>\n'+
 		         '	<td>'+card.point+'</td>\n'+
 		         '</tr>\n';
 		         
 		   $("#cardTable").append(str);
+		   */
 	   });
   });
 }

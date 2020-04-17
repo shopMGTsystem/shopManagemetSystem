@@ -10,6 +10,20 @@ import com.dlnu.util.PageBean;
 public class UserService {
 	private UserDao dao = new UserDao();
 	
+	public int userCount() {
+		return dao.findAll();
+	}
+	
+	/**
+	 * 查询date1-date2间 用户注册数量
+	 * @param time1
+	 * @param time2
+	 * @return
+	 */
+	public int userCountByTime(String time1, String time2) {
+		return dao.findAllByTime(time1, time2);
+	}
+	
 	/**
 	 * 增加用户
 	 * @param user
@@ -23,12 +37,16 @@ public class UserService {
 			return false; 
 		}
 	}
+
 	
-	
-	/*
+	/**
+	 * 通过uid查找用户信息
+	 * @param userId
+	 * @return
+	 */
 	public User queryUserById(Integer userId){
 		return dao.queryById(userId);
-	}*/
+	}
 	
 	/**
 	 * 通过用户名查找用户信息
