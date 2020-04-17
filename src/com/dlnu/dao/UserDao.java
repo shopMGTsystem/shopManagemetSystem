@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.dlnu.pojo.*;
 import com.dlnu.util.*;
@@ -90,13 +91,17 @@ public class UserDao {
 	/**查询所有用户的所有信息
 	 * @return
 	 */
-	public ArrayList<User> query(){
+	public List<User> query(int start, int pageSize){
 		Connection conn = DBUtil.getConnection();
-		String sql = "select * from tab_user";
-		ArrayList<User> list = new ArrayList<User>();
+		String sql = "select * from tab_user limit ?,?";
+		List<User> list = new ArrayList<User>();
 		User user = null;
 		try {
+			//预处理sql
 			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, start);
+			pstmt.setInt(2, pageSize);
+			//查询结果返回结果集
 			ResultSet rs = pstmt.executeQuery();
 			while(rs.next()){
 				user = new User(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),rs.getString(8),rs.getString(9),rs.getString(10),rs.getString(11),rs.getString(12));
@@ -111,6 +116,30 @@ public class UserDao {
 			e.printStackTrace();
 		}
 		return list;
+	}
+	
+	/**查询总用户数量
+	 * 
+	 * @return
+	 */
+	public int findAll() {
+		Connection conn = DBUtil.getConnection();
+		String sql = "select count(*) from tab_user";
+		int userCount = 0;//用户总数
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()){
+				userCount = rs.getInt(1);
+			}
+			rs.close();
+			pstmt.close();
+			conn.close();
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		return userCount;
 	}
 	
 }

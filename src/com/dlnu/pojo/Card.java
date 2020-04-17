@@ -1,20 +1,36 @@
 package com.dlnu.pojo;
 
+/**
+ * @author dell
+ *
+ */
 public class Card {
 	//会员卡ID
 	private Integer cID;
 	
-	//会员等级
-	private Integer level;
+	//会员ID， 外键  (实例化会员类)
+	private User user;
 	
 	//会员积分数
 	private Integer point;
+	
+	//会员等级
+	private Integer level;
+	
+	
 
-	public Card(Integer cID, Integer level, Integer point) {
+
+	public Card(Integer cID, User user, Integer point, Integer level) {
 		super();
 		this.cID = cID;
-		this.level = level;
+		this.user = user;
 		this.point = point;
+		this.level = level;
+	}
+
+	public Card(User user) {
+		super();
+		this.user = user;
 	}
 
 	public Integer getcID() {
@@ -25,12 +41,12 @@ public class Card {
 		this.cID = cID;
 	}
 
-	public Integer getLevel() {
-		return level;
+	public User getUser() {
+		return user;
 	}
 
-	public void setLevel(Integer level) {
-		this.level = level;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public Integer getPoint() {
@@ -40,5 +56,14 @@ public class Card {
 	public void setPoint(Integer point) {
 		this.point = point;
 	}
+
+	public Integer getLevel() {
+		return level;
+	}
+
+	public void setLevel(Integer level) {
+		this.level = level;
+	}
+
 	
 }

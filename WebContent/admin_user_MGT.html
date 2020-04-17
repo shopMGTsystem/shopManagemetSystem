@@ -219,7 +219,7 @@
               </div>
               <div class="card-body">
                 <div class="table-responsive">
-                  <table class="table table-hover">
+                  <table class="table table-hover" align="center">
                     <thead>
                       <tr>
                         <th>会员id</th>
@@ -233,23 +233,14 @@
                       </tr>
                     </thead>
                     <tbody id="userTable">
-                      <tr>
-                        <td>1</td>
-                        <td>设计新主题</td>
-                        <td>10/02/2019</td>
-                        <td>12/05/2019</td>
-                        <td><span class="label label-warning">待定</span></td>
-                        <td>
-                          <div class="progress progress-striped progress-sm">
-                            <div class="progress-bar progress-bar-warning" style="width: 45%;"></div>
-                          </div>
-                        </td>
-                      </tr>
+                      <!-- 此处插入从数据库传来的用户数据 -->
                     </tbody>
                   </table>
                 </div>
+                <!-- 分页模块开始-->
                 <nav>
-                  <ul class="pagination pagination-circle">
+                  <ul class="pagination pagination-circle" id="pagelist">
+                  	<!--
                     <li class="disabled">
                       <a href="#!">
                         <span><i class="mdi mdi-chevron-left"></i></span>
@@ -265,8 +256,10 @@
                         <span><i class="mdi mdi-chevron-right"></i></span>
                       </a>
                     </li>
+                    -->
                   </ul>
                 </nav>
+                <!-- 分页模块结束-->
               </div>
             </div>
           </div>
@@ -284,10 +277,142 @@
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/perfect-scrollbar.min.js"></script>
 <script type="text/javascript" src="js/main.min.js"></script>
-
-$(document).ready(function(e) {
-   $.get("")
+<script type="text/javascript">
+//加载完成事件
+$(function(){
+    userLoad(null);
 });
+//加载函数 显示分页效果
+function userLoad(currentPage) {
+	//1.通过ajax获取后台数据展示所有路线
+	$.getJSON("user/searchAllUser",{currentPage:currentPage},function (pb) {
+    //解析pageBean对象，展示到页面上
+    //1.1 分页工具条的数据展示
+    var lis = "";
+
+    var firsPage = '<li class="disabled"><span>«</span></li>\n' +
+        					 '<li onclick="javascript:userLoad('+1+')"><span>首页</span></li>';
+    //计算上一页的页码
+    var beforeNum = pb.currentPage - 1;
+    if(beforeNum <= 0){
+        beforeNum = 1;
+    }
+    var beforePage = '<li onclick="userLoad('+beforeNum+')"><a href="javascript:void(0)">上一页</a></li>';
+    lis += firsPage;
+    lis += beforePage;
+    //1.2 展示分页页码的详细情况
+
+    //1.2.1定义开始位置begin,结束位置end
+    var begin;  //开始位置
+    var end;    //结束位置
+
+    //1.2.2显示10个页码
+    if(pb.totalPage < 10){
+        begin = 1;
+        end = pb.totalPage;
+    }else {
+        //1.2.2.1一共显示十个页码，效果是前五后四
+        begin = pb.currentPage - 5;
+        end = pb.currentPage + 4;
+
+        //1.2.2.2如果前面不够5个，后面补齐10个
+        if(begin < 1){
+            begin = 1;
+            end = 10;
+        }
+
+        //1.2.2.3如果后面不够四个，前面补齐十个
+        if(end > pb.totalPage){
+            end = pb.totalPage;
+            begin = end - 9;
+        }
+    }
+    var li = "";
+    for (var i = begin; i <= end; i++){
+        //1.2.3 当前页码是否等于i
+        if (pb.currentPage == i){
+            li = '<li class="active" onclick="javascript:userLoad('+i+')"><a href="javascript:void(0)">'+i+'</a></li>';
+        }else {
+            //创建页码的li
+            li = '<li onclick="javascript:userLoad('+i+')"><a href="javascript:void(0)">'+i+'</a></li>';
+        }
+        lis += li;
+    }
+
+    //计算下一页的页码
+    var nextNum = pb.currentPage + 1;
+    if(nextNum >= pb.totalPage){
+        nextNum = pb.totalPage;
+    }
+    var nextPage = '<li onclick="javascript:userLoad('+nextNum+')"><a href="javascript:">下一页</a></li>';
+    var lastPage = '<li onclick="javascript:userLoad('+pb.totalPage+')"><a href="javascript:">末页</a></li>\n' +
+        '                                                    <li><a href="javascript:void(0)">»</a></li>';
+    lis += nextPage;
+    lis += lastPage;
+    //1.2.4 将lis的内容设置到ul中
+    $('#pagelist').html(lis);
+    
+    /*在表格内显示用户数据*/
+    var strlis = '';
+    $.each(pb.list, function(i, user) {
+    	alert("id:"+user.uID+"\nname"+user.realName);
+		   str = '';
+		   str = '<tr>\n'+ 
+		         '	<td>'+user.uID+'</td>\n'+
+		         '	<td>'+user.userName+'</td>\n'+
+		         '	<td>'+user.realName+'</td>\n'+
+		         '	<td>'+user.sex+'</td>\n'+
+		         '	<td>'+user.birthday+'</td>\n'+
+		         '	<td>'+user.address+'</td>\n'+
+		         '	<td>'+user.telephone+'</td>\n'+
+		         '	<td>'+user.email+'</td>\n'+
+		         '</tr>\n';
+		         
+		   $("#userTable").append(str);
+	   });
+   /* for(var i=0; i<pb.list.length; i++){
+    	var user = pb.list[i];
+    	//str = '';
+    	str = 	'<tr>\n'+ 
+				'	<td>'+user.uID+'</td>\n'+
+				'	<td>'+user.userName+'</td>\n'+
+				'	<td>'+user.realName+'</td>\n'+
+				'	<td>'+user.sex+'</td>\n'+
+				'	<td>'+user.birthday+'</td>\n'+
+				'	<td>'+user.address+'</td>\n'+
+				'	<td>'+user.telephone+'</td>\n'+
+				'	<td>'+user.email+'</td>\n'+
+				'</tr>\n';
+		strlis += str;		
+    }
+    $("#userTable").html(strlis);*/
+  });
+}
+/*
+$(document).ready(function(e) {
+	var uid_count; 
+	$.getJSON("user/serchAllUser",function(u){
+	   var str = '';
+	   
+	   $.each(u, function(i, val) {
+		   str = '';
+		   str = '<tr>\n'+ 
+		         '	<td>'+val.uID+'</td>\n'+
+		         '	<td>'+val.userName+'</td>\n'+
+		         '	<td>'+val.realName+'</td>\n'+
+		         '	<td>'+val.sex+'</td>\n'+
+		         '	<td>'+val.birthday+'</td>\n'+
+		         '	<td>'+val.address+'</td>\n'+
+		         '	<td>'+val.telephone+'</td>\n'+
+		         '	<td>'+val.email+'</td>\n'+
+		         '</tr>\n';
+		         
+		   $("#userTable").append(str);
+	   });
+	  
+   });
+});
+*/
 </script>
 </body>
 </html>

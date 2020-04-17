@@ -3,6 +3,7 @@ package com.dlnu.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.servlet.ServletException;
@@ -12,8 +13,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.jasper.tagplugins.jstl.core.Out;
+
+import com.dlnu.pojo.Card;
 import com.dlnu.pojo.User;
+import com.dlnu.service.CardService;
 import com.dlnu.service.UserService;
+import com.dlnu.util.PageBean;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sun.org.apache.bcel.internal.generic.DALOAD;
 
 
@@ -25,7 +33,47 @@ public class UserServlet extends BaseServlet {
 	SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
 	String date = dateFormat.format(calendar.getTime());
 	
-	/**loginServlet
+	/**查询所有用户信息
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void searchAllUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter out = response.getWriter();
+		//设置编码
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/json;charset=utf-8");
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		//1.接收参数
+        String currentPageStr = request.getParameter("currentPage");
+        String pageSizeStr = request.getParameter("pageSize");
+        int currentPage = 0;
+        int pageSize = 0;
+        //2.处理参数
+        if(currentPageStr != null && currentPageStr.length() > 0){
+            currentPage = Integer.parseInt(currentPageStr);
+        }else {
+            currentPage = 1;
+        }
+        if(pageSizeStr != null && pageSizeStr.length() > 0){
+            pageSize = Integer.parseInt(pageSizeStr);
+        }else {
+            pageSize = 10;
+        }
+        //3. 调用service查询PageBean对象
+        UserService service = new UserService();
+        PageBean<User> pb = service.queryUser(currentPage,pageSize);
+        //4.序列化参数
+        Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+		String jsonStr = gson.toJson(pb);
+        //5. 将pageBean对象序列化，写回客户端
+        out.print(jsonStr);
+	}
+	
+	
+	/**登录Servlet
 	 * 
 	 * @param request
 	 * @param response
@@ -80,7 +128,7 @@ public class UserServlet extends BaseServlet {
 		out.print(result);
 	}
 
-	/**registerServlet
+	/**注册Servlet
 	 * 
 	 * @param request
 	 * @param response
@@ -90,9 +138,12 @@ public class UserServlet extends BaseServlet {
 	public void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		PrintWriter out = response.getWriter();
-		UserService service = new UserService();
 		boolean flag = false;
+		//调用业务对象
+		UserService uService = new UserService();
+		CardService cService = new CardService();
 		
+		//从前台获取数据
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String realname = request.getParameter("realname");
@@ -106,9 +157,18 @@ public class UserServlet extends BaseServlet {
 		String signuptime = date;
 		
 		System.out.println(" username:"+username+"\n signuptime"+signuptime);
+		//将数据封装到User实体类 此user没有uid
 		User user = new User(username, password, realname, sex, birth, address, tel, email, question, answer, signuptime);
+		//调用增加用户函数
+		flag = uService.addUser(user);
 		
-		flag = service.addUser(user);
+		/*add会员卡开始*/
+		//调用 通过username查找uid。  此user2有uid，其他和user一样
+		User user2 = uService.queryByName(username);
+		Card card = new Card(user2);
+		cService.addCard(card);
+		/*add会员卡结束*/
+		
 		out.print(flag);
 	}
 }

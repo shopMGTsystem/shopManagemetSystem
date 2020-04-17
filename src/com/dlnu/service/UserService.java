@@ -1,14 +1,20 @@
 package com.dlnu.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.dlnu.dao.UserDao;
 import com.dlnu.pojo.User;
+import com.dlnu.util.PageBean;
 
 public class UserService {
 	private UserDao dao = new UserDao();
 	
-	
+	/**
+	 * 增加用户
+	 * @param user
+	 * @return
+	 */
 	public boolean addUser(User user){
 		int result = dao.insert(user);
 		if (result != -1) { 
@@ -22,17 +28,47 @@ public class UserService {
 	/*
 	public User queryUserById(Integer userId){
 		return dao.queryById(userId);
-	}
+	}*/
+	
+	/**
+	 * 通过用户名查找用户信息
+	 * @param username
+	 * @return
+	 */
 	public User queryByName(String username){
 		return dao.queryByName(username);
 	}
-	public ArrayList<User> queryUser(){
-		return dao.query();
+	
+	/**查询所有用户信息
+	 * 
+	 * @param currentPage
+	 * @param pageSize
+	 * @return
+	 */
+	public PageBean<User> queryUser(int currentPage, int pageSize){
+		//封装pageBean
+        PageBean<User> pb = new PageBean<User>();
+        //设置当前页码
+        pb.setCurrentPage(currentPage);
+        //设置每页显示条数
+        pb.setPageSize(pageSize);
+        //设置总记录数
+        int totalCount = dao.findAll();
+        pb.setTotalCount(totalCount);
+        //设置当前页显示的数据集合
+        int start = (currentPage-1)*pageSize;   //开始的记录数
+        List<User> list = dao.query(start,pageSize);
+        pb.setList(list);
+
+        //设置总页数 = 总记录数/每页显示条数
+        int totalPage = totalCount % pageSize == 0 ? totalCount / pageSize : (totalCount / pageSize)+1;
+        pb.setTotalPage(totalPage);
+		return pb;
 	}
 	
-	*/
-	/**
-	 * 查看用户名是否存在
+	
+	/**查看用户名是否存在
+	 * 
 	 * @param username
 	 * @return
 	 */
@@ -47,7 +83,7 @@ public class UserService {
 	
 	
 	
-	/**检查用户名和密码是否存在
+	/**检查用户名和密码是否正确
 	 * @param username
 	 * @param password
 	 * @return
