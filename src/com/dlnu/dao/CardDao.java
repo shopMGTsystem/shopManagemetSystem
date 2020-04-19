@@ -13,6 +13,36 @@ import com.dlnu.util.DBUtil;
 
 public class CardDao {
 	/**
+	 * 通过uid查询会员卡信息
+	 * @param uid
+	 * @return
+	 */
+	public Card queryByUid(int uid){
+		Connection conn = DBUtil.getConnection();
+		String sql = "select * from tab_card where uid = ?";
+		Card card = null;
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, uid);
+
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()){
+				//User user = new User();
+				//user.setuID(rs.getInt(2));
+				card = new Card(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getInt(4));
+			}
+				
+			rs.close();
+			pstmt.close();
+			conn.close();
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		return card;
+	}
+	
+	/**
 	 * 插入会员卡数据
 	 * 2020.4.17
 	 */
@@ -22,7 +52,7 @@ public class CardDao {
 		try {
 			PreparedStatement pstmt;
 			pstmt = connection.prepareStatement(sql);
-			pstmt.setInt(1, card.getUser().getuID());
+			pstmt.setInt(1, card.getuID());
 			
 			pstmt.executeUpdate();
 			pstmt.close();
@@ -49,9 +79,9 @@ public class CardDao {
 			//查询结果返回结果集
 			ResultSet rs = pstmt.executeQuery();
 			while(rs.next()){
-				User user = new User();
-				user.setuID(rs.getInt(2));
-				card = new Card(rs.getInt(1),user,rs.getInt(3),rs.getInt(4));
+			//	User user = new User();
+			//	user.setuID(rs.getInt(2));
+				card = new Card(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getInt(4));
 				list.add(card);
 			}
 				

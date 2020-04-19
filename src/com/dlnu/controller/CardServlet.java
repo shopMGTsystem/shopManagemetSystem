@@ -21,6 +21,34 @@ import com.google.gson.GsonBuilder;
 @WebServlet("/card/*")
 public class CardServlet extends BaseServlet {
 	
+	public void findCardInfoByUsername (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		PrintWriter out = response.getWriter();
+		//接收参数
+		String username = request.getParameter("username");System.out.println(username);
+		//通过username查找uid(user)
+		UserService uService = new UserService();
+		User user = uService.queryUserByName(username);
+		//通过uid查找会员卡信息
+		CardService cService = new CardService();
+		Card card = cService.queryCardByUid(user.getuID());
+		System.out.println(card.toString());
+		//4.序列化参数
+        Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+		String jsonStr = gson.toJson(card);
+		System.out.println(jsonStr);
+        //5. 将pageBean对象序列化，写回客户端
+		//会员卡信息，写回客户端
+		out.print(jsonStr);
+		
+	}
+	
+	/**
+	 * 查询所有会员卡信息
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	public void searchAllCard (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		PrintWriter out = response.getWriter();
 		//设置编码

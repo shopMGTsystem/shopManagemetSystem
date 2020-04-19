@@ -10,18 +10,23 @@ import com.dlnu.util.PageBean;
 public class UserService {
 	private UserDao dao = new UserDao();
 	
-	public int userCount() {
-		return dao.findAll();
-	}
-	
 	/**
-	 * 查询date1-date2间 用户注册数量
-	 * @param time1
-	 * @param time2
+	 * 修改密码
+	 * @param user
 	 * @return
 	 */
-	public int userCountByTime(String time1, String time2) {
-		return dao.findAllByTime(time1, time2);
+	public boolean updatePwd(User user) {
+		return dao.updatePwdByUserame(user);
+	}
+	
+	
+	/**
+	 * 修改用户
+	 * @param user
+	 * @return
+	 */
+	public boolean updateUser(User user) {
+		return dao.update(user);
 	}
 	
 	/**
@@ -38,6 +43,25 @@ public class UserService {
 		}
 	}
 
+
+	/**
+	 * 查询用户总数
+	 * @return
+	 */
+	public int userCount() {
+		return dao.findAll();
+	}
+	
+	/**
+	 * 查询date1-date2间 用户注册数量
+	 * @param time1
+	 * @param time2
+	 * @return
+	 */
+	public int userCountByTime(String time1, String time2) {
+		return dao.findAllByTime(time1, time2);
+	}
+	
 	
 	/**
 	 * 通过uid查找用户信息
@@ -53,7 +77,7 @@ public class UserService {
 	 * @param username
 	 * @return
 	 */
-	public User queryByName(String username){
+	public User queryUserByName(String username){
 		return dao.queryByName(username);
 	}
 	
@@ -98,8 +122,7 @@ public class UserService {
 			return false;
 		}
 	}
-	
-	
+
 	
 	/**检查用户名和密码是否正确
 	 * @param username

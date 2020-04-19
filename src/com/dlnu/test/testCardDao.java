@@ -9,12 +9,14 @@ import com.dlnu.pojo.User;
 public class testCardDao {
 	private CardDao dao = new CardDao();
 
-	
+	@Test
+	public void testQueryById(){
+		dao.queryByUid(1);
+	}
 	@Test
 	public void testInsert(){
-		User user = new User();
-		user.setuID(1);
-		Card card = new Card(user);
+		Card card = new Card();
+		card.setuID(1);
 		dao.insert(card);
 	}
 

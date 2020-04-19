@@ -10,6 +10,8 @@ import java.util.List;
 import com.dlnu.pojo.*;
 import com.dlnu.util.*;
 
+import sun.security.util.Password;
+
 /**
  * @author dell
  *
@@ -23,6 +25,99 @@ import com.dlnu.util.*;
  *
  */
 public class UserDao {
+	
+	/**
+	 * 修改密码
+	 * @param user
+	 * @return
+	 */
+	public boolean updatePwdByUserame (User user) {
+		Connection connection  = DBUtil.getConnection();
+		String sql = "update tab_user "
+				+ "set password=? "
+				+ "where username=?";
+		try {
+			PreparedStatement pstmt;
+			pstmt = connection.prepareStatement(sql);
+			
+			pstmt.setString(1, user.getPassword());
+			pstmt.setString(2, user.getUserName());
+			
+			pstmt.executeUpdate();
+			pstmt.close();
+			connection.close();
+			
+			return true;
+		}catch(SQLException e){
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	
+	/**
+	 * 查询密码by用户名
+	 * @param user
+	 * @return
+	 */
+	public String queryPwdByUserame(User user){
+		Connection conn = DBUtil.getConnection();
+		String sql = "select password from tab_user where username = ?";
+		String password = null;
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, user.getUserName());
+			
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()){
+				password = rs.getString(1);
+			}
+				
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
+			return password;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return "false+-*/";
+		}
+		
+	}
+	
+	/**
+	 * 修改用户数据
+	 * @param user
+	 * @return
+	 */
+	public boolean update (User user) {
+		Connection connection  = DBUtil.getConnection();
+		String sql = "update tab_user "
+				+ "set realname=?, sex=?, birthday=?, address=?, telephone=?, email=? "
+				+ "where username=?";
+		try {
+			PreparedStatement pstmt;
+			pstmt = connection.prepareStatement(sql);
+			
+			pstmt.setString(1, user.getRealName());
+			pstmt.setString(2, user.getSex());
+			pstmt.setString(3, user.getBirthday());
+			pstmt.setString(4, user.getAddress());
+			pstmt.setString(5, user.getTelephone());
+			pstmt.setString(6, user.getEmail());
+			pstmt.setString(7, user.getUserName());
+			
+			pstmt.executeUpdate();
+			pstmt.close();
+			connection.close();
+			
+			return true;
+		}catch(SQLException e){
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 	/**
 	 * 插入用户数据
 	 * 2020.4.7

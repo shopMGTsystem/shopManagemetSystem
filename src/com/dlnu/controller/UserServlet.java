@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,28 +30,136 @@ import com.sun.org.apache.bcel.internal.generic.DALOAD;
 public class UserServlet extends BaseServlet {
 	
 	//获取当前时间
-	Calendar calendar= Calendar.getInstance();
+	Calendar calendar= Calendar.getInstance(Locale.CHINA);// 设置北京时区
 	//获取今日00：00
 	SimpleDateFormat dateFormat1= new SimpleDateFormat("yyyy-MM-dd");
 	String date1 = dateFormat1.format(calendar.getTime());
 	//获取今日现在时间
-	SimpleDateFormat dateFormat2= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+	SimpleDateFormat dateFormat2= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	String date2 = dateFormat2.format(calendar.getTime());
 	
+	public void updateUserInfo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter out = response.getWriter();
+		boolean flag = false;
+		
+		//从前台获取数据
+		String username = request.getParameter("username");
+		String realname = request.getParameter("realname");
+		String sex = request.getParameter("sex");
+		String birth = request.getParameter("birth");
+		String address = request.getParameter("address");
+		String tel = request.getParameter("tel");
+		String email = request.getParameter("email");
+		
+		//封装实体类
+		User user = new User(username, realname, sex, birth, address, tel, email);
+		//调用业务对象
+		UserService uService = new UserService();
+		flag = uService.updateUser(user);
+		
+		out.print(flag);
+	}
+	
 	/**
-	 * 通过id查找用户信息
+	 * 检查旧密码
 	 * @param request
 	 * @param response
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	public void findUserByName(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void checkPwd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
-		User user = new User();
+		int flag = -1;
+		
+		//从前台获取数据
+		String username = request.getParameter("username");
+		String oldpwd = request.getParameter("oldpwd");
+		
+		
+		//调用业务对象
+		UserService uService = new UserService();
+		User user = uService.queryUserByName(username);
+		
+		//判断旧密码输入是否一致
+		if (user.getPassword().equals(oldpwd)) {
+			flag = 1;
+		} 
+		
+		//返回客户端
+		out.print(flag);
+		
+	}
+	
+	/**
+	 * 修改密码
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void updatePwd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter out = response.getWriter();
+		boolean flag = false;
+		
+		//从前台获取数据
+		String username = request.getParameter("username");
+		String newpwd = request.getParameter("newpwd");
+		System.out.println("newpwd:" + newpwd);
+		
+		//封装实体类
+		User user = new User(username,newpwd);
+		//调用业务对象
+		UserService uService = new UserService();
+		flag = uService.updatePwd(user);
+		
+		out.print(flag);
+	}
+	
+	/**
+	 * 通过username查找用户信息
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void findUserByUsername(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		//设置编码
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/json;charset=utf-8");
 		response.setHeader("Access-Control-Allow-Origin", "*");
+		
+		PrintWriter out = response.getWriter();
+		User user = new User();
+		//获取用户名
+		String username = request.getParameter("username");
+		//调用业务对象
+		UserService service = new UserService();
+		user = service.queryUserByName(username);
+		//序列化参数
+		Gson gson = new Gson();
+		String jsonStr = gson.toJson(user);
+		//System.out.println(jsonStr);
+		//数据返回前台
+		out.print(jsonStr);	
+	}
+	
+	/**
+	 * 通过uid查找用户信息
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void findUserByUid(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		//设置编码
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/json;charset=utf-8");
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		
+		PrintWriter out = response.getWriter();
+		User user = new User();
 		//获取用户id
 		String uID_str = request.getParameter("uID");
 		int uID = Integer.parseInt(uID_str); 
@@ -66,6 +175,7 @@ public class UserServlet extends BaseServlet {
 	}
 	
 	
+	
 	/**
 	 * 查询所有用户信息
 	 * @param request
@@ -74,11 +184,13 @@ public class UserServlet extends BaseServlet {
 	 * @throws IOException
 	 */
 	public void searchAllUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PrintWriter out = response.getWriter();
+		
 		//设置编码
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/json;charset=utf-8");
 		response.setHeader("Access-Control-Allow-Origin", "*");
+		
+		PrintWriter out = response.getWriter();
 		//1.接收参数
         String currentPageStr = request.getParameter("currentPage");
         String pageSizeStr = request.getParameter("pageSize");
@@ -105,6 +217,7 @@ public class UserServlet extends BaseServlet {
         out.print(jsonStr);
 	}
 
+	
 	/**
 	 * 查询总注册用户数量
 	 * @param request
@@ -121,6 +234,7 @@ public class UserServlet extends BaseServlet {
         out.print(count);
 	}
 	
+	
 	/**
 	 * 查询今日注册用户数量
 	 * @param request
@@ -136,6 +250,7 @@ public class UserServlet extends BaseServlet {
         //写回客户端
         out.print(count);
 	}
+	
 	
 	/**
 	 * 登录Servlet
@@ -158,15 +273,16 @@ public class UserServlet extends BaseServlet {
 		int result = service.checkLogin(username, password);
 		System.out.println(result);
 		//如果登陆成功,在session范围内存储用户名
-		/*
+		
 		if(result==4){		
 			HttpSession session = request.getSession();
 			session.setAttribute("username", username);
-		}*/
+		}
 		
 		out.print(result);
 	}
 	 
+	
 	
 	/**
 	 * 注册Servlet
@@ -204,14 +320,16 @@ public class UserServlet extends BaseServlet {
 		
 		/*add会员卡开始*/
 		//调用 通过username查找uid。  此user2有uid，其他和user一样
-		User user2 = uService.queryByName(username);
-		Card card = new Card(user2);
+		User user2 = uService.queryUserByName(username);
+		Card card = new Card(user2.getuID());
 		cService.addCard(card);
 		/*add会员卡结束*/
 		
 		out.print(flag);
 	}
 
+	
+	
 	/**
 	 * 检查用户名是否已存在
 	 * @param request

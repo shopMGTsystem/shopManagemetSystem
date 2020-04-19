@@ -54,7 +54,7 @@
   <div class="lyear-login">
     <div class="login-center">
     	<div class="login-header text-center">
-  			<a href="index.html"> <img alt="light year admin" src="images/logo-sidebar.png" width="260"> </a>
+  			<a href="login.html"> <img alt="light year admin" src="images/logo-sidebar.png" width="260"> </a>
       	</div>
       	<div>
       		<h3 align="center" style="color: #33cabb;">登录</h3>
@@ -146,7 +146,7 @@ $("#signIn").on('click',function(){
 			} else if (data == 3) {
 				layer.msg('密码错误',{time:2000});	
 			} else if(data == 4){
-					location.href = 'user_homepage.html';
+					location.href = 'user_homepage.jsp';
 			}
 		});
 	}else{
@@ -186,7 +186,7 @@ $('#signIn').click(function(){
 			layer.msg('登录成功');
 			
 			setTimeout(function(){
-				location.href = 'userPage.html';
+				location.href = 'userPage.jsp';
 			},1000);
 		}
 		

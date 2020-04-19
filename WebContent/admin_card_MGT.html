@@ -361,12 +361,12 @@ function cardLoad(currentPage) {
     var strlis = '';
     $.each(pb.list, function(i, card) {
    
-    	$.getJSON("user/findUserByName",{uID:card.user.uID},function (user) {
+    	$.getJSON("user/findUserByUid",{uID:card.uID},function (user) {
     	
     		str = '';
 		   	str = '<tr>\n'+ 
 		         '	<td>'+card.cID+'</td>\n'+
-		         '	<td>'+card.user.uID+'</td>\n'+
+		         '	<td>'+card.uID+'</td>\n'+
 		         '	<td>'+user.userName+'</td>\n'+
 		         '	<td>'+card.level+'</td>\n'+
 		         '	<td>'+card.point+'</td>\n'+

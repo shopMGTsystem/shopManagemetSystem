@@ -8,8 +8,8 @@ public class Card {
 	//会员卡ID
 	private Integer cID;
 	
-	//会员ID， 外键  (实例化会员类)
-	private User user;
+	//会员id
+	private Integer uID;
 	
 	//会员积分数
 	private Integer point;
@@ -17,53 +17,76 @@ public class Card {
 	//会员等级
 	private Integer level;
 	
-	
+	///会员ID， 外键  (实例化会员类)
+	private User user;
 
 
-	public Card(Integer cID, User user, Integer point, Integer level) {
+	public Card() {
+		super();
+	}
+
+
+	public Card(Integer uID) {
+		super();
+		this.uID = uID;
+	}
+
+
+	public Card(Integer cID, Integer uID, Integer point, Integer level) {
 		super();
 		this.cID = cID;
-		this.user = user;
+		this.uID = uID;
 		this.point = point;
 		this.level = level;
 	}
 
-	public Card(User user) {
-		super();
-		this.user = user;
-	}
 
 	public Integer getcID() {
 		return cID;
 	}
 
+
 	public void setcID(Integer cID) {
 		this.cID = cID;
 	}
 
-	public User getUser() {
-		return user;
+
+	public Integer getuID() {
+		return uID;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+
+	public void setuID(Integer uID) {
+		this.uID = uID;
 	}
+
 
 	public Integer getPoint() {
 		return point;
 	}
 
+
 	public void setPoint(Integer point) {
 		this.point = point;
 	}
+
 
 	public Integer getLevel() {
 		return level;
 	}
 
+
 	public void setLevel(Integer level) {
 		this.level = level;
 	}
+
+
+	@Override
+	public String toString() {
+		return "Card [cID=" + cID + ", uID=" + uID + ", point=" + point + ", level=" + level + "]";
+	}
+
+	
 
 	
 }

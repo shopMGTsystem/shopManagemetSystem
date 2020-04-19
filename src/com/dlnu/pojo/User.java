@@ -37,6 +37,30 @@ public class User {
 	//×¢²áÊ±¼ä
 	private String signUpTime;
 	
+	
+
+	public User(String userName, String password) {
+		super();
+		this.userName = userName;
+		this.password = password;
+	}
+
+
+
+	public User(String userName, String realName, String sex, String birthday, String address, String telephone,
+			String email) {
+		super();
+		this.userName = userName;
+		this.realName = realName;
+		this.sex = sex;
+		this.birthday = birthday;
+		this.address = address;
+		this.telephone = telephone;
+		this.email = email;
+	}
+
+
+
 	public User(Integer uID, String userName, String password, String realName, String sex, String birthday,
 			String address, String telephone, String email, String question, String answer, String signUpTime) {
 		super();

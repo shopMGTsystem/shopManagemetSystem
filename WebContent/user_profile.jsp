@@ -1,13 +1,16 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html lang="zh">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-<title>会员管理界面 - 超市会员管理系统</title>
+<title>个人信息 - 超市会员管理系统</title>
 <link rel="icon" href="favicon.ico" type="image/ico">
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/materialdesignicons.min.css" rel="stylesheet">
 <link href="css/style.min.css" rel="stylesheet">
+<link href="css/layer.css" rel="stylesheet">
 </head>
   
 <body>
@@ -15,26 +18,20 @@
   <div class="lyear-layout-container">
     <!--左侧导航-->
     <aside class="lyear-layout-sidebar">
-      
+       
       <!-- logo -->
       <div id="logo" class="sidebar-header">
-        <a href="admin_homepage.html"><img src="images/logo-sidebar.png" title="shop_member_MGT" alt="logo" /></a>
+        <a href="user_homepage.jsp"><img src="images/logo-sidebar.png" title="shop_member_MGT" alt="LightYear" /></a>
       </div>
-      <div class="lyear-layout-sidebar-scroll"> 
+      <div class="lyear-layout-sidebar-scroll">
         
         <nav class="sidebar-main">
           <ul class="nav nav-drawer">
-            <li class="nav-item"> <a href="admin_homepage.html"><i class="mdi mdi-home"></i> 后台首页</a> </li>
-            <li class="nav-item active"><a href="admin_user_MGT.html"><i class="mdi mdi-file-account"></i> 会员信息管理</a></li>
-            <li class="nav-item"><a href="admin_card_MGT.html"><i class="mdi mdi-account-card-details"></i> 会员卡信息管理</a></li>
-            <li class="nav-item nav-item-has-subnav">
-            	<a href="javascript:void(0)"><i class="mdi mdi-shopping"></i> 商品管理</a>
-            	<ul class="nav nav-subnav">
-            		<li> <a href="admin_goods_add.html">增加商品</a> </li>
-                <li> <a href="admin_goods_query.html">查看商品</a> </li>
-              </ul>
-            </li>
-            <li class="nav-item"><a href="admin_guestbook_MGT.html"><i class="mdi mdi-comment-text-outline"></i> 留言板管理</a></li>
+            <li class="nav-item active"> <a href="user_homepage.jsp"><i class="mdi mdi-home"></i> 首页</a> </li>
+            <li class="nav-item"><a href="user_card_info.jsp"><i class="mdi mdi-file-account"></i> 会员卡信息</a></li>
+            <li class="nav-item"><a href="user_shop.jsp"><i class="mdi mdi-shopping"></i> 商品一览</a></li>
+            <li class="nav-item"><a href="user_purchase_history.jsp"><i class="mdi mdi-file-document-box"></i> 消费记录</a></li>
+            <li class="nav-item"><a href="user_guestbook.jsp"><i class="mdi mdi-comment-text-outline"></i> 留言板</a></li>
           </ul>
         </nav>
         
@@ -58,16 +55,19 @@
               <span class="lyear-toggler-bar"></span>
               <span class="lyear-toggler-bar"></span>
             </div>
-            <span class="navbar-page-title"> 会员信息管理页面 </span>
+            <span class="navbar-page-title"> 个人信息 </span>
           </div>
           
           <ul class="topbar-right">
             <li class="dropdown dropdown-profile">
               <a href="javascript:void(0)" data-toggle="dropdown">
-                <img class="img-avatar img-avatar-48 m-r-10" src="images/users/avatar.jpg" alt="admin" />
-                <span>admin <span class="caret"></span></span>
+              
+                <span><%=session.getAttribute("username")%><span class="caret"></span></span>
               </a>
               <ul class="dropdown-menu dropdown-menu-right">
+                <li> <a href="user_profile.jsp"><i class="mdi mdi-account"></i> 个人信息</a> </li>
+                <li> <a href="user_edit_pwd.jsp"><i class="mdi mdi-lock-outline"></i> 修改密码</a> </li>
+                <li class="divider"></li>
                 <li> <a href="login.html"><i class="mdi mdi-logout-variant"></i> 退出登录</a> </li>
               </ul>
             </li>
@@ -214,58 +214,47 @@
         <div class="row">
           <div class="col-lg-12">
             <div class="card">
-              <div class="card-header">
-                <h4>会员信息</h4>
-              </div>
               <div class="card-body">
-                <div class="table-responsive">
-                  <table class="table table-hover" align="center">
-                    <thead>
-                      <tr>
-                        <th>会员id</th>
-                        <th>会员名</th>
-                        <th>真实姓名</th>
-                        <th>性别</th>
-                        <th>生日</th>
-                        <th>住址</th>
-                        <th>电话</th>
-                        <th>邮箱</th>
-                      </tr>
-                    </thead>
-                    <tbody id="userTable">
-                      <!-- 此处插入从数据库传来的用户数据 -->
-                    </tbody>
-                  </table>
-                </div>
-                <!-- 分页模块开始-->
-                <nav>
-                  <ul class="pagination pagination-circle" id="pagelist">
-                  	<!--
-                    <li class="disabled">
-                      <a href="#!">
-                        <span><i class="mdi mdi-chevron-left"></i></span>
-                      </a>
-                    </li>
-                    <li class="active"><a href="#">1</a></li>
-                    <li><a href="#!">2</a></li>
-                    <li><a href="#!">3</a></li>
-                    <li><a href="#!">4</a></li>
-                    <li><a href="#!">5</a></li>
-                    <li>
-                      <a href="#!">
-                        <span><i class="mdi mdi-chevron-right"></i></span>
-                      </a>
-                    </li>
-                    -->
-                  </ul>
-                </nav>
-                <!-- 分页模块结束-->
+                
+                <form method="post" action="#!" class="site-form">
+                  <div class="form-group">
+                    <label for="username">用户名</label>
+                    <input type="text" class="form-control" name="username" id="username"  disabled="disabled" />
+                  </div>
+                  <div class="form-group">
+                    <label for="realname">真实姓名</label>
+                    <input type="text" class="form-control" name="realname" id="realname" placeholder="请输入您的真实姓名">
+                  </div>
+                  <div class="form-group">
+                    <label for="sex">性别</label>
+                    <input type="text" class="form-control" name="sex" id="sex" placeholder="请输入您的性别(男/女)">
+                  </div>
+                  <div class="form-group">
+                    <label for="birth">生日</label>
+                    <input type="text" class="form-control" name="birth" id="birth" placeholder="请输入您的生日">
+                  </div>
+                  <div class="form-group">
+                    <label for="address">家庭住址</label>
+                    <input type="text" class="form-control" name="address" id="address" placeholder="请输入您的家庭住址">
+                  </div>
+                  <div class="form-group">
+                    <label for="tel">电话</label>
+                    <input type="text" class="form-control" name="tel" id="tel" placeholder="请输入您的电话">
+                  </div>
+                  <div class="form-group">
+                    <label for="email">邮箱</label>
+                    <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp" placeholder="请输入正确的邮箱地址">
+                    <small id="emailHelp" class="form-text text-muted">请保证您填写的邮箱地址是正确的。</small>
+                  </div>
+                  <button type="button" class="btn btn-primary" id="save">保存</button>
+                </form>
+       
               </div>
             </div>
           </div>
-            
+          
         </div>
-       
+        
       </div>
       
     </main>
@@ -277,118 +266,47 @@
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/perfect-scrollbar.min.js"></script>
 <script type="text/javascript" src="js/main.min.js"></script>
+<script type="text/javascript" src="js/layer.js"></script>
 <script type="text/javascript">
-//加载完成事件
-$(function(){
-    userLoad(null);
+$(document).ready(function(e) {
+    /*Start-显示会员原信息*/
+   	var params = {
+		username:'<%=session.getAttribute("username")%>'
+	}
+	$.getJSON("user/findUserByUsername",params,function(user) {
+		$("#username").val(user.userName);
+		$("#realname").val(user.realName);
+		$("#sex").val(user.sex);
+		$("#birth").val(user.birthday);
+		$("#address").val(user.address);
+		$("#tel").val(user.telephone);
+		$("#email").val(user.email);
+		
+	});
+	/*End-显示会员卡原信息*/
 });
-//加载函数 显示分页效果
-function userLoad(currentPage) {
-	//1.通过ajax获取后台数据展示所有路线
-	$.getJSON("user/searchAllUser",{currentPage:currentPage},function (pb) {
-    //解析pageBean对象，展示到页面上
-    //1.1 分页工具条的数据展示
-    var lis = "";
 
-    var firsPage = '<li class="disabled"><span>«</span></li>\n' +
-        					 '<li onclick="javascript:userLoad('+1+')"><span>首页</span></li>';
-    //计算上一页的页码
-    var beforeNum = pb.currentPage - 1;
-    if(beforeNum <= 0){
-        beforeNum = 1;
-    }
-    var beforePage = '<li onclick="userLoad('+beforeNum+')"><a href="javascript:void(0)">上一页</a></li>';
-    lis += firsPage;
-    lis += beforePage;
-    //1.2 展示分页页码的详细情况
-
-    //1.2.1定义开始位置begin,结束位置end
-    var begin;  //开始位置
-    var end;    //结束位置
-
-    //1.2.2显示10个页码
-    if(pb.totalPage < 10){
-        begin = 1;
-        end = pb.totalPage;
-    }else {
-        //1.2.2.1一共显示十个页码，效果是前五后四
-        begin = pb.currentPage - 5;
-        end = pb.currentPage + 4;
-
-        //1.2.2.2如果前面不够5个，后面补齐10个
-        if(begin < 1){
-            begin = 1;
-            end = 10;
-        }
-
-        //1.2.2.3如果后面不够四个，前面补齐十个
-        if(end > pb.totalPage){
-            end = pb.totalPage;
-            begin = end - 9;
-        }
-    }
-    var li = "";
-    for (var i = begin; i <= end; i++){
-        //1.2.3 当前页码是否等于i
-        if (pb.currentPage == i){
-            li = '<li class="active" onclick="javascript:userLoad('+i+')"><a href="javascript:void(0)">'+i+'</a></li>';
-        }else {
-            //创建页码的li
-            li = '<li onclick="javascript:userLoad('+i+')"><a href="javascript:void(0)">'+i+'</a></li>';
-        }
-        lis += li;
-    }
-
-    //计算下一页的页码
-    var nextNum = pb.currentPage + 1;
-    if(nextNum >= pb.totalPage){
-        nextNum = pb.totalPage;
-    }
-    var nextPage = '<li onclick="javascript:userLoad('+nextNum+')"><a href="javascript:">下一页</a></li>';
-    var lastPage = '<li onclick="javascript:userLoad('+pb.totalPage+')"><a href="javascript:">末页</a></li>\n' +
-        '                                                    <li><a href="javascript:void(0)">»</a></li>';
-    lis += nextPage;
-    lis += lastPage;
-    //1.2.4 将lis的内容设置到ul中
-    $('#pagelist').html(lis);
-    
-    /*在表格内显示用户数据*/
-    var strlis = '';
-    $.each(pb.list, function(i, user) {
-    	
-		   str = '';
-		   str = '<tr>\n'+ 
-		         '	<td>'+user.uID+'</td>\n'+
-		         '	<td>'+user.userName+'</td>\n'+
-		         '	<td>'+user.realName+'</td>\n'+
-		         '	<td>'+user.sex+'</td>\n'+
-		         '	<td>'+user.birthday+'</td>\n'+
-		         '	<td>'+user.address+'</td>\n'+
-		         '	<td>'+user.telephone+'</td>\n'+
-		         '	<td>'+user.email+'</td>\n'+
-		         '</tr>\n';
-		         
-		   $("#userTable").append(str);
-	   });
-   /* for(var i=0; i<pb.list.length; i++){
-    	var user = pb.list[i];
-    	//str = '';
-    	str = 	'<tr>\n'+ 
-				'	<td>'+user.uID+'</td>\n'+
-				'	<td>'+user.userName+'</td>\n'+
-				'	<td>'+user.realName+'</td>\n'+
-				'	<td>'+user.sex+'</td>\n'+
-				'	<td>'+user.birthday+'</td>\n'+
-				'	<td>'+user.address+'</td>\n'+
-				'	<td>'+user.telephone+'</td>\n'+
-				'	<td>'+user.email+'</td>\n'+
-				'</tr>\n';
-		strlis += str;		
-    }
-    $("#userTable").html(strlis);*/
+//保存更改的会员信息
+$("#save").on('click',function(){
+	var params = {
+			'username':$('#username').val(),
+			'realname':$('#realname').val(),
+			'sex':$('#sex').val(),
+			'birth':$('#birth').val(),
+			'address':$('#address').val(),
+			'tel':$('#tel').val(),
+			'email':$('#email').val()
+		}
+	$.post("user/updateUserInfo",params,function(data){
+  		if (data) {
+  			layer.msg("修改成功!",{time:2000});
+  			location.reload();
+  	
+		}else{
+			layer.msg("修改失败。 请检查输入是否正确",{time:3000});
+		}
   });
-}
-
+});
 </script>
 </body>
 </html>

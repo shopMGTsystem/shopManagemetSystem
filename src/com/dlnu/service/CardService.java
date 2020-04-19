@@ -10,12 +10,25 @@ import com.dlnu.util.PageBean;
 public class CardService {
 	private CardDao dao = new CardDao();
 	
+	/**
+	 * 通过uid查找会员卡信息
+	 * @param uid
+	 * @return
+	 */
+	public Card queryCardByUid(Integer uid){
+		return dao.queryByUid(uid);
+	}
+	
+	/**
+	 * 添加会员卡
+	 * @param card
+	 */
 	public void addCard(Card card){
 		dao.insert(card);
 	}
 	
-	/**查询所有会员卡信息
-	 * 
+	/**
+	 * 查询所有会员卡信息
 	 * @param currentPage
 	 * @param pageSize
 	 * @return
