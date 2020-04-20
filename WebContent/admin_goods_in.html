@@ -8,6 +8,7 @@
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/materialdesignicons.min.css" rel="stylesheet">
 <link href="css/style.min.css" rel="stylesheet">
+<link href="css/layer.css" rel="stylesheet">
 </head>
   
 <body>
@@ -222,15 +223,17 @@
                 <form method="post" action="#!" class="site-form">
                   <div class="form-group">
                     <label for="goods-name">商品id</label>
-                    <input type="text" class="form-control" name="goods-name" id="gname" placeholder="请输入商品id">
+                    <span id="tel_hint" style="font-size: 10px; color: orangered; display: none;">(不能为空)</span>
+                    <input type="text" class="form-control" name="goods-id" id="gid" placeholder="请输入商品id">
                   </div>
              
                   <div class="form-group">
                     <label for="goods-in">商品进库</label>
+                    <span id="tel_hint" style="font-size: 10px; color: orangered; display: none;">(不能为空)</span>
                     <input type="text" class="form-control" name="goods-in" id="gin" placeholder="请输入商品进货数量">
                   </div>
                 
-                  <button type="submit" class="btn btn-primary">入库</button>
+                  <button type="button" class="btn btn-primary" id="goodsIn">入库</button>
                 </form>
        
               </div>
@@ -250,12 +253,27 @@
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/perfect-scrollbar.min.js"></script>
 <script type="text/javascript" src="js/main.min.js"></script>
+<script type="text/javascript" src="js/layer.js"></script>
 
-<!--图表插件-->
-<script type="text/javascript" src="js/Chart.js"></script>
 <script type="text/javascript">
 $(document).ready(function(e) {
-
+});
+$("#goodsIn").on('click',function(){
+	var params = {
+			gid:$('#gid').val(),
+			gin:$('#gin').val()
+		}
+	$.post("goods/updateStock",params,function(data){
+  		if (data) {
+  			
+  			layer.msg("商品入库成功!",{time:4000});
+  			window.location.reload();
+  			
+		}else{
+			layer.msg("商品入库失败",{time:4000});
+			window.location.reload();
+		}
+  });
 });
 
 

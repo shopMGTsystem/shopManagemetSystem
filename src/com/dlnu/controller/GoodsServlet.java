@@ -24,7 +24,36 @@ import com.google.gson.GsonBuilder;
 public class GoodsServlet extends BaseServlet {
 	
 	/**
-	 * 注册Servlet
+	 * 更新库存
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void updateStock(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter out = response.getWriter();
+		boolean flag = false;
+		
+		//从前台获取数据
+		String gID_str = request.getParameter("gid");
+		String gIn_str = request.getParameter("gin");
+		
+		//转化为数据库对应数据类型
+		int gID = Integer.parseInt(gID_str);
+		int gIn = Integer.parseInt(gIn_str);
+		
+		//封装实体类
+		Goods goods = new Goods(gID, gIn);
+		//调用业务对象
+		GoodsService gService = new GoodsService();
+		flag = gService.updateStock(goods);
+		System.out.println("from db:"+flag);
+		
+		out.print(flag);
+	}
+	
+	/**
+	 * 增加新商品
 	 * @param request
 	 * @param response
 	 * @throws ServletException
@@ -44,20 +73,20 @@ public class GoodsServlet extends BaseServlet {
 		String gIn_str = request.getParameter("gin");
 		
 		
-		double gPrice = Double.valueOf(gPrice_str);
-		int gPoint = Integer.valueOf(gPoint_str);
-		int gIn = Integer.valueOf(gIn_str);
+		double gPrice = Double.parseDouble(gPrice_str);
+		int gPoint = Integer.parseInt(gPoint_str);
+		int gIn = Integer.parseInt(gIn_str);
 		
 		//将数据封装到Goods实体类 此goods没有gid
 		Goods goods = new Goods(gName, gPrice, gPoint, gIn);
-		//调用增加用户函数
+		//调用增加商品函数
 		flag = gService.addGoods(goods);
 
 		out.print(flag);
 	}
 	
 	/**
-	 * 查询所有用户信息
+	 * 查询所有商品信息
 	 * @param request
 	 * @param response
 	 * @throws ServletException

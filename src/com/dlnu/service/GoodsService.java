@@ -12,11 +12,22 @@ public class GoodsService {
 	private GoodsDao dao = new GoodsDao();
 	
 	/**
+	 *修改库存
+	 * @param user
+	 * @return
+	 */
+	public boolean updateStock(Goods goods) {
+		return dao.updateStockByGid(goods);
+	}
+	
+	/**
 	 * 增加商品
 	 * @param goods
 	 * @return
 	 */
 	public boolean addGoods(Goods goods){
+		
+
 		int result = dao.insert(goods);
 		if (result != -1) { 
 			return true; 

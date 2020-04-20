@@ -13,6 +13,35 @@ import com.dlnu.util.DBUtil;
 
 public class GoodsDao {
 	
+	
+	/**
+	 * 修改库存
+	 * @param user
+	 * @return
+	 */
+	public boolean updateStockByGid (Goods goods) {
+		Connection connection  = DBUtil.getConnection();
+		String sql = "update tab_goods "
+				+ "set gstock=gstock+? "
+				+ "where gid=?";
+		try {
+			PreparedStatement pstmt;
+			pstmt = connection.prepareStatement(sql);
+			
+			pstmt.setInt(1, goods.getgStock());
+			pstmt.setInt(2, goods.getgID());
+			
+			pstmt.executeUpdate();
+			pstmt.close();
+			connection.close();
+			
+			return true;
+		}catch(SQLException e){
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 	/**
 	 * 插入商品数据
 	 * 2020.4.7
