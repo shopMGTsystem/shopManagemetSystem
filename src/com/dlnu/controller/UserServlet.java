@@ -38,6 +38,13 @@ public class UserServlet extends BaseServlet {
 	SimpleDateFormat dateFormat2= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	String date2 = dateFormat2.format(calendar.getTime());
 	
+	/**
+	 * 修改用户信息
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	public void updateUserInfo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
 		boolean flag = false;

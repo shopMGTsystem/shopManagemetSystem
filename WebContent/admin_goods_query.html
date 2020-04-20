@@ -30,8 +30,9 @@
             <li class="nav-item nav-item-has-subnav active open">
             	<a href="javascript:void(0)"><i class="mdi mdi-shopping"></i> 商品管理</a>
             	<ul class="nav nav-subnav">
-            		<li> <a href="admin_goods_add.html">增加商品</a> </li>
-                <li> <a href="admin_goods_query.html">查看商品</a> </li>
+            		<li> <a href="admin_goods_add.html">商品增加</a> </li>
+            		<li> <a href="admin_goods_in.html">商品入库</a> </li>
+                <li> <a href="admin_goods_query.html">商品查看</a> </li>
               </ul>
             </li>
             <li class="nav-item"><a href="admin_guestbook_MGT.html"><i class="mdi mdi-comment-text-outline"></i> 留言板管理</a></li>
@@ -243,28 +244,20 @@
                         <th>商品id</th>
                         <th>商品名称</th>
                         <th>商品价格</th>
+                        <th>商品积分</th>
                         <th>库存</th>
                         <th>操作</th>
                       </tr>
                     </thead>
-                    <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td>设计新主题</td>
-                        <td>100</td>
-                        <td>123</td>
-                        <td>
-                          <div class="btn-group">
-                            <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="tooltip"><i class="mdi mdi-pencil"></i></a>
-                            <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="tooltip"><i class="mdi mdi-window-close"></i></a>
-                          </div>
-                        </td>
-                      </tr>
+                    <tbody id="goodsTable">
+                      <!-- 此处插入从数据库传来的用户数据 -->
                     </tbody>
                   </table>
                 </div>
+                <!-- 分页模块开始-->
                 <nav>
-                  <ul class="pagination pagination-circle">
+                  <ul class="pagination pagination-circle" id="pagelist">
+                  	<!--
                     <li class="disabled">
                       <a href="#!">
                         <span><i class="mdi mdi-chevron-left"></i></span>
@@ -280,8 +273,10 @@
                         <span><i class="mdi mdi-chevron-right"></i></span>
                       </a>
                     </li>
+                    -->
                   </ul>
                 </nav>
+                <!-- 分页模块结束-->
               </div>
             </div>
           </div>
@@ -303,48 +298,103 @@
 <script type="text/javascript" src="js/Chart.js"></script>
 <script type="text/javascript">
 $(document).ready(function(e) {
-    var $dashChartBarsCnt  = jQuery( '.js-chartjs-bars' )[0].getContext( '2d' ),
-        $dashChartLinesCnt = jQuery( '.js-chartjs-lines' )[0].getContext( '2d' );
-    
-    var $dashChartBarsData = {
-		labels: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
-		datasets: [
-			{
-				label: '注册用户',
-                borderWidth: 1,
-                borderColor: 'rgba(0,0,0,0)',
-				backgroundColor: 'rgba(51,202,185,0.5)',
-                hoverBackgroundColor: "rgba(51,202,185,0.7)",
-                hoverBorderColor: "rgba(0,0,0,0)",
-				data: [2500, 1500, 1200, 3200, 4800, 3500, 1500]
-			}
-		]
-	};
-    var $dashChartLinesData = {
-		labels: ['2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014'],
-		datasets: [
-			{
-				label: '交易资金',
-				data: [20, 25, 40, 30, 45, 40, 55, 40, 48, 40, 42, 50],
-				borderColor: '#358ed7',
-				backgroundColor: 'rgba(53, 142, 215, 0.175)',
-                borderWidth: 1,
-                fill: false,
-                lineTension: 0.5
-			}
-		]
-	};
-    
-    new Chart($dashChartBarsCnt, {
-        type: 'bar',
-        data: $dashChartBarsData
-    });
-    
-    var myLineChart = new Chart($dashChartLinesCnt, {
-        type: 'line',
-        data: $dashChartLinesData,
-    });
+   goodsLoad(null);
 });
+
+//加载函数 显示分页效果
+function goodsLoad(currentPage) {
+	//1.通过ajax获取后台数据展示所有路线
+	$.getJSON("goods/findAllGoods",{currentPage:currentPage},function (pb) {
+    //解析pageBean对象，展示到页面上
+    //1.1 分页工具条的数据展示
+    var lis = "";
+
+    var firsPage = '<li class="disabled"><span>«</span></li>\n' +
+        					 '<li onclick="javascript:userLoad('+1+')"><span>首页</span></li>';
+    //计算上一页的页码
+    var beforeNum = pb.currentPage - 1;
+    if(beforeNum <= 0){
+        beforeNum = 1;
+    }
+    var beforePage = '<li onclick="userLoad('+beforeNum+')"><a href="javascript:void(0)">上一页</a></li>';
+    lis += firsPage;
+    lis += beforePage;
+    //1.2 展示分页页码的详细情况
+
+    //1.2.1定义开始位置begin,结束位置end
+    var begin;  //开始位置
+    var end;    //结束位置
+
+    //1.2.2显示10个页码
+    if(pb.totalPage < 10){
+        begin = 1;
+        end = pb.totalPage;
+    }else {
+        //1.2.2.1一共显示十个页码，效果是前五后四
+        begin = pb.currentPage - 5;
+        end = pb.currentPage + 4;
+
+        //1.2.2.2如果前面不够5个，后面补齐10个
+        if(begin < 1){
+            begin = 1;
+            end = 10;
+        }
+
+        //1.2.2.3如果后面不够四个，前面补齐十个
+        if(end > pb.totalPage){
+            end = pb.totalPage;
+            begin = end - 9;
+        }
+    }
+    var li = "";
+    for (var i = begin; i <= end; i++){
+        //1.2.3 当前页码是否等于i
+        if (pb.currentPage == i){
+            li = '<li class="active" onclick="javascript:userLoad('+i+')"><a href="javascript:void(0)">'+i+'</a></li>';
+        }else {
+            //创建页码的li
+            li = '<li onclick="javascript:userLoad('+i+')"><a href="javascript:void(0)">'+i+'</a></li>';
+        }
+        lis += li;
+    }
+
+    //计算下一页的页码
+    var nextNum = pb.currentPage + 1;
+    if(nextNum >= pb.totalPage){
+        nextNum = pb.totalPage;
+    }
+    var nextPage = '<li onclick="javascript:userLoad('+nextNum+')"><a href="javascript:">下一页</a></li>';
+    var lastPage = '<li onclick="javascript:userLoad('+pb.totalPage+')"><a href="javascript:">末页</a></li>\n' +
+        '                                                    <li><a href="javascript:void(0)">»</a></li>';
+    lis += nextPage;
+    lis += lastPage;
+    //1.2.4 将lis的内容设置到ul中
+    $('#pagelist').html(lis);
+    
+    /*在表格内显示用户数据*/
+    var strlis = '';
+    $.each(pb.list, function(i, goods) {
+    	
+		   str = '';
+		   str = '<tr>\n'+ 
+		         '	<td>'+goods.gID+'</td>\n'+
+		         '	<td>'+goods.gName+'</td>\n'+
+		         '	<td>'+goods.gPrice+'</td>\n'+
+		         '	<td>'+goods.gPoint+'</td>\n'+
+		         '	<td>'+goods.gStock+'</td>\n'+
+		         '  <td>\n'+
+	           '    <div class="btn-group">\n'+
+	           '      <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="tooltip"><i class="mdi mdi-pencil"></i></a>\n'+
+	           '      <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="tooltip"><i class="mdi mdi-window-close"></i></a>\n'+
+	           '    </div>\n'+
+	           '  </td\n>'+
+		         '</tr>\n';
+		         
+		   $("#goodsTable").append(str);
+	   });
+  
+  });
+}
 </script>
 </body>
 </html>

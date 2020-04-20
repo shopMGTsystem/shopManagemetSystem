@@ -16,6 +16,14 @@ public class Goods {
 	//…Ã∆∑ø‚¥Ê
 	private Integer gStock;
 
+	public Goods(String gName, Double gPrice, Integer gPoint, Integer gStock) {
+		super();
+		this.gName = gName;
+		this.gPrice = gPrice;
+		this.gPoint = gPoint;
+		this.gStock = gStock;
+	}
+
 	public Goods(Integer gID, String gName, Double gPrice, Integer gPoint, Integer gStock) {
 		super();
 		this.gID = gID;

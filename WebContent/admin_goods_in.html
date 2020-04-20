@@ -8,7 +8,6 @@
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/materialdesignicons.min.css" rel="stylesheet">
 <link href="css/style.min.css" rel="stylesheet">
-<link href="css/layer.css" rel="stylesheet">
 </head>
   
 <body>
@@ -33,8 +32,8 @@
             	<ul class="nav nav-subnav">
             		<li> <a href="admin_goods_add.html">商品增加</a> </li>
             		<li> <a href="admin_goods_in.html">商品入库</a> </li>
-                <li> <a href="admin_goods_query.html">商品查看</a> </li>
-              </ul>
+                	<li> <a href="admin_goods_query.html">商品查看</a> </li>
+              	</ul>
             </li>
             <li class="nav-item"><a href="admin_guestbook_MGT.html"><i class="mdi mdi-comment-text-outline"></i> 留言板管理</a></li>
           </ul>
@@ -222,26 +221,16 @@
                 
                 <form method="post" action="#!" class="site-form">
                   <div class="form-group">
-                    <label for="goods-name">商品名称</label>
-                    <span id="tel_hint" style="font-size: 10px; color: orangered; display: none;">(不能为空)</span>
-                    <input type="text" class="form-control" name="goods-name" id="gname" placeholder="请输入商品名称">
+                    <label for="goods-name">商品id</label>
+                    <input type="text" class="form-control" name="goods-name" id="gname" placeholder="请输入商品id">
                   </div>
-                  <div class="form-group">
-                    <label for="goods-price">商品价格</label>
-                    <span id="tel_hint" style="font-size: 10px; color: orangered; display: none;">(不能为空)</span>
-                    <input type="text" class="form-control" name="goods-price" id="gprice" placeholder="请输入商品单价">
-                  </div>
+             
                   <div class="form-group">
                     <label for="goods-in">商品进库</label>
-                    <span id="tel_hint" style="font-size: 10px; color: orangered; display: none;">(不能为空)</span>
                     <input type="text" class="form-control" name="goods-in" id="gin" placeholder="请输入商品进货数量">
                   </div>
-                  <div class="form-group">
-                    <label for="goods-in">商品积分</label>
-                    <span id="tel_hint" style="font-size: 10px; color: orangered; display: none;">(不能为空)</span>
-                    <input type="text" class="form-control" name="goods-point" id="gpoint" placeholder="请输入购买此商品可获得的积分">
-                  </div>
-                  <button type="button" class="btn btn-primary" id="goodsAdd">增加</button>
+                
+                  <button type="submit" class="btn btn-primary">入库</button>
                 </form>
        
               </div>
@@ -261,31 +250,15 @@
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/perfect-scrollbar.min.js"></script>
 <script type="text/javascript" src="js/main.min.js"></script>
-<script type="text/javascript" src="js/layer.js"></script>
 
+<!--图表插件-->
+<script type="text/javascript" src="js/Chart.js"></script>
 <script type="text/javascript">
 $(document).ready(function(e) {
-    
+
 });
-$("#goodsAdd").on('click',function(){
-	var params = {
-			'gname':$('#gname').val(),
-			'gprice':$('#gprice').val(),
-			'gin':$('#gin').val(),
-			'gpoint':$('#gpoint').val()
-		}
-	$.post("goods/addGoods",params,function(data){
-  		if (data) {
-  			
-  			layer.msg("商品增加成功!",{time:4000});
-  			window.location.reload();
-  			
-		}else{
-			layer.msg("商品增加失败",{time:4000});
-			window.location.reload();
-		}
-  });
-});
+
+
 </script>
 </body>
 </html>

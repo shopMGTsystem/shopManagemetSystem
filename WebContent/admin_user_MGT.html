@@ -30,8 +30,9 @@
             <li class="nav-item nav-item-has-subnav">
             	<a href="javascript:void(0)"><i class="mdi mdi-shopping"></i> 商品管理</a>
             	<ul class="nav nav-subnav">
-            		<li> <a href="admin_goods_add.html">增加商品</a> </li>
-                <li> <a href="admin_goods_query.html">查看商品</a> </li>
+            		<li> <a href="admin_goods_add.html">商品增加</a> </li>
+            		<li> <a href="admin_goods_in.html">商品入库</a> </li>
+                <li> <a href="admin_goods_query.html">商品查看</a> </li>
               </ul>
             </li>
             <li class="nav-item"><a href="admin_guestbook_MGT.html"><i class="mdi mdi-comment-text-outline"></i> 留言板管理</a></li>
@@ -370,22 +371,7 @@ function userLoad(currentPage) {
 		         
 		   $("#userTable").append(str);
 	   });
-   /* for(var i=0; i<pb.list.length; i++){
-    	var user = pb.list[i];
-    	//str = '';
-    	str = 	'<tr>\n'+ 
-				'	<td>'+user.uID+'</td>\n'+
-				'	<td>'+user.userName+'</td>\n'+
-				'	<td>'+user.realName+'</td>\n'+
-				'	<td>'+user.sex+'</td>\n'+
-				'	<td>'+user.birthday+'</td>\n'+
-				'	<td>'+user.address+'</td>\n'+
-				'	<td>'+user.telephone+'</td>\n'+
-				'	<td>'+user.email+'</td>\n'+
-				'</tr>\n';
-		strlis += str;		
-    }
-    $("#userTable").html(strlis);*/
+  
   });
 }
 
