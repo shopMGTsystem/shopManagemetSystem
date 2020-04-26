@@ -218,14 +218,17 @@
                 <form method="post" action="#!" class="site-form">
                   <div class="form-group">
                     <label for="old-password">旧密码</label>
+                    <span id="old_password_hint" style="font-size: 10px; color: orangered; display: none;">(最少6位，包括至少1个大写字母，1个小写字母，1个数字)</span>
                     <input type="password" class="form-control" name="oldpwd" id="old-password" placeholder="请输入原密码">
                   </div>
                   <div class="form-group">
                     <label for="new-password">新密码</label>
+                    <span id="new_password_hint" style="font-size: 10px; color: orangered; display: none;">(最少6位，包括至少1个大写字母，1个小写字母，1个数字)</span>
                     <input type="password" class="form-control" name="newpwd" id="new-password" placeholder="请输入新密码">
                   </div>
                   <div class="form-group">
                     <label for="confirm-password">确认新密码</label>
+                    <span id="confirm_password_hint" style="font-size: 10px; color: orangered; display: none;">(两次密码输入不一致)</span>
                     <input type="password" class="form-control" name="confirmpwd" id="confirm-password" placeholder="请再次输入新密码">
                   </div>
                   <button type="button" class="btn btn-primary" id="changepwd">修改密码</button>
@@ -250,6 +253,17 @@
 <script type="text/javascript" src="js/main.min.js"></script>
 <script type="text/javascript" src="js/layer.js"></script>
 <script type="text/javascript">
+	
+$(document).ready(function() {
+	$('#changepwd').attr("disabled",true);
+	/*
+	if(old_password_test() && new_password_test()  && password_same()){
+		alert("1");
+		$('#changepwd').attr("disabled",false);
+	}*/
+
+});
+//修改密码点击事件
 $("#changepwd").on('click',function(){
 
 	var oldpwd = $('#old-password').val();
@@ -266,13 +280,13 @@ $("#changepwd").on('click',function(){
 		newpwd:newpwd
 	}
 	
-	$.post("user/checkPwd", params1 ,function(result){alert(result);
+	$.post("user/checkPwd", params1 ,function(result){
 		//检查旧密码是否与数据库中密码一致
-  		if (result == 1) {alert("/*-+");
+  		if (result == 1) {
   			//检查两次新密码输入是否一直
   			if (newpwd == confirmpwd){
   				//将新密码传入数据库
-				$.post("user/updatePwd",params2,function(data){alert("data:"+data);
+				$.post("user/updatePwd",params2,function(data){
 			  		if (data) {
 			  			layer.msg("修改密码成功",{time:3000});
 			  			window.location.reload();
@@ -296,6 +310,70 @@ $("#changepwd").on('click',function(){
   	});
   	
 });
+
+//检查旧密码格式是否正确
+function old_password_test(){
+	//密码正则，最少6位，包括至少1个大写字母，1个小写字母，1个数字
+	var pPattern = /^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).*$/;
+	var password = $("#old-password").val();
+	//密码格式验证
+	var ptest = pPattern.test(password);
+	
+	if(ptest && password != ''){
+		$("#old_password_hint").css("display","none");
+	//	$('#changepwd').attr("disabled",true);
+		return true;
+	}else{
+		$("#old_password_hint").css("display","inline");
+	//	$('#changepwd').attr("disabled",true);
+		return false;
+	}
+	return false;
+}
+
+//检查新密码格式是否正确
+function new_password_test(){
+	//密码正则，最少6位，包括至少1个大写字母，1个小写字母，1个数字
+	var pPattern = /^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).*$/;
+	var password = $("#new-password").val();
+	//密码格式验证
+	var ptest = pPattern.test(password);
+	
+	if(ptest && password != ''){
+		$("#new_password_hint").css("display","none");
+	//	$('#changepwd').attr("disabled",true);
+		return true;
+	}else{
+		$("#new_password_hint").css("display","inline");
+	//	$('#changepwd').attr("disabled",true);
+		return false;
+	}
+	return false;
+}
+
+//两次密码是否一致
+function password_same(){
+	var password = $('#new-password').val();
+	var repassword = $('#confirm-password').val();
+	
+	if((password == repassword) && repassword != '') {
+		$("#confirm_password_hint").css("display","none");
+		$('#changepwd').attr("disabled",false);
+		return true;
+	}else{
+		$("#confirm_password_hint").css("display","inline");
+	//	$("#changepwd").attr("disabled",true);
+		return false;
+	}
+	return false;
+}
+
+$('#old-password').blur(old_password_test);
+$('#new-password').blur(new_password_test);
+$('#confirm-password').blur(password_same);
+
+
+
 </script>
 </body>
 </html>

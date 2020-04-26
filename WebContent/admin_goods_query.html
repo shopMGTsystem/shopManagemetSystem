@@ -65,7 +65,7 @@
           <ul class="topbar-right">
             <li class="dropdown dropdown-profile">
               <a href="javascript:void(0)" data-toggle="dropdown">
-                <img class="img-avatar img-avatar-48 m-r-10" src="images/users/avatar.jpg" alt="admin" />
+               
                 <span>admin <span class="caret"></span></span>
               </a>
               <ul class="dropdown-menu dropdown-menu-right">
@@ -222,7 +222,7 @@
                     <div class="input-group-btn">
                       <input type="hidden" name="search_field" id="search-field" value="title">
                       <button class="btn btn-default dropdown-toggle" id="search-btn" data-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded="false">
-                      商品id <span class="caret"></span>
+                     	 商品id <span class="caret"></span>
                       </button>
                       <ul class="dropdown-menu">
                         <li> <a tabindex="-1" href="javascript:void(0)" data-field="title">商品id</a> </li>
@@ -310,13 +310,13 @@ function goodsLoad(currentPage) {
     var lis = "";
 
     var firsPage = '<li class="disabled"><span>«</span></li>\n' +
-        					 '<li onclick="javascript:userLoad('+1+')"><span>首页</span></li>';
+        					 '<li onclick="javascript:goodsLoad('+1+')"><span>首页</span></li>';
     //计算上一页的页码
     var beforeNum = pb.currentPage - 1;
     if(beforeNum <= 0){
         beforeNum = 1;
     }
-    var beforePage = '<li onclick="userLoad('+beforeNum+')"><a href="javascript:void(0)">上一页</a></li>';
+    var beforePage = '<li onclick="goodsLoad('+beforeNum+')"><a href="javascript:void(0)">上一页</a></li>';
     lis += firsPage;
     lis += beforePage;
     //1.2 展示分页页码的详细情况
@@ -350,10 +350,10 @@ function goodsLoad(currentPage) {
     for (var i = begin; i <= end; i++){
         //1.2.3 当前页码是否等于i
         if (pb.currentPage == i){
-            li = '<li class="active" onclick="javascript:userLoad('+i+')"><a href="javascript:void(0)">'+i+'</a></li>';
+            li = '<li class="active" onclick="javascript:goodsLoad('+i+')"><a href="javascript:void(0)">'+i+'</a></li>';
         }else {
             //创建页码的li
-            li = '<li onclick="javascript:userLoad('+i+')"><a href="javascript:void(0)">'+i+'</a></li>';
+            li = '<li onclick="javascript:goodsLoad('+i+')"><a href="javascript:void(0)">'+i+'</a></li>';
         }
         lis += li;
     }
@@ -363,8 +363,8 @@ function goodsLoad(currentPage) {
     if(nextNum >= pb.totalPage){
         nextNum = pb.totalPage;
     }
-    var nextPage = '<li onclick="javascript:userLoad('+nextNum+')"><a href="javascript:">下一页</a></li>';
-    var lastPage = '<li onclick="javascript:userLoad('+pb.totalPage+')"><a href="javascript:">末页</a></li>\n' +
+    var nextPage = '<li onclick="javascript:goodsLoad('+nextNum+')"><a href="javascript:">下一页</a></li>';
+    var lastPage = '<li onclick="javascript:goodsLoad('+pb.totalPage+')"><a href="javascript:">末页</a></li>\n' +
         '                                                    <li><a href="javascript:void(0)">»</a></li>';
     lis += nextPage;
     lis += lastPage;
@@ -375,26 +375,35 @@ function goodsLoad(currentPage) {
     var strlis = '';
     $.each(pb.list, function(i, goods) {
     	
-		   str = '';
-		   str = '<tr>\n'+ 
-		         '	<td>'+goods.gID+'</td>\n'+
-		         '	<td>'+goods.gName+'</td>\n'+
-		         '	<td>'+goods.gPrice+'</td>\n'+
-		         '	<td>'+goods.gPoint+'</td>\n'+
-		         '	<td>'+goods.gStock+'</td>\n'+
-		         '  <td>\n'+
-	           '    <div class="btn-group">\n'+
-	           '      <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="tooltip"><i class="mdi mdi-pencil"></i></a>\n'+
-	           '      <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="tooltip"><i class="mdi mdi-window-close"></i></a>\n'+
-	           '    </div>\n'+
-	           '  </td\n>'+
-		         '</tr>\n';
+		  str = '';
+		  str = '<tr>\n'+ 
+		        '	<td>'+goods.gID+'</td>\n'+
+		        '	<td>'+goods.gName+'</td>\n'+
+		        '	<td>'+goods.gPrice+'</td>\n'+
+		        '	<td>'+goods.gPoint+'</td>\n'+
+		        '	<td>'+goods.gStock+'</td>\n'+
+		        '  <td>\n'+
+	          '    <div class="btn-group">\n'+
+	          '      <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="tooltip"><i class="mdi mdi-pencil"></i></a>\n'+
+	          '      <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="tooltip"><i class="mdi mdi-window-close"></i></a>\n'+
+	          '    </div>\n'+
+	          '  </td\n>'+
+		        '</tr>\n';
 		         
-		   $("#goodsTable").append(str);
-	   });
-  
+		  strlis += str;   
+		});
+  	$("#goodsTable").html(strlis);
   });
 }
+
+//搜索栏
+$(function(){
+    $('.search-bar .dropdown-menu a').click(function() {
+        var field = $(this).data('field') || '';
+        $('#search-field').val(field);
+        $('#search-btn').html($(this).text() + ' <span class="caret"></span>');
+    });
+});
 </script>
 </body>
 </html>

@@ -215,8 +215,26 @@
         <div class="row">
           <div class="col-lg-12">
             <div class="card">
-              <div class="card-header">
-                <h4>会员信息</h4>
+            	
+            	<div class="card-toolbar clearfix">
+                <form class="pull-right search-bar" method="get" action="#!" role="form">
+                  <div class="input-group">
+                    <div class="input-group-btn">
+                      <input type="hidden" name="search_field" id="search-field" value="title">
+                      <button class="btn btn-default dropdown-toggle" id="search-btn" data-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded="false">
+                      		会员id <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li> <a tabindex="-1" href="javascript:void(0)" data-field="title">会员id</a> </li>
+                        <li> <a tabindex="-1" href="javascript:void(0)" data-field="cat_name">会员名称</a> </li>
+                      </ul>
+                    </div>
+                    <input type="text" class="form-control" value="" name="keyword" placeholder="请输入名称">
+                  </div>
+                </form>
+                <div class="toolbar-btn-action">
+                  <h4>用户信息</h4>
+                </div>
               </div>
               <div class="card-body">
                 <div class="table-responsive">
@@ -286,7 +304,7 @@ $(function(){
 //加载函数 显示分页效果
 function userLoad(currentPage) {
 	//1.通过ajax获取后台数据展示所有路线
-	$.getJSON("user/searchAllUser",{currentPage:currentPage},function (pb) {
+	$.get("user/searchAllUser",{currentPage:currentPage},function (pb) {
     //解析pageBean对象，展示到页面上
     //1.1 分页工具条的数据展示
     var lis = "";
@@ -356,25 +374,31 @@ function userLoad(currentPage) {
     /*在表格内显示用户数据*/
     var strlis = '';
     $.each(pb.list, function(i, user) {
-    	
-		   str = '';
-		   str = '<tr>\n'+ 
-		         '	<td>'+user.uID+'</td>\n'+
-		         '	<td>'+user.userName+'</td>\n'+
-		         '	<td>'+user.realName+'</td>\n'+
-		         '	<td>'+user.sex+'</td>\n'+
-		         '	<td>'+user.birthday+'</td>\n'+
-		         '	<td>'+user.address+'</td>\n'+
-		         '	<td>'+user.telephone+'</td>\n'+
-		         '	<td>'+user.email+'</td>\n'+
-		         '</tr>\n';
-		         
-		   $("#userTable").append(str);
-	   });
-  
+		  str = '';
+		  str = '<tr>\n'+ 
+		        '	<td>'+user.uID+'</td>\n'+
+		        '	<td>'+user.userName+'</td>\n'+
+		        '	<td>'+user.realName+'</td>\n'+
+		        '	<td>'+user.sex+'</td>\n'+
+		        '	<td>'+user.birthday+'</td>\n'+
+		        '	<td>'+user.address+'</td>\n'+
+		        '	<td>'+user.telephone+'</td>\n'+
+		        '	<td>'+user.email+'</td>\n'+
+		        '</tr>\n';
+		  strlis += str; 
+	  });
+    $("#userTable").html(strlis);
   });
 }
 
+//搜索栏
+$(function(){
+    $('.search-bar .dropdown-menu a').click(function() {
+        var field = $(this).data('field') || '';
+        $('#search-field').val(field);
+        $('#search-btn').html($(this).text() + ' <span class="caret"></span>');
+    });
+});
 </script>
 </body>
 </html>
