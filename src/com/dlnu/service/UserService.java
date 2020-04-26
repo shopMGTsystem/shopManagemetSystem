@@ -3,6 +3,8 @@ package com.dlnu.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import com.dlnu.dao.UserDao;
 import com.dlnu.pojo.User;
 import com.dlnu.util.PageBean;
@@ -149,4 +151,6 @@ public class UserService {
 			return -1;
 		}
 	}
+	
+	
 }

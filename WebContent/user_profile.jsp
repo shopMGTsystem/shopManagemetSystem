@@ -68,7 +68,7 @@
                 <li> <a href="user_profile.jsp"><i class="mdi mdi-account"></i> 个人信息</a> </li>
                 <li> <a href="user_edit_pwd.jsp"><i class="mdi mdi-lock-outline"></i> 修改密码</a> </li>
                 <li class="divider"></li>
-                <li> <a href="login.html"><i class="mdi mdi-logout-variant"></i> 退出登录</a> </li>
+                <li> <a href="javascript:location.href='user/logout'"><i class="mdi mdi-logout-variant"></i> 退出登录</a> </li>
               </ul>
             </li>
             <!--切换主题配色-->

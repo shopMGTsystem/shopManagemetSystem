@@ -9,6 +9,7 @@ import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -270,6 +271,7 @@ public class UserServlet extends BaseServlet {
 		//获得用户名和密码
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
+		String autoLogin = request.getParameter("auto_login");
 		
 		PrintWriter out = response.getWriter();
 		
@@ -284,6 +286,14 @@ public class UserServlet extends BaseServlet {
 		if(result==4){		
 			HttpSession session = request.getSession();
 			session.setAttribute("username", username);
+			if (autoLogin != null) {
+				Cookie cookie = new Cookie("AUTO_LOGIN",username+'-'+password);
+                //设置cookie存活时间并绑定路径
+                cookie.setMaxAge(60*60*24*3);
+                cookie.setPath(request.getContextPath());
+                //在响应中添加cookie，并返回给浏览器
+                response.addCookie(cookie);
+			}
 		}
 		
 		out.print(result);
@@ -361,5 +371,29 @@ public class UserServlet extends BaseServlet {
 		
 		out.print(result);
 	}
+	
+	public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//1.销毁session
+        HttpSession session = request.getSession();
+        session.removeAttribute("username");
 
+        //2.销毁cookie
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null && cookies.length > 0){
+            for (Cookie c : cookies) {
+                if (c.getName().equals("AUTO_LOGIN")){
+                    //设置cookie存活时间为0
+                    c.setMaxAge(0);
+                    c.setPath(request.getContextPath());
+                    //将cookie响应到前台
+                    response.addCookie(c);
+                    break;
+                }
+            }
+        }
+
+        //3.跳转登录页面
+        response.sendRedirect(request.getContextPath()+"/login.html");
+
+	}
 }

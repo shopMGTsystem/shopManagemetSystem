@@ -80,7 +80,7 @@
 	        </div>
 	        <div class="col-xs-13">
 				<div class="pull-left">
-					<label><input name="" type="checkbox"> 下次自动登录</label>
+					<label><input name="" type="checkbox" id="auto_login" > 下次自动登录</label>
 				</div>
 				<div class="pull-right">
 					<a href="#">忘记密码</a>
@@ -114,10 +114,15 @@ draw(show_num);
 
 $("#signIn").on('click',function(){
 	var url = baseUrl + '/user/login';
-		
+	/*if($("input[type='checkbox']").is(':checked') == false){
+		$('#auto_login').val();
+	}*/
+	
+		alert($('input:checked').val());
 	var params = {
 		username:$('#username').val(),
-		password:$('#password').val()
+		password:$('#password').val(),
+		auto_login:$('input:checked').val()
 	}
 	 
 	//输入的验证码
@@ -162,7 +167,6 @@ $("#signIn").on('click',function(){
 $("#canvas").on('click',function(){
 		draw(show_num);
 	});
-
 
 
 
