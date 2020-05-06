@@ -62,4 +62,13 @@ public class GoodsService {
         pb.setTotalPage(totalPage);
 		return pb;
 	}
+	
+	/**
+	 * 通过gid查找商品信息
+	 * @param gID
+	 * @return
+	 */
+	public Goods queryGoodsById(Integer gID){
+		return dao.queryById(gID);
+	}
 }

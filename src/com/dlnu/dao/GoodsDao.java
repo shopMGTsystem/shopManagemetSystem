@@ -124,4 +124,32 @@ public class GoodsDao {
 		}
 		return list;
 	}
+	
+	/**
+	 * Í¨¹ýgid²éÑ¯
+	 * @param gid
+	 * @return
+	 */
+	public Goods queryById(int gid){
+		Connection conn = DBUtil.getConnection();
+		String sql = "select * from tab_goods where gid = ?";
+		Goods goods = null;
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, gid);
+			
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()){
+				goods = new Goods(rs.getInt(1),rs.getString(2),rs.getDouble(3),rs.getInt(4),rs.getInt(5));
+			}
+				
+			rs.close();
+			pstmt.close();
+			conn.close();
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		return goods;
+	}
 }

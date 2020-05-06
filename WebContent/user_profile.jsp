@@ -28,8 +28,9 @@
         <nav class="sidebar-main">
           <ul class="nav nav-drawer">
             <li class="nav-item active"> <a href="user_homepage.jsp"><i class="mdi mdi-home"></i> 首页</a> </li>
-            <li class="nav-item"><a href="user_card_info.jsp"><i class="mdi mdi-file-account"></i> 会员卡信息</a></li>
+            <li class="nav-item"><a href="user_card_info.jsp"><i class="mdi mdi-credit-card"></i> 会员卡信息</a></li>
             <li class="nav-item"><a href="user_shop.jsp"><i class="mdi mdi-shopping"></i> 商品一览</a></li>
+            <li class="nav-item"><a href="user_shoppingcar.jsp"><i class="mdi mdi-cart-outline"></i> 购物车</a></li>
             <li class="nav-item"><a href="user_purchase_history.jsp"><i class="mdi mdi-file-document-box"></i> 消费记录</a></li>
             <li class="nav-item"><a href="user_guestbook.jsp"><i class="mdi mdi-comment-text-outline"></i> 留言板</a></li>
           </ul>

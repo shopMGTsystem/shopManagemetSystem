@@ -12,18 +12,7 @@ import com.dlnu.util.*;
 
 import sun.security.util.Password;
 
-/**
- * @author dell
- *
- */
-/**
- * @author dell
- *
- */
-/**
- * @author dell
- *
- */
+
 public class UserDao {
 	
 	/**
@@ -155,7 +144,7 @@ public class UserDao {
 	
 	/**
 	 * Í¨¹ýuid²éÑ¯
-	 * @param username
+	 * @param uid
 	 * @return
 	 */
 	public User queryById(int uid){

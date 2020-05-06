@@ -39,6 +39,10 @@ public class Goods {
 		this.gStock = gStock;
 	}
 
+	public Goods() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public Integer getgID() {
 		return gID;
 	}

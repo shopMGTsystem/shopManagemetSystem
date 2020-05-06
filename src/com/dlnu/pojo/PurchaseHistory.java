@@ -4,11 +4,11 @@ public class PurchaseHistory {
 	//消费记录ID
 	private Integer pID;
 	
-	//用户ID，外键  (实例化会员类)
-	private User user;
+	//会员ID
+	private Integer uID;
 	
-	//商品ID，外键  (实例化商品类)
-	private Goods goods;
+	//商品ID
+	private Integer gID;
 	
 	//购买数量
 	private Integer pCount;
@@ -16,13 +16,17 @@ public class PurchaseHistory {
 	//购买时间
 	private String pTime;
 	
+	//用户ID，外键  (实例化会员类)
+	private User user;
 	
+	//商品ID，外键  (实例化商品类)
+	private Goods goods;
 
-	public PurchaseHistory(Integer pID, User user, Goods goods, Integer pCount, String pTime) {
+	public PurchaseHistory(Integer pID, Integer uID, Integer gID, Integer pCount, String pTime) {
 		super();
 		this.pID = pID;
-		this.user = user;
-		this.goods = goods;
+		this.uID = uID;
+		this.gID = gID;
 		this.pCount = pCount;
 		this.pTime = pTime;
 	}
@@ -67,6 +71,22 @@ public class PurchaseHistory {
 		this.pTime = pTime;
 	}
 
+	public Integer getuID() {
+		return uID;
+	}
+
+	public void setuID(Integer uID) {
+		this.uID = uID;
+	}
+
+	public Integer getgID() {
+		return gID;
+	}
+
+	public void setgID(Integer gID) {
+		this.gID = gID;
+	}
+	
 	
 	
 }

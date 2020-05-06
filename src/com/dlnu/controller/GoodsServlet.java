@@ -125,4 +125,34 @@ public class GoodsServlet extends BaseServlet {
         //5. 将pageBean对象序列化，写回客户端
         out.print(jsonStr);
 	}
+	
+	/**
+	 * 通过gid查找商品信息
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void findGoodsByGid(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		//设置编码
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/json;charset=utf-8");
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		
+		PrintWriter out = response.getWriter();
+		Goods goods = new Goods();
+		//获取商品id
+		String gID_str = request.getParameter("gID");
+		int gID = Integer.parseInt(gID_str); 
+		//调用业务对象
+		GoodsService service = new GoodsService();
+		goods = service.queryGoodsById(gID);
+		//序列化参数
+		Gson gson = new Gson();
+		String jsonStr = gson.toJson(goods);
+		//System.out.println(jsonStr);
+		//数据返回前台
+		out.print(jsonStr);	
+	}
 }

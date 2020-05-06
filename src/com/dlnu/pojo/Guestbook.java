@@ -4,8 +4,8 @@ public class Guestbook {
 	//用户留言ID
 	private Integer gbid;
 	
-	//用户ID， 外键  (实例化会员类)
-	private User user;
+	//会员id
+	private Integer uID;
 	
 	//用户留言内容
 	private String content;
@@ -15,6 +15,9 @@ public class Guestbook {
 	
 	//是否已被回复
 	private boolean flag;
+	
+	///会员ID， 外键  (实例化会员类)
+	private User user;
 
 	public Guestbook(Integer gbid, User user, String content, String addtime, boolean flag) {
 		super();

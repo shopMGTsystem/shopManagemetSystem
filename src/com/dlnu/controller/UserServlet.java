@@ -280,12 +280,13 @@ public class UserServlet extends BaseServlet {
 		
 		//调用登录功能
 		int result = service.checkLogin(username, password);
-		System.out.println(result);
+//		System.out.println(result);
 		//如果登陆成功,在session范围内存储用户名
 		
 		if(result==4){		
 			HttpSession session = request.getSession();
 			session.setAttribute("username", username);
+	
 			if (autoLogin != null) {
 				Cookie cookie = new Cookie("AUTO_LOGIN",username+'-'+password);
                 //设置cookie存活时间并绑定路径
@@ -329,7 +330,7 @@ public class UserServlet extends BaseServlet {
 		String answer = request.getParameter("answer");
 		String signuptime = date2;
 		
-		System.out.println(" username:"+username+"\n signuptime"+signuptime);
+//		System.out.println(" username:"+username+"\n signuptime"+signuptime);
 		//将数据封装到User实体类 此user没有uid
 		User user = new User(username, password, realname, sex, birth, address, tel, email, question, answer, signuptime);
 		//调用增加用户函数
