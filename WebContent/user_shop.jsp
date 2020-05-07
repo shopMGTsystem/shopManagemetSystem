@@ -405,7 +405,7 @@ function goodsLoad(currentPage) {
 		        '	<td>'+goods.gPoint+'</td>\n'+
 		        '   <td>\n'+
 	            '   	<div class="btn-group">\n'+
-	            '     		<a class="btn btn-xs btn-default" id="'+goods.gID+'" href="" title="添加到购物车" data-toggle="tooltip" onclick="addShoppingCar('+goods.gID+')"><i class="mdi mdi-plus"></i></a>\n'+
+	            '     		<a class="btn btn-xs btn-default example-p-6" id="'+goods.gID+'" href="" title="添加到购物车" data-toggle="tooltip" onclick="addShoppingCar('+goods.gID+')"><i class="mdi mdi-plus"></i></a>\n'+
 	           // '      		<a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="tooltip"><i class="mdi mdi-window-close"></i></a>\n'+   
 	            '    	</div>\n'+
 	            '  	</td\n>'+
