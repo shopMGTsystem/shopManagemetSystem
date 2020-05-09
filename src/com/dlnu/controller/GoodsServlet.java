@@ -50,6 +50,7 @@ public class GoodsServlet extends BaseServlet {
 		System.out.println("from db:"+flag);
 		
 		out.print(flag);
+		out.close();
 	}
 	
 	/**
@@ -83,6 +84,7 @@ public class GoodsServlet extends BaseServlet {
 		flag = gService.addGoods(goods);
 
 		out.print(flag);
+		out.close();
 	}
 	
 	/**
@@ -124,6 +126,7 @@ public class GoodsServlet extends BaseServlet {
 		String jsonStr = gson.toJson(pb);
         //5. 将pageBean对象序列化，写回客户端
         out.print(jsonStr);
+        out.close();
 	}
 	
 	/**
@@ -154,5 +157,6 @@ public class GoodsServlet extends BaseServlet {
 		//System.out.println(jsonStr);
 		//数据返回前台
 		out.print(jsonStr);	
+		out.close();
 	}
 }

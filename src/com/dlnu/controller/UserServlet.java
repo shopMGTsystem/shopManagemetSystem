@@ -66,6 +66,7 @@ public class UserServlet extends BaseServlet {
 		flag = uService.updateUser(user);
 		
 		out.print(flag);
+		out.close();
 	}
 	
 	/**
@@ -95,6 +96,7 @@ public class UserServlet extends BaseServlet {
 		
 		//返回客户端
 		out.print(flag);
+		out.close();
 		
 	}
 	
@@ -121,6 +123,7 @@ public class UserServlet extends BaseServlet {
 		flag = uService.updatePwd(user);
 		
 		out.print(flag);
+		out.close();
 	}
 	
 	/**
@@ -150,6 +153,7 @@ public class UserServlet extends BaseServlet {
 		//System.out.println(jsonStr);
 		//数据返回前台
 		out.print(jsonStr);	
+		out.close();
 	}
 	
 	/**
@@ -180,6 +184,7 @@ public class UserServlet extends BaseServlet {
 		//System.out.println(jsonStr);
 		//数据返回前台
 		out.print(jsonStr);	
+		out.close();
 	}
 	
 	
@@ -223,6 +228,7 @@ public class UserServlet extends BaseServlet {
 		String jsonStr = gson.toJson(pb);
         //5. 将pageBean对象序列化，写回客户端
         out.print(jsonStr);
+        out.close();
 	}
 
 	
@@ -240,6 +246,7 @@ public class UserServlet extends BaseServlet {
         int count = service.userCount();
         //写回客户端
         out.print(count);
+        out.close();
 	}
 	
 	
@@ -257,6 +264,7 @@ public class UserServlet extends BaseServlet {
         int count = service.userCountByTime(date1, date2);
         //写回客户端
         out.print(count);
+        out.close();
 	}
 	
 	
@@ -298,6 +306,7 @@ public class UserServlet extends BaseServlet {
 		}
 		
 		out.print(result);
+		out.close();
 	}
 	 
 	
@@ -344,6 +353,7 @@ public class UserServlet extends BaseServlet {
 		/*add会员卡结束*/
 		
 		out.print(flag);
+		out.close();
 	}
 
 	
@@ -371,6 +381,7 @@ public class UserServlet extends BaseServlet {
 		boolean result = service.checkUsernameExist(username);
 		
 		out.print(result);
+		out.close();
 	}
 	
 	public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

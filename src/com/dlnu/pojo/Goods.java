@@ -16,6 +16,12 @@ public class Goods {
 	//…Ã∆∑ø‚¥Ê
 	private Integer gStock;
 
+	
+	public Goods(Integer gID) {
+		super();
+		this.gID = gID;
+	}
+
 	public Goods(Integer gID, Integer gStock) {
 		super();
 		this.gID = gID;

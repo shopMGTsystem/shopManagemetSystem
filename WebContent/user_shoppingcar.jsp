@@ -251,8 +251,8 @@
 										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 										<span>预计可获得积分：</span><span id="total_point"></span>
 										<div class="toolbar-btn-action pull-right ">
-											<a class="btn btn-primary m-r-5" href="#!" onclick="f()"><i class="mdi mdi-plus"></i> 购买</a>
-											<a class="btn btn-danger" href="#!"><i class="mdi mdi-window-close"></i> 删除</a>
+											<a class="btn btn-primary m-r-5" href="" onclick="buyChecked()"><i class="mdi mdi-plus"></i> 购买</a>
+											<a class="btn btn-danger" href="" onclick="delChecked()"><i class="mdi mdi-window-close"></i> 删除</a>
 										</div>
 									</div>
 
@@ -285,22 +285,22 @@
 										<nav>
 											<ul class="pagination pagination-circle" id="pagelist">
 												<!--
-                    <li class="disabled">
-                      <a href="#!">
-                        <span><i class="mdi mdi-chevron-left"></i></span>
-                      </a>
-                    </li>
-                    <li class="active"><a href="#">1</a></li>
-                    <li><a href="#!">2</a></li>
-                    <li><a href="#!">3</a></li>
-                    <li><a href="#!">4</a></li>
-                    <li><a href="#!">5</a></li>
-                    <li>
-                      <a href="#!">
-                        <span><i class="mdi mdi-chevron-right"></i></span>
-                      </a>
-                    </li>
-                    -->
+							                    <li class="disabled">
+							                      <a href="#!">
+							                        <span><i class="mdi mdi-chevron-left"></i></span>
+							                      </a>
+							                    </li>
+							                    <li class="active"><a href="#">1</a></li>
+							                    <li><a href="#!">2</a></li>
+							                    <li><a href="#!">3</a></li>
+							                    <li><a href="#!">4</a></li>
+							                    <li><a href="#!">5</a></li>
+							                    <li>
+							                      <a href="#!">
+							                        <span><i class="mdi mdi-chevron-right"></i></span>
+							                      </a>
+							                    </li>
+							                    -->
 											</ul>
 										</nav>
 										<!-- 分页模块结束-->
@@ -337,6 +337,8 @@
 				//分页、商品展示
 				carLoad(null);
 			});
+			
+			
 
 			//加载函数 显示分页效果
 			function carLoad(currentPage) {
@@ -418,7 +420,7 @@
 						$.getJSON("goods/findGoodsByGid", {
 							gID: car.gID
 						}, function(goods) {
-
+							var totalprice = (goods.gPrice * car.sCount).toFixed(2);
 							str = '';
 							str = '<tr>\n' +
 								'	<td>' +
@@ -429,7 +431,7 @@
 								'	<td>' + goods.gName + '</td>\n' +
 								'	<td>' + goods.gPrice + '</td>\n' +
 								'	<td>' + car.sCount + '</td>\n' +
-								'	<td name="totalPrice">' + (goods.gPrice * car.sCount) + '</td>\n' +
+								'	<td name="totalPrice">' + totalprice + '</td>\n' +
 								'	<td name="totalPoint">' + (goods.gPoint * car.sCount) + '</td>\n' +
 								'   <td>\n' +
 								'   	<div class="btn-group">\n' +
@@ -440,7 +442,6 @@
 								'    	</div>\n' +
 								'  	</td>\n' +
 								'</tr>\n';
-
 							$("#carTable").append(str);
 						});
 					});
@@ -474,11 +475,39 @@
 				return list;
 			}
 			
+			//每隔一秒刷新总价和总积分函数
+			setInterval(checked,1);
+			
+			//购买 点击事件
+			function buyChecked(){
+				var list = JSON.stringify(checked());
+				
+				var params = {
+						username:'<%=session.getAttribute("username")%>',
+						list:list			
+					}
+				
+				$.post("purchaseHistory/addHistory",params,function(data){
+					
+					if (data) {
+					
+						layer.msg("购买成功!",{time:4000});
+						window.location.reload();
+						
+					}else{
+						
+						layer.msg("购买失败",{time:4000});
+						window.location.reload();
+					}
+				});
+			}
+			
 			//test
+			/*
 			function f() {
 				var list = JSON.stringify(checked());
 				console.log(list);
-			}
+			}*/
 
 			//删除确认
 			function delConfirm(gid) {

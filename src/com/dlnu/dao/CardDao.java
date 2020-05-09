@@ -8,10 +8,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.dlnu.pojo.Card;
+import com.dlnu.pojo.Goods;
 import com.dlnu.pojo.User;
 import com.dlnu.util.DBUtil;
 
 public class CardDao {
+	
+	/**
+	 * 更新积分
+	 * @param card
+	 * @return
+	 */
+	public boolean updatePoint (int uid, int point) {
+		Connection connection  = DBUtil.getConnection();
+		String sql = "update tab_card "
+				+ "set point=point+? "
+				+ "where uid=?";
+		try {
+			PreparedStatement pstmt;
+			pstmt = connection.prepareStatement(sql);
+			
+			pstmt.setInt(1, point);
+			pstmt.setInt(2, uid);
+			
+			pstmt.executeUpdate();
+			pstmt.close();
+			connection.close();
+			
+			return true;
+		}catch(SQLException e){
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 	/**
 	 * 通过uid查询会员卡信息
 	 * @param uid

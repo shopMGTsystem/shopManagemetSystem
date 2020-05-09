@@ -10,6 +10,7 @@
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/materialdesignicons.min.css" rel="stylesheet">
 <link href="css/style.min.css" rel="stylesheet">
+<link href="css/layer.css" rel="stylesheet">
 </head>
   
 <body>
@@ -223,33 +224,23 @@
                   <table class="table table-hover">
                     <thead>
                       <tr>
-                        <th>#</th>
+                        <th>订单号</th>
                         <th>商品名称</th>
-                        <th>商品数量</th>
-                        <th>单价</th>
+                        <th>购买数量</th>
                         <th>总价</th>
                         <th>购买时间</th>
                       </tr>
                     </thead>
-                    <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td>设计新主题</td>
-                        <td>10/02/2019</td>
-                        <td>12/05/2019</td>
-                        <td><span class="label label-warning">待定</span></td>
-                        <td>
-                          <div class="progress progress-striped progress-sm">
-                            <div class="progress-bar progress-bar-warning" style="width: 45%;"></div>
-                          </div>
-                        </td>
-                      </tr>
+                    <tbody id="showTable">
+                      <!-- 此处插入从数据库传来的商品数据 -->
                       
                     </tbody>
                   </table>
                 </div>
+                <!-- 分页模块开始-->
                 <nav>
-                  <ul class="pagination pagination-circle">
+                  <ul class="pagination pagination-circle" id="pagelist">
+                  	<!--
                     <li class="disabled">
                       <a href="#!">
                         <span><i class="mdi mdi-chevron-left"></i></span>
@@ -265,8 +256,10 @@
                         <span><i class="mdi mdi-chevron-right"></i></span>
                       </a>
                     </li>
+                    -->
                   </ul>
                 </nav>
+                <!-- 分页模块结束-->
               </div>
             </div>
           </div>
@@ -284,13 +277,108 @@
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/perfect-scrollbar.min.js"></script>
 <script type="text/javascript" src="js/main.min.js"></script>
+<script type="text/javascript" src="js/layer.js"></script>
 
-<!--图表插件-->
-<script type="text/javascript" src="js/Chart.js"></script>
+
 <script type="text/javascript">
 $(document).ready(function(e) {
-    
+    tableLoad(null);
 });
+
+//加载函数 显示分页效果
+function tableLoad(currentPage) {
+	var params = {
+			currentPage: currentPage,
+			username: '<%=session.getAttribute("username")%>'
+		}
+	//1.通过ajax获取后台数据展示所有路线
+	$.getJSON("purchaseHistory/findAllPurchaseHistory",params,function (pb) {
+	    //解析pageBean对象，展示到页面上
+	    //1.1 分页工具条的数据展示
+	    var lis = "";
+	
+	    var firsPage = '<li class="disabled"><span>«</span></li>\n' +
+	        					 '<li onclick="javascript:tableLoad('+1+')"><span>首页</span></li>';
+	    //计算上一页的页码
+	    var beforeNum = pb.currentPage - 1;
+	    if(beforeNum <= 0){
+	        beforeNum = 1;
+	    }
+	    var beforePage = '<li onclick="tableLoad('+beforeNum+')"><a href="javascript:void(0)">上一页</a></li>';
+	    lis += firsPage;
+	    lis += beforePage;
+	    //1.2 展示分页页码的详细情况
+	
+	    //1.2.1定义开始位置begin,结束位置end
+	    var begin;  //开始位置
+	    var end;    //结束位置
+	
+	    //1.2.2显示10个页码
+	    if(pb.totalPage < 10){
+	        begin = 1;
+	        end = pb.totalPage;
+	    }else {
+	        //1.2.2.1一共显示十个页码，效果是前五后四
+	        begin = pb.currentPage - 5;
+	        end = pb.currentPage + 4;
+	
+	        //1.2.2.2如果前面不够5个，后面补齐10个
+	        if(begin < 1){
+	            begin = 1;
+	            end = 10;
+	        }
+	
+	        //1.2.2.3如果后面不够四个，前面补齐十个
+	        if(end > pb.totalPage){
+	            end = pb.totalPage;
+	            begin = end - 9;
+	        }
+	    }
+	    var li = "";
+	    for (var i = begin; i <= end; i++){
+	        //1.2.3 当前页码是否等于i
+	        if (pb.currentPage == i){
+	            li = '<li class="active" onclick="javascript:tableLoad('+i+')"><a href="javascript:void(0)">'+i+'</a></li>';
+	        }else {
+	            //创建页码的li
+	            li = '<li onclick="javascript:tableLoad('+i+')"><a href="javascript:void(0)">'+i+'</a></li>';
+	        }
+	        lis += li;
+	    }
+	
+	    //计算下一页的页码
+	    var nextNum = pb.currentPage + 1;
+	    if(nextNum >= pb.totalPage){
+	        nextNum = pb.totalPage;
+	    }
+	    var nextPage = '<li onclick="javascript:tableLoad('+nextNum+')"><a href="javascript:">下一页</a></li>';
+	    var lastPage = '<li onclick="javascript:tableLoad('+pb.totalPage+')"><a href="javascript:">末页</a></li>\n' +
+	        '                                                    <li><a href="javascript:void(0)">»</a></li>';
+	    lis += nextPage;
+	    lis += lastPage;
+	    //1.2.4 将lis的内容设置到ul中
+	    $('#pagelist').html(lis);
+	    
+	    /*在表格内显示用户数据*/
+	    var strlis = '';
+	    $.each(pb.list, function(i, ph) {
+	    	$.getJSON("goods/findGoodsByGid", {gID: ph.gID}, function(goods) {
+	    	  var totalprice = (goods.gPrice * ph.pCount).toFixed(2);
+			  str = '';
+			  str = '<tr>\n'+ 
+			        '	<td>'+ph.pID+'</td>\n'+
+			        '	<td>'+goods.gName+'</td>\n'+
+			        '	<td>'+ph.pCount+'</td>\n'+
+			        '	<td>'+totalprice+'</td>\n'+
+			        '	<td>'+ph.pTime+'</td>\n'+		        
+			        '</tr>\n';
+			        console.log(ph.pTime)
+			  $("#showTable").append(str);
+			});
+		  	$("#showTable").html(strlis);
+		});
+	});
+}
 </script>
 </body>
 </html>

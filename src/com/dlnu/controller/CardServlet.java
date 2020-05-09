@@ -21,6 +21,13 @@ import com.google.gson.GsonBuilder;
 @WebServlet("/card/*")
 public class CardServlet extends BaseServlet {
 	
+	/**
+	 * 查询一个会员卡信息 by 用户名
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	public void findCardInfoByUsername (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		PrintWriter out = response.getWriter();
 		//接收参数
@@ -39,6 +46,7 @@ public class CardServlet extends BaseServlet {
         //5. 将pageBean对象序列化，写回客户端
 		//会员卡信息，写回客户端
 		out.print(jsonStr);
+		out.close();
 		
 	}
 	
@@ -79,6 +87,7 @@ public class CardServlet extends BaseServlet {
 		String jsonStr = gson.toJson(pb);
         //5. 将pageBean对象序列化，写回客户端
         out.print(jsonStr);
+        out.close();
 	}
 
 }

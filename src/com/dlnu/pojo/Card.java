@@ -25,6 +25,13 @@ public class Card {
 		super();
 	}
 
+	
+	public Card(Integer uID, Integer point) {
+		super();
+		this.uID = uID;
+		this.point = point;
+	}
+
 
 	public Card(Integer uID) {
 		super();

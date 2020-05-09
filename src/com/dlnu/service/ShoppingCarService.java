@@ -18,7 +18,7 @@ public class ShoppingCarService {
 	 */
 	public boolean addShoppingCar(ShoppingCar shoppingcar){
 		
-		if (dao.queryByID(shoppingcar) == null) {
+		if (dao.queryByIDs(shoppingcar) == null) {
 			//购物车里无此商品信息,添加新信息
 			return dao.insert(shoppingcar);
 	
@@ -34,8 +34,8 @@ public class ShoppingCarService {
 	 * @param shoppingcar
 	 * @return
 	 */
-	public boolean delShoppingCar(ShoppingCar shoppingcar){
-		return dao.delete(shoppingcar);
+	public boolean delShoppingCar(int uid, int gid){
+		return dao.delete(uid, gid);
 		
 	}
 	
@@ -45,7 +45,7 @@ public class ShoppingCarService {
 	 * @param pageSize
 	 * @return
 	 */
-	public PageBean<ShoppingCar> queryShoppingCar(int currentPage, int pageSize, int uid){
+	public PageBean<ShoppingCar> queryShoppingCarByUid(int currentPage, int pageSize, int uid){
 		//封装pageBean
         PageBean<ShoppingCar> pb = new PageBean<ShoppingCar>();
         //设置当前页码
@@ -66,5 +66,9 @@ public class ShoppingCarService {
 		return pb;
 	}
 	
+	public ShoppingCar queryOneShoppingCarByIDs(ShoppingCar shoppingcar){
+		return dao.queryByIDs(shoppingcar);
+		
+	}
 	
 }

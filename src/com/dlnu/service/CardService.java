@@ -4,11 +4,16 @@ import java.util.List;
 
 import com.dlnu.dao.CardDao;
 import com.dlnu.pojo.Card;
-import com.dlnu.pojo.User;
 import com.dlnu.util.PageBean;
 
 public class CardService {
 	private CardDao dao = new CardDao();
+	
+	/**
+	 */
+	public boolean updatePoint(int uid, int point) {
+		return dao.updatePoint(uid, point);
+	}
 	
 	/**
 	 * 通过uid查找会员卡信息

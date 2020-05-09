@@ -34,7 +34,7 @@ public class ShoppingCarServlet extends BaseServlet {
 		PrintWriter out = response.getWriter();
 		boolean flag = false;
 		
-		//从前台获取数据
+		//1.从前台获取数据
 		String username = request.getParameter("username");
 		String gID_str = request.getParameter("gid");
 		String sCount_str = request.getParameter("scount");
@@ -56,6 +56,7 @@ public class ShoppingCarServlet extends BaseServlet {
 		flag = sService.addShoppingCar(car);
 
 		out.print(flag);
+		out.close();
 	}
 	
 	/**
@@ -94,13 +95,14 @@ public class ShoppingCarServlet extends BaseServlet {
   		UserService uService = new UserService();
   		User user = uService.queryUserByName(username);
         //3. 调用service查询PageBean对象
-        ShoppingCarService sService = new ShoppingCarService();
-        PageBean<ShoppingCar> pb = sService.queryShoppingCar(currentPage,pageSize,user.getuID());
+        ShoppingCarService scService = new ShoppingCarService();
+        PageBean<ShoppingCar> pb = scService.queryShoppingCarByUid(currentPage,pageSize,user.getuID());
         //4.序列化参数
         Gson gson = new GsonBuilder().disableHtmlEscaping().create();
 		String jsonStr = gson.toJson(pb);
         //5. 将pageBean对象序列化，写回客户端
         out.print(jsonStr);
+        out.close();
 	}
 	
 	/**
@@ -127,13 +129,11 @@ public class ShoppingCarServlet extends BaseServlet {
 		UserService uService = new UserService();
 		User user = uService.queryUserByName(username);
 		
-		//将数据封装到ShoppingCar实体类
-		ShoppingCar car = new ShoppingCar(user.getuID(), gID);
-		
-		//调用添加到购物车函数
-		flag = sService.delShoppingCar(car);
+		//调用删除购物车函数
+		flag = sService.delShoppingCar(user.getuID(), gID);
 
 		out.print(flag);
+		out.close();
 	}
 
 }

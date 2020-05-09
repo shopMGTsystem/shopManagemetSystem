@@ -22,6 +22,15 @@ public class PurchaseHistory {
 	//商品ID，外键  (实例化商品类)
 	private Goods goods;
 
+	
+	public PurchaseHistory(Integer uID, Integer gID, Integer pCount, String pTime) {
+		super();
+		this.uID = uID;
+		this.gID = gID;
+		this.pCount = pCount;
+		this.pTime = pTime;
+	}
+
 	public PurchaseHistory(Integer pID, Integer uID, Integer gID, Integer pCount, String pTime) {
 		super();
 		this.pID = pID;

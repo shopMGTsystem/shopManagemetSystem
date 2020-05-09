@@ -16,7 +16,7 @@ public class GoodsDao {
 	
 	/**
 	 * 修改库存
-	 * @param user
+	 * @param goods
 	 * @return
 	 */
 	public boolean updateStockByGid (Goods goods) {
@@ -45,6 +45,8 @@ public class GoodsDao {
 	/**
 	 * 插入商品数据
 	 * 2020.4.7
+	 * @param goods
+	 * @return
 	 */
 	public int insert(Goods goods) {
 		Connection connection  = DBUtil.getConnection();
@@ -71,14 +73,14 @@ public class GoodsDao {
 		}
 	}
 	
-	/**查询总商品数量
-	 * 
+	/***
+	 * 查询总商品数量
 	 * @return
 	 */
 	public int findAll() {
 		Connection conn = DBUtil.getConnection();
 		String sql = "select count(*) from tab_goods";
-		int goodsCount = 0;//用户总数
+		int goodsCount = 0;//商品总数
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
@@ -95,7 +97,10 @@ public class GoodsDao {
 		return goodsCount;
 	}
 	
-	/**查询所有商品的所有信息
+	/**
+	 * 查询所有商品的所有信息
+	 * @param start
+	 * @param pageSize
 	 * @return
 	 */
 	public List<Goods> query(int start, int pageSize){
