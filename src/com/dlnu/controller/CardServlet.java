@@ -31,7 +31,8 @@ public class CardServlet extends BaseServlet {
 	public void findCardInfoByUsername (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		PrintWriter out = response.getWriter();
 		//接收参数
-		String username = request.getParameter("username");System.out.println(username);
+		String username = request.getParameter("username");
+		System.out.println(username);
 		//通过username查找uid(user)
 		UserService uService = new UserService();
 		User user = uService.queryUserByName(username);

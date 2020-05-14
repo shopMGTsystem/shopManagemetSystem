@@ -5,6 +5,10 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Locale;
 
 import javax.servlet.ServletException;
@@ -21,6 +25,7 @@ import com.dlnu.pojo.Card;
 import com.dlnu.pojo.User;
 import com.dlnu.service.CardService;
 import com.dlnu.service.UserService;
+import com.dlnu.util.DateUtil;
 import com.dlnu.util.PageBean;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -34,10 +39,45 @@ public class UserServlet extends BaseServlet {
 	Calendar calendar= Calendar.getInstance(Locale.CHINA);// 设置北京时区
 	//获取今日00：00
 	SimpleDateFormat dateFormat1= new SimpleDateFormat("yyyy-MM-dd");
-	String date1 = dateFormat1.format(calendar.getTime());
+	//String date1 = dateFormat1.format(calendar.getTime());
 	//获取今日现在时间
 	SimpleDateFormat dateFormat2= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	String date2 = dateFormat2.format(calendar.getTime());
+	//String date2 = dateFormat2.format(calendar.getTime());
+	
+	public void queryUserCountByWeek(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		HashMap<String, Object> hashMap1 = new LinkedHashMap<String, Object>();
+
+		Gson gson = new Gson();
+		;
+		for (int i = -7 ,c=1; i < 0; i++,c++) {
+			HashMap<String, Object> hashMap = new HashMap<String, Object>();
+			//日期 yyyy-MM-dd
+			String beginDate = dateFormat1.format(DateUtil.getBeginDayOfNDay(i));
+			String endDate = dateFormat2.format(DateUtil.getEndDayOfNDay(i));
+			//星期
+			String weekDay = DateUtil.dateToWeek(beginDate);
+			//这一天注册人数
+			int count = allUserCountByDay(beginDate, endDate);
+			
+			hashMap.put("beginDate", beginDate);
+			hashMap.put("weekDay", weekDay);
+			hashMap.put("count", count);
+			hashMap1.put("day"+c, hashMap);
+					
+		}
+		
+	//	System.out.println(hashMap1);
+		String jsonStr = gson.toJson(hashMap1);
+	//	System.out.println(jsonStr);
+		
+		//数据返回前台
+		response.setContentType("text/html; charset=UTF-8");  
+		PrintWriter out = response.getWriter();
+		out.print(jsonStr);	
+		out.close();
+	}
+	
 	
 	/**
 	 * 修改用户信息
@@ -259,12 +299,22 @@ public class UserServlet extends BaseServlet {
 	 */
 	public void searchAllUserCountByDay(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
-        // 调用service
-        UserService service = new UserService();
-        int count = service.userCountByTime(date1, date2);
+		String todayBegin = dateFormat1.format(calendar.getTime());
+		String todayEnd = dateFormat2.format(calendar.getTime());
+//		String todayBegin = dateFormat1.format(DateUtil.getDayBegin());
+//		String todayEnd = dateFormat1.format(DateUtil.getDayEnd());
+        int count = allUserCountByDay(todayBegin, todayEnd);
         //写回客户端
         out.print(count);
         out.close();
+	}
+	
+	public int allUserCountByDay(String date1, String date2) {
+		int count = 0;
+		// 调用service
+        UserService service = new UserService();
+        count = service.userCountByTime(date1, date2);
+		return count;
 	}
 	
 	
@@ -337,7 +387,7 @@ public class UserServlet extends BaseServlet {
 		String email = request.getParameter("email");
 		String question = request.getParameter("select");
 		String answer = request.getParameter("answer");
-		String signuptime = date2;
+		String signuptime = dateFormat2.format(calendar.getTime());;
 		
 //		System.out.println(" username:"+username+"\n signuptime"+signuptime);
 		//将数据封装到User实体类 此user没有uid

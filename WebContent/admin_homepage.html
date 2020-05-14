@@ -254,10 +254,10 @@
         
         <div class="row">
           
-          <div class="col-lg-6"> 
+          <div class="col-lg-7"> 
             <div class="card">
               <div class="card-header">
-                <h4>每周用户</h4>
+                <h4>过去7天用户注册数</h4>
               </div>
               <div class="card-body">
                 <canvas class="js-chartjs-bars"></canvas>
@@ -265,16 +265,7 @@
             </div>
           </div>
           
-          <div class="col-lg-6"> 
-            <div class="card">
-              <div class="card-header">
-                <h4>交易历史记录</h4>
-              </div>
-              <div class="card-body">
-                <canvas class="js-chartjs-lines"></canvas>
-              </div>
-            </div>
-          </div>
+        
            
         </div>
         
@@ -294,47 +285,53 @@
 <script type="text/javascript" src="js/Chart.js"></script>
 <script type="text/javascript">
 $(document).ready(function(e) {
-    var $dashChartBarsCnt  = jQuery( '.js-chartjs-bars' )[0].getContext( '2d' ),
-        $dashChartLinesCnt = jQuery( '.js-chartjs-lines' )[0].getContext( '2d' );
-    
-    var $dashChartBarsData = {
-		labels: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
-		datasets: [
-			{
-				label: '注册用户',
-        borderWidth: 1,
-        borderColor: 'rgba(0,0,0,0)',
-				backgroundColor: 'rgba(51,202,185,0.5)',
-        hoverBackgroundColor: "rgba(51,202,185,0.7)",
-        hoverBorderColor: "rgba(0,0,0,0)",
-				data: [2500, 1500, 1200, 3200, 4800, 3500, 15000]
-			}
-		]
-	};
-    var $dashChartLinesData = {
-		labels: ['2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014'],
-		datasets: [
-			{
-				label: '交易资金',
-				data: [20, 25, 40, 30, 45, 40, 55, 40, 48, 40, 42, 50],
-				borderColor: '#358ed7',
-				backgroundColor: 'rgba(53, 142, 215, 0.175)',
-		    borderWidth: 1,
-		    fill: false,
-		    lineTension: 0.5
-			}
-		]
-	};
-    
-    new Chart($dashChartBarsCnt, {
+		
+	//获取过去7日用户注册数 柱形图
+	$.post("user/queryUserCountByWeek",function(data){
+		console.log(Object.prototype.toString.call(data));
+		//json格式转
+		var obj  = eval("("+data+")");
+		console.log(Object.prototype.toString.call(obj));
+		var $dashChartBarsCnt  = jQuery( '.js-chartjs-bars' )[0].getContext( '2d' );
+
+	    
+	    var $dashChartBarsData = {
+			labels: [obj.day1.beginDate, obj.day2.beginDate, obj.day3.beginDate, obj.day4.beginDate, obj.day5.beginDate, obj.day6.beginDate, obj.day7.beginDate],
+
+	    	//labels: [obj.day1.weekDay, obj.day2.weekDay, obj.day3.weekDay, obj.day4.weekDay, obj.day5.weekDay, obj.day6.weekDay, obj.day7.weekDay],
+			//labels: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+			datasets: [
+				{
+					label: '注册用户数',
+	       			borderWidth: 1,
+	        		borderColor: 'rgba(0,0,0,0)',
+					backgroundColor: 'rgba(51,202,185,0.5)',
+	        		hoverBackgroundColor: "rgba(51,202,185,0.7)",
+	        		hoverBorderColor: "rgba(0,0,0,0)",
+					data: [obj.day1.count, obj.day2.count, obj.day3.count, obj.day4.count, obj.day5.count, obj.day6.count, obj.day7.count]
+	        	//	data: [2500, 1500, 1200, 3200, 4800, 3500, 1500]
+				}
+			]
+		};
+	    
+	    new Chart($dashChartBarsCnt, {
         type: 'bar',
-        data: $dashChartBarsData
-    });
+        data: $dashChartBarsData,
+        options: {
+		      scales: {
+		        yAxes: [{
+		          ticks: {
+		            stepSize: 1
+		          }
+		        }]
+		      }
+	    	}
+	    });
+		
+	});
     
-    var myLineChart = new Chart($dashChartLinesCnt, {
-        type: 'line',
-        data: $dashChartLinesData,
-    });
+    
+   
     
     /*Start-今日新增用户模块*/
 		$.post("user/searchAllUserCountByDay",function(count) {
@@ -347,8 +344,10 @@ $(document).ready(function(e) {
 			$("#allUser").append(count);
 		});
 		/*End-总用户数*/
-   	
+	
+ 
 });
+
 </script>
 </body>
 </html>

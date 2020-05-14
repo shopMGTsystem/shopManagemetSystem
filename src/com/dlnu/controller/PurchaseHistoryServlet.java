@@ -17,7 +17,7 @@ import com.dlnu.pojo.Card;
 import com.dlnu.pojo.Goods;
 import com.dlnu.pojo.PurchaseHistory;
 import com.dlnu.pojo.ShoppingCar;
-import com.dlnu.pojo.User;
+import com.dlnu.pojo.User; 
 import com.dlnu.service.*;
 import com.dlnu.util.PageBean;
 import com.google.gson.Gson;
