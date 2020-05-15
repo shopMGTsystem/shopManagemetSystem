@@ -5,6 +5,8 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -19,6 +21,7 @@ import com.dlnu.pojo.PurchaseHistory;
 import com.dlnu.pojo.ShoppingCar;
 import com.dlnu.pojo.User; 
 import com.dlnu.service.*;
+import com.dlnu.util.DateUtil;
 import com.dlnu.util.PageBean;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -35,11 +38,148 @@ public class PurchaseHistoryServlet extends BaseServlet  {
 	//获取当前时间
 	Calendar calendar= Calendar.getInstance(Locale.CHINA);// 设置北京时区
 	//获取今日00：00
-	//SimpleDateFormat dateFormat1= new SimpleDateFormat("yyyy-MM-dd");
+	SimpleDateFormat dateFormat1= new SimpleDateFormat("yyyy-MM-dd");
 	//String date1 = dateFormat1.format(calendar.getTime());
 	//获取今日现在时间
 	SimpleDateFormat dateFormat2= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	String date2 = dateFormat2.format(calendar.getTime());
+	
+	public void queryTodayConsume(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//从前台获取数据
+		String username = request.getParameter("username");
+		//通过username查找uid(user)
+		User user = uService.queryUserByName(username);
+		//获取今天的开始和结束时间
+		String beginDate = dateFormat1.format(DateUtil.getDayBegin());
+		String endDate = dateFormat2.format(DateUtil.getDayEnd());
+		//获取今天的购物总价
+        double totalPrice = pService.getTotalPriceByTimeZone(beginDate, endDate, user);
+        //写回客户端
+  		response.setContentType("text/html; charset=UTF-8");  
+  		PrintWriter out = response.getWriter();
+  		out.print(totalPrice);
+  		out.close();
+	}
+	
+	public void queryThisWeekConsume(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//从前台获取数据
+		String username = request.getParameter("username");
+		//通过username查找uid(user)
+		User user = uService.queryUserByName(username);
+		//获取本周的开始和结束时间
+		String beginDate = dateFormat1.format(DateUtil.getBeginDayOfWeek());
+		String endDate = dateFormat2.format(DateUtil.getEndDayOfWeek());
+		//获取本周的购物总价
+        double totalPrice = pService.getTotalPriceByTimeZone(beginDate, endDate, user);
+        //写回客户端
+  		response.setContentType("text/html; charset=UTF-8");  
+  		PrintWriter out = response.getWriter();
+  		out.print(totalPrice);
+  		out.close();
+	}
+	
+	public void queryThisMonthConsume(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//从前台获取数据
+		String username = request.getParameter("username");
+		//通过username查找uid(user)
+		User user = uService.queryUserByName(username);
+		//获取本月的开始和结束时间
+		String beginDate = dateFormat1.format(DateUtil.getBeginDayOfMonth());
+		String endDate = dateFormat2.format(DateUtil.getEndDayOfMonth());
+		//获取本月的购物总价
+        double totalPrice = pService.getTotalPriceByTimeZone(beginDate, endDate, user);
+        //写回客户端
+  		response.setContentType("text/html; charset=UTF-8");  
+  		PrintWriter out = response.getWriter();
+  		out.print(totalPrice);
+  		out.close();		
+	}
+	
+	/**
+	 * 查询近十天消费金额
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void queryConsumeByDay(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		HashMap<String, Object> hashMap1 = new LinkedHashMap<String, Object>();
+		Gson gson = new Gson();
+		
+		//从前台获取数据
+		String username = request.getParameter("username");
+		//通过username查找uid(user)
+		User user = uService.queryUserByName(username);
+		
+		for (int i = -10 ,c=1; i < 0; i++,c++) {
+			HashMap<String, Object> hashMap = new HashMap<String, Object>();
+			
+			//获取每一天的日期 yyyy-MM-dd
+			String beginDate = dateFormat1.format(DateUtil.getBeginDayOfNDay(i));
+			String endDate = dateFormat2.format(DateUtil.getEndDayOfNDay(i));
+			//获取当天的购物总价
+			Double totalPrice = pService.getTotalPriceByTimeZone(beginDate, endDate, user);
+		
+			//加入到hashmap;
+			hashMap.put("date", beginDate.substring(5));
+			hashMap.put("totalPrice", totalPrice);
+			hashMap1.put("day"+c, hashMap);
+			
+		}
+		
+	//	System.out.println(hashMap1);
+		String jsonStr = gson.toJson(hashMap1);
+	//	System.out.println(jsonStr);
+		
+		//数据返回前台
+		response.setContentType("text/html; charset=UTF-8");  
+		PrintWriter out = response.getWriter();
+		out.print(jsonStr);	
+		out.close();
+	}
+	
+public void queryConsumeByMonth(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		HashMap<String, Object> hashMap1 = new LinkedHashMap<String, Object>();
+		Gson gson = new Gson();
+		
+		//从前台获取数据
+		String username = request.getParameter("username");
+		//通过username查找uid(user)
+		User user = uService.queryUserByName(username);
+		
+		for (int i = -6 ,c=1; i < 0; i++,c++) {
+			
+			HashMap<String, Object> hashMap = new HashMap<String, Object>();
+			
+			//获取每一天的日期 yyyy-MM-dd 
+			String beginDate = dateFormat1.format(DateUtil.getBeginDayOfNMonth(i));
+			String endDate = dateFormat2.format(DateUtil.getEndDayOfNMonth(i));
+		
+			//获取当天的购物总价
+			Double totalPrice = pService.getTotalPriceByTimeZone(beginDate, endDate, user);
+			
+			//加入到hashmap;
+			if (beginDate.substring(5, 7).startsWith("0")) {
+				hashMap.put("month", beginDate.substring(6,7)+"月");
+			} else {
+				hashMap.put("month", beginDate.substring(5,7)+"月");
+			}
+			hashMap.put("totalPrice", totalPrice);
+			hashMap1.put("month"+c, hashMap);
+			
+		}
+		
+		String jsonStr = gson.toJson(hashMap1);
+
+		
+		//数据返回前台
+		response.setContentType("text/html; charset=UTF-8");  
+		PrintWriter out = response.getWriter();
+		out.print(jsonStr);	
+		out.close();
+	}
 	
 	/**
 	 * 添加消费记录
@@ -78,11 +218,11 @@ public class PurchaseHistoryServlet extends BaseServlet  {
 			/**
 			 * test
 			 */
-			Gson gson = new GsonBuilder().disableHtmlEscaping().create();
-			String jsonStr = gson.toJson(cars[i]);
-			System.out.println(jsonStr);
-			
-			System.out.println("date2:"+date2);
+//			Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+//			String jsonStr = gson.toJson(cars[i]);
+//			System.out.println(jsonStr);
+//			
+//			System.out.println("date2:"+date2);
 			/**
 			 * test end
 			 */
@@ -90,8 +230,6 @@ public class PurchaseHistoryServlet extends BaseServlet  {
 			//通过gid查找商品中gpoint(goods)
 			Goods goods = gService.queryGoodsById(gidList.get(i));
 			
-			System.out.println("sCount:"+cars[i].getsCount());
-			System.out.println("gPoint:"+goods.getgPoint());
 			
 			totalPoint += cars[i].getsCount() * goods.getgPoint();
 			
@@ -104,12 +242,12 @@ public class PurchaseHistoryServlet extends BaseServlet  {
 			}
 		}
 		
-		System.out.println("消费记录中 购买商品的增加:"+flag[0]);
+//		System.out.println("消费记录中 购买商品的增加:"+flag[0]);
 		
 		//2.会员卡更新积分
 		flag[1] = cService.updatePoint(user.getuID(),totalPoint);
 		
-		System.out.println("会员卡更新积分:"+flag[1]);
+//		System.out.println("会员卡更新积分:"+flag[1]);
 		
 		
 		//3.购物车中 购买商品的删除
@@ -122,7 +260,7 @@ public class PurchaseHistoryServlet extends BaseServlet  {
 			}
 		}
 		
-		System.out.println("购物车中 购买商品的删除:"+flag[2]);
+//		System.out.println("购物车中 购买商品的删除:"+flag[2]);
 		//判断1 2 3是否都正确执行
 		for (int i = 0; i < 3; i++) {
 			flag[3] = true;
@@ -131,7 +269,7 @@ public class PurchaseHistoryServlet extends BaseServlet  {
 				break;
 			}
 		}
-		System.out.println("前3个是否成功:"+flag[3]);
+//		System.out.println("前3个是否成功:"+flag[3]);
 		out.print(flag[3]);
 		
 		out.close();
@@ -200,7 +338,7 @@ public class PurchaseHistoryServlet extends BaseServlet  {
         //5. 将pageBean对象序列化，写回客户端
         out.print(jsonStr);
         
-        System.out.println(jsonStr);
+       // System.out.println(jsonStr);
         
         out.close();
 	}

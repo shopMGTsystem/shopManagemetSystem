@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.dlnu.pojo.PurchaseHistory;
 import com.dlnu.pojo.ShoppingCar;
+import com.dlnu.pojo.User;
 import com.dlnu.util.DBUtil;
 
 public class PurchaseHistoryDao {
@@ -76,7 +77,7 @@ public class PurchaseHistoryDao {
 	 */
 	public List<PurchaseHistory> query(int start, int pageSize, int uid){
 		Connection conn = DBUtil.getConnection();
-		String sql = "select * from tab_purchasehistory where uid=? limit ?,? ";
+		String sql = "select * from tab_purchasehistory where uid=?  order by ptime limit ?,?";
 		List<PurchaseHistory> list = new ArrayList<PurchaseHistory>();
 		PurchaseHistory ph = null;
 		try {
@@ -90,7 +91,67 @@ public class PurchaseHistoryDao {
 			while(rs.next()){
 				ph = new PurchaseHistory(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getInt(4),rs.getString(5));
 				list.add(ph);
-				System.out.println("db time:"+rs.getString(5));
+				System.out.println("db time有问题:"+rs.getString(5));
+			}
+				
+			rs.close();
+			pstmt.close();
+			conn.close();
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	/**
+	 * 通过购买时间查询消费记录
+	 * @param ph
+	 * @return
+	 */
+	public PurchaseHistory queryByPTime(PurchaseHistory ph){
+		Connection conn = DBUtil.getConnection();
+		String sql = "select * from tab_purchasehistory where uid=? and ptime like '"+ph.getpTime()+"%'";
+		try {
+			//预处理sql
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, ph.getuID());
+			//查询结果返回结果集
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()){
+				ph = new PurchaseHistory(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getInt(4),rs.getString(5));
+			}
+				
+			rs.close();
+			pstmt.close();
+			conn.close();
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		return ph;
+	}
+	
+	/**
+	 * 查询beginDate~endDate的所有消费记录 
+	 * @param beginDate
+	 * @param endDate
+	 * @return
+	 */
+	public List<PurchaseHistory> queryByTimeZone(String beginDate, String endDate, User user){
+		Connection conn = DBUtil.getConnection();
+		String sql = "select * from tab_purchasehistory where uid=? and ptime between '"+beginDate+"' and '"+endDate+"'";
+		List<PurchaseHistory> list = new ArrayList<PurchaseHistory>();
+		PurchaseHistory ph = null;
+		try {
+			//预处理sql
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, user.getuID());
+			//查询结果返回结果集
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()){
+				ph = new PurchaseHistory(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getInt(4),rs.getString(5));
+				list.add(ph);
 			}
 				
 			rs.close();

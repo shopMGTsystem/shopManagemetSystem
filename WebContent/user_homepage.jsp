@@ -217,7 +217,7 @@
               <div class="card-body clearfix">
                 <div class="pull-right">
                   <p class="h6 text-white m-t-0">今日消费</p>
-                  <p class="h3 text-white m-b-0">50</p>
+                  <p class="h3 text-white m-b-0" id="dayConsume"><!--50--></p>
                 </div>
                 <div class="pull-left"> <span class="img-avatar img-avatar-48 bg-translucent"><i class="mdi mdi-currency-cny fa-1-5x"></i></span> </div>
               </div>
@@ -229,7 +229,7 @@
               <div class="card-body clearfix">
                 <div class="pull-right">
                   <p class="h6 text-white m-t-0">本周总消费</p>
-                  <p class="h3 text-white m-b-0">400</p>
+                  <p class="h3 text-white m-b-0" id="weekConsume"><!--50--></p>
                 </div>
                 <div class="pull-left"> <span class="img-avatar img-avatar-48 bg-translucent"><i class="mdi mdi-currency-cny fa-1-5x"></i></span> </div>
               </div>
@@ -241,7 +241,7 @@
               <div class="card-body clearfix">
                 <div class="pull-right">
                   <p class="h6 text-white m-t-0">本月总消费</p>
-                  <p class="h3 text-white m-b-0">10000</p>
+                  <p class="h3 text-white m-b-0" id="monthConsume"><!--50--></p>
                 </div>
                 <div class="pull-left"> <span class="img-avatar img-avatar-48 bg-translucent"><i class="mdi mdi-currency-cny fa-1-5x"></i></span> </div>
               </div>
@@ -256,10 +256,10 @@
           <div class="col-lg-6"> 
             <div class="card">
               <div class="card-header">
-                <h4>每周用户</h4>
+                <h4>近10天消费情况</h4>
               </div>
               <div class="card-body">
-                <canvas class="js-chartjs-bars"></canvas>
+                <canvas class="js-chartjs-lines-day"></canvas>
               </div>
             </div>
           </div>
@@ -267,10 +267,10 @@
           <div class="col-lg-6"> 
             <div class="card">
               <div class="card-header">
-                <h4>交易历史记录</h4>
+                <h4>近6个月消费情况</h4>
               </div>
               <div class="card-body">
-                <canvas class="js-chartjs-lines"></canvas>
+                <canvas class="js-chartjs-lines-month"></canvas>
               </div>
             </div>
           </div>
@@ -293,47 +293,140 @@
 <script type="text/javascript" src="js/Chart.js"></script>
 <script type="text/javascript">
 $(document).ready(function(e) {
-    var $dashChartBarsCnt  = jQuery( '.js-chartjs-bars' )[0].getContext( '2d' ),
-        $dashChartLinesCnt = jQuery( '.js-chartjs-lines' )[0].getContext( '2d' );
-    
-    var $dashChartBarsData = {
-		labels: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
-		datasets: [
-			{
-				label: '注册用户',
-                borderWidth: 1,
-                borderColor: 'rgba(0,0,0,0)',
-				backgroundColor: 'rgba(51,202,185,0.5)',
-                hoverBackgroundColor: "rgba(51,202,185,0.7)",
-                hoverBorderColor: "rgba(0,0,0,0)",
-				data: [2500, 1500, 1200, 3200, 4800, 3500, 1500]
+	var params = {
+			username: '<%=session.getAttribute("username")%>'
+		}
+	
+	//获取近10天的消费金额 线型图
+	$.post("purchaseHistory/queryConsumeByDay",params,function(data){
+	
+		var obj  = eval("("+data+")");
+		
+	    var $dashChartLinesDayCnt  = jQuery( '.js-chartjs-lines-day' )[0].getContext( '2d' );
+	    
+	    var $dashChartLinesDayData = {
+			labels: [
+				obj.day1.date,
+				obj.day2.date,
+				obj.day3.date,
+				obj.day4.date,
+				obj.day5.date,
+				obj.day6.date,
+				obj.day7.date,
+				obj.day8.date,
+				obj.day9.date,
+				obj.day10.date
+				],
+			datasets: [
+				{
+					label: '消费金额',
+					data: [
+						obj.day1.totalPrice,
+						obj.day2.totalPrice,
+						obj.day3.totalPrice,
+						obj.day4.totalPrice,
+						obj.day5.totalPrice,
+						obj.day6.totalPrice,
+						obj.day7.totalPrice,
+						obj.day8.totalPrice,
+						obj.day9.totalPrice,
+						obj.day10.totalPrice
+						],
+					borderColor: '#358ed7',
+					backgroundColor: 'rgba(53, 142, 215, 0.175)',
+	                borderWidth: 1,
+	                fill: false,
+	                lineTension: 0.5
+				}
+			]
+		};
+		
+	    new Chart($dashChartLinesDayCnt, {
+	        type: 'line',
+	        data: $dashChartLinesDayData,
+	        options: {
+			    scales: {
+			        yAxes: [{
+			            ticks: {
+			                beginAtZero:true
+			            }
+			        }]
+			    }
 			}
-		]
-	};
-    var $dashChartLinesData = {
-		labels: ['2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014'],
-		datasets: [
-			{
-				label: '交易资金',
-				data: [20, 25, 40, 30, 45, 40, 55, 40, 48, 40, 42, 50],
-				borderColor: '#358ed7',
-				backgroundColor: 'rgba(53, 142, 215, 0.175)',
-                borderWidth: 1,
-                fill: false,
-                lineTension: 0.5
-			}
-		]
-	};
+
+	    });
     
-    new Chart($dashChartBarsCnt, {
-        type: 'bar',
-        data: $dashChartBarsData
     });
     
-    var myLineChart = new Chart($dashChartLinesCnt, {
-        type: 'line',
-        data: $dashChartLinesData,
+    //获取近6个月的总消费金额 线型图
+	$.post("purchaseHistory/queryConsumeByMonth",params,function(data){
+		
+		var obj  = eval("("+data+")");
+		
+	    var $dashChartLinesMonthCnt = jQuery( '.js-chartjs-lines-month' )[0].getContext( '2d' );
+	    
+	    var $dashChartLinesMonthData = {
+			labels: [
+				obj.month1.month,
+				obj.month2.month,
+				obj.month3.month,
+				obj.month4.month,
+				obj.month5.month,
+				obj.month6.month
+				],	    		
+			datasets: [
+    			{
+    				label: '消费金额',
+    				data: [
+					obj.month1.totalPrice,
+					obj.month2.totalPrice,
+					obj.month3.totalPrice,
+					obj.month4.totalPrice,
+					obj.month5.totalPrice,
+					obj.month6.totalPrice
+					],
+    				borderColor: '#358ed7',
+    				backgroundColor: 'rgba(53, 142, 215, 0.175)',
+                    borderWidth: 1,
+                    fill: false,
+                    lineTension: 0.5
+    			}
+    		]
+    	};
+	    
+	    new Chart($dashChartLinesMonthCnt, {
+	        type: 'line',
+	        data: $dashChartLinesMonthData,
+	        options: {
+			    scales: {
+			        yAxes: [{
+			            ticks: {
+			                beginAtZero:true
+			            }
+			        }]
+			    }
+			}
+	    });
     });
+    
+    /*Start-今日总消费模块*/
+	$.post("purchaseHistory/queryTodayConsume",params,function(count) {
+		$("#dayConsume").append(count);
+	});
+	/*End-今日总消费模块*/
+    
+    /*Start-本周总消费模块*/
+	$.post("purchaseHistory/queryThisWeekConsume",params,function(count) {
+		$("#weekConsume").append(count);
+	});
+	/*End-本周总消费模块*/
+
+    /*Start-本月总消费模块*/
+	$.post("purchaseHistory/queryThisMonthConsume",params,function(count) {
+		$("#monthConsume").append(count);
+	});
+	/*End-本月总消费模块*/
+    
 });
 </script>
 </body>

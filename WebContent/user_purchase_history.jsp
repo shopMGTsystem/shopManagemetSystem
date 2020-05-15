@@ -372,7 +372,7 @@ function tableLoad(currentPage) {
 			        '	<td>'+totalprice+'</td>\n'+
 			        '	<td>'+ph.pTime+'</td>\n'+		        
 			        '</tr>\n';
-			        console.log(ph.pTime)
+//			        console.log(ph.pTime)
 			  $("#showTable").append(str);
 			});
 		  	$("#showTable").html(strlis);

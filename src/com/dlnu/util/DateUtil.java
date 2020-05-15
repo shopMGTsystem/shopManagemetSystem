@@ -171,6 +171,22 @@ public class DateUtil {
 			calendar.set(getNowYear(), getNowMonth() - 2, day);
 			return getDayEndTime(calendar.getTime());
 		}
+		
+		// 获取n月前的开始时间
+		public static Date getBeginDayOfNMonth(int n) {
+			Calendar calendar = Calendar.getInstance();
+			calendar.set(getNowYear(), getNowMonth() - 1 +n, 1);
+			return getDayStartTime(calendar.getTime());
+		}
+	 
+		// 获取n月前的结束时间
+		public static Date getEndDayOfNMonth(int n) {
+			Calendar calendar = Calendar.getInstance();
+			calendar.set(getNowYear(), getNowMonth() - 1 +n, 1);
+			int day = calendar.getActualMaximum(5);
+			calendar.set(getNowYear(), getNowMonth() - 1 +n, day);
+			return getDayEndTime(calendar.getTime());
+		}
 	 
 		// 获取本年的开始时间
 		public static Date getBeginDayOfYear() {

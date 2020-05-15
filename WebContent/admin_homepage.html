@@ -286,9 +286,8 @@
 <script type="text/javascript">
 $(document).ready(function(e) {
 		
-	//获取过去7日用户注册数 柱形图
+	//获取过去7日用户注册数 条形图
 	$.post("user/queryUserCountByWeek",function(data){
-		console.log(Object.prototype.toString.call(data));
 		//json格式转
 		var obj  = eval("("+data+")");
 		console.log(Object.prototype.toString.call(obj));
@@ -298,7 +297,7 @@ $(document).ready(function(e) {
 	    var $dashChartBarsData = {
 			labels: [obj.day1.beginDate, obj.day2.beginDate, obj.day3.beginDate, obj.day4.beginDate, obj.day5.beginDate, obj.day6.beginDate, obj.day7.beginDate],
 
-	    	//labels: [obj.day1.weekDay, obj.day2.weekDay, obj.day3.weekDay, obj.day4.weekDay, obj.day5.weekDay, obj.day6.weekDay, obj.day7.weekDay],
+	    	//labels: [obj.day100‘./weekDay, obj.day2.weekDay, obj.day3.weekDay, obj.day4.weekDay, obj.day5.weekDay, obj.day6.weekDay, obj.day7.weekDay],
 			//labels: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
 			datasets: [
 				{
@@ -344,8 +343,6 @@ $(document).ready(function(e) {
 			$("#allUser").append(count);
 		});
 		/*End-总用户数*/
-	
- 
 });
 
 </script>
