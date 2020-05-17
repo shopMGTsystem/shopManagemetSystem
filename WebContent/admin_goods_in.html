@@ -254,7 +254,9 @@
 <script type="text/javascript" src="js/perfect-scrollbar.min.js"></script>
 <script type="text/javascript" src="js/main.min.js"></script>
 <script type="text/javascript" src="js/layer.js"></script>
-
+<!--消息提示-->
+<script src="js/bootstrap-notify.min.js"></script>
+<script type="text/javascript" src="js/lightyear.js"></script>
 <script type="text/javascript">
 $(document).ready(function(e) {
 });
@@ -265,12 +267,25 @@ $("#goodsIn").on('click',function(){
 		}
 	$.post("goods/updateStock",params,function(data){
   		if (data) {
+
   			
-  			layer.msg("商品入库成功!",{time:4000});
-  			window.location.reload();
+  			lightyear.loading('show');
+    		// 假设ajax提交操作
+		    setTimeout(function() {
+		        lightyear.loading('hide');
+		        lightyear.notify('商品入库成功!', 'success', 4000);
+		    }, 1e3)
+    	window.location.reload();
   			
 		}else{
-			layer.msg("商品入库失败",{time:4000});
+			
+			lightyear.loading('show');
+	    // 假设ajax提交操作
+	    setTimeout(function() {
+	        lightyear.loading('hide');
+	        lightyear.notify('商品入库失败，请稍后再试', 'danger', 3000);
+	    }, 1e3)
+
 			window.location.reload();
 		}
   });

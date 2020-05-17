@@ -77,7 +77,7 @@ public class PurchaseHistoryDao {
 	 */
 	public List<PurchaseHistory> query(int start, int pageSize, int uid){
 		Connection conn = DBUtil.getConnection();
-		String sql = "select * from tab_purchasehistory where uid=?  order by ptime limit ?,?";
+		String sql = "select * from tab_purchasehistory where uid=?  order by ptime desc limit ?,?";
 		List<PurchaseHistory> list = new ArrayList<PurchaseHistory>();
 		PurchaseHistory ph = null;
 		try {

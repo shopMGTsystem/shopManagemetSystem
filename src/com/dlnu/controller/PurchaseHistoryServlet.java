@@ -139,7 +139,7 @@ public class PurchaseHistoryServlet extends BaseServlet  {
 		out.close();
 	}
 	
-public void queryConsumeByMonth(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void queryConsumeByMonth(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		HashMap<String, Object> hashMap1 = new LinkedHashMap<String, Object>();
 		Gson gson = new Gson();
@@ -190,7 +190,7 @@ public void queryConsumeByMonth(HttpServletRequest request, HttpServletResponse 
 	 */
 	public void addHistory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
-		boolean[] flag = {false,false,false,false};
+		boolean[] flag = {false,false,false,false,false};
 		
 		
 		//从前台获取数据
@@ -215,23 +215,22 @@ public void queryConsumeByMonth(HttpServletRequest request, HttpServletResponse 
 			ShoppingCar sc = new ShoppingCar(user.getuID(), gidList.get(i));
 			cars[i] = scService.queryOneShoppingCarByIDs(sc);
 			
-			/**
-			 * test
-			 */
-//			Gson gson = new GsonBuilder().disableHtmlEscaping().create();
-//			String jsonStr = gson.toJson(cars[i]);
-//			System.out.println(jsonStr);
-//			
-//			System.out.println("date2:"+date2);
-			/**
-			 * test end
-			 */
 		
 			//通过gid查找商品中gpoint(goods)
 			Goods goods = gService.queryGoodsById(gidList.get(i));
 			
-			
 			totalPoint += cars[i].getsCount() * goods.getgPoint();
+			
+			//2.商品中 库存的减少
+			Goods goods2 = new Goods(gidList.get(i),-cars[i].getsCount());
+	
+			System.out.println(-cars[i].getsCount());
+		
+			boolean flag1 = gService.updateStock(goods2);
+			if (flag1 == false) {
+				flag[1] = false;
+				break;
+			}
 			
 			//1.消费记录中 购买商品的增加
 			PurchaseHistory ph = new PurchaseHistory(user.getuID(), gidList.get(i), cars[i].getsCount(), date2);
@@ -240,22 +239,25 @@ public void queryConsumeByMonth(HttpServletRequest request, HttpServletResponse 
 				flag[0] = false;
 				break;
 			}
+			
+			
 		}
 		
-//		System.out.println("消费记录中 购买商品的增加:"+flag[0]);
+		System.out.println("消费记录中 购买商品的增加:"+flag[0]);
+		System.out.println("商品中 库存的减少:"+flag[1]);
 		
-		//2.会员卡更新积分
-		flag[1] = cService.updatePoint(user.getuID(),totalPoint);
+		//3.会员卡更新积分
+		flag[2] = cService.updatePoint(user.getuID(),totalPoint);
 		
-//		System.out.println("会员卡更新积分:"+flag[1]);
+//		System.out.println("会员卡更新积分:"+flag[2]);
 		
 		
-		//3.购物车中 购买商品的删除
+		//4.购物车中 购买商品的删除
 		for (int i = 0; i < gidList.size(); i++) {
-			flag[2] = true;
+			flag[3] = true;
 			boolean flag2 = scService.delShoppingCar(user.getuID(), gidList.get(i));
 			if (flag2 == false) {
-				flag[2] = false;
+				flag[3] = false;
 				break;
 			}
 		}
@@ -263,14 +265,14 @@ public void queryConsumeByMonth(HttpServletRequest request, HttpServletResponse 
 //		System.out.println("购物车中 购买商品的删除:"+flag[2]);
 		//判断1 2 3是否都正确执行
 		for (int i = 0; i < 3; i++) {
-			flag[3] = true;
+			flag[4] = true;
 			if (flag[i] == false) {
-				flag[3] = false;
+				flag[4] = false;
 				break;
 			}
 		}
-//		System.out.println("前3个是否成功:"+flag[3]);
-		out.print(flag[3]);
+//		System.out.println("前3个是否成功:"+flag[4]);
+		out.print(flag[4]);
 		
 		out.close();
 	}
