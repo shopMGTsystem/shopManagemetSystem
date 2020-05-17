@@ -10,6 +10,7 @@
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/materialdesignicons.min.css" rel="stylesheet">
 <link href="css/style.min.css" rel="stylesheet">
+<link href="css/layer.css" rel="stylesheet">
 <style>
 .show-grid [class^=user] {
     padding-top: 10px;
@@ -255,7 +256,7 @@
 	                      </div>
 	                      <div class="modal-footer">
 	                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-	                        <button type="button" class="btn btn-primary" id="comment-submit">点击提交</button>
+	                        <button type="button" class="btn btn-primary" onclick="addComment()">点击提交</button>
 	                      </div>
 	                    </div>
 	                  </div>
@@ -323,18 +324,18 @@
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/perfect-scrollbar.min.js"></script>
 <script type="text/javascript" src="js/main.min.js"></script>
-
+<script type="text/javascript" src="js/layer.js"></script>
 <script type="text/javascript">
 $(document).ready(function(e) {
    
 });
 
 //提交留言点击事件
-$("#comment-submit").on('click',function(){
+function addComment(){
 
 	var params = {
-		comment:$('comment').val(),
-		username:'<%=session.getAttribute("username")%>',
+		comment:$('#comment').val(),
+		username:'<%=session.getAttribute("username")%>'
 	}
 	
 	$.post("guestbook/addComment", params ,function(result){
@@ -350,7 +351,7 @@ $("#comment-submit").on('click',function(){
 		}
   	});
   	
-});
+}
 
 </script>
 </body>

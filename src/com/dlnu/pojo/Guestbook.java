@@ -2,7 +2,7 @@ package com.dlnu.pojo;
 
 public class Guestbook {
 	//用户留言ID
-	private Integer gbid;
+	private Integer gbID;
 	
 	//会员id
 	private Integer uID;
@@ -19,29 +19,30 @@ public class Guestbook {
 	///会员ID， 外键  (实例化会员类)
 	private User user;
 
-	public Guestbook(Integer gbid, User user, String content, String addtime, boolean flag) {
+	
+
+
+	public Guestbook(Integer uID, String content, String addtime) {
 		super();
-		this.gbid = gbid;
-		this.user = user;
+		this.uID = uID;
 		this.content = content;
 		this.addtime = addtime;
-		this.flag = flag;
 	}
 
-	public Integer getGbid() {
-		return gbid;
+	public Integer getGbID() {
+		return gbID;
 	}
 
-	public void setGbid(Integer gbid) {
-		this.gbid = gbid;
+	public void setGbID(Integer gbID) {
+		this.gbID = gbID;
 	}
 
-	public User getUser() {
-		return user;
+	public Integer getuID() {
+		return uID;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setuID(Integer uID) {
+		this.uID = uID;
 	}
 
 	public String getContent() {
@@ -67,6 +68,8 @@ public class Guestbook {
 	public void setFlag(boolean flag) {
 		this.flag = flag;
 	}
+
+	
 	
 	
 }
