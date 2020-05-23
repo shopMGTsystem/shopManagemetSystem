@@ -39,7 +39,7 @@ public class CardServlet extends BaseServlet {
 		//通过uid查找会员卡信息
 		CardService cService = new CardService();
 		Card card = cService.queryCardByUid(user.getuID());
-		System.out.println(card.toString());
+//		System.out.println(card.toString());
 		//4.序列化参数
         Gson gson = new GsonBuilder().disableHtmlEscaping().create();
 		String jsonStr = gson.toJson(card);

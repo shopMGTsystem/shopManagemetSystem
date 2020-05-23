@@ -345,7 +345,7 @@ public class UserServlet extends BaseServlet {
 			HttpSession session = request.getSession();
 			session.setAttribute("username", username);
 	
-			if (autoLogin != null) {
+			if (autoLogin != null) {	
 				Cookie cookie = new Cookie("AUTO_LOGIN",username+'-'+password);
                 //设置cookie存活时间并绑定路径
                 cookie.setMaxAge(60*60*24*3);

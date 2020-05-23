@@ -14,13 +14,14 @@ public class Guestbook {
 	private String addtime;
 	
 	//是否已被回复
-	private boolean flag;
+	private Integer flag;
 	
 	///会员ID， 外键  (实例化会员类)
 	private User user;
 
-	
-
+	public Guestbook() {
+		super();
+	}
 
 	public Guestbook(Integer uID, String content, String addtime) {
 		super();
@@ -61,15 +62,22 @@ public class Guestbook {
 		this.addtime = addtime;
 	}
 
-	public boolean isFlag() {
+	public Integer getFlag() {
 		return flag;
 	}
 
-	public void setFlag(boolean flag) {
+	public void setFlag(Integer flag) {
 		this.flag = flag;
 	}
 
-	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	
 	
 }

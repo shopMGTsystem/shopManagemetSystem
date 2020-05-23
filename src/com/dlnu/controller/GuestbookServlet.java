@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.ServletException;
@@ -16,6 +17,8 @@ import com.dlnu.pojo.Guestbook;
 import com.dlnu.pojo.User;
 import com.dlnu.service.GuestbookService;
 import com.dlnu.service.UserService;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 
 @WebServlet("/guestbook/*")
@@ -56,4 +59,23 @@ public class GuestbookServlet extends BaseServlet {
   		out.close();
 	}
 
+	/**
+	 * 显示所有留言表信息
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void showAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		List<Guestbook> guestbooks = gbService.getAll();
+		
+//		System.out.println(guestbooks);
+		Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+		String jsonStr = gson.toJson(guestbooks);
+//		jsonStr = jsonStr.substring(1, jsonStr.length()-1);
+		//System.out.println(jsonStr);
+		PrintWriter out = response.getWriter();
+		out.print(jsonStr);
+	    out.close(); 
+	}
 }

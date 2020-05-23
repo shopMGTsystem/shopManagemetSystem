@@ -24,6 +24,10 @@ public class Reply {
 		
 	
 
+	public Reply() {
+		super();
+	}
+
 	public Reply(Integer rID, Integer gbID, Integer uID, String content, String replytime) {
 		super();
 		this.rID = rID;

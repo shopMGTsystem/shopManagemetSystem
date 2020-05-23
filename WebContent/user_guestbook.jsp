@@ -262,8 +262,10 @@
 	                  </div>
 	                </div>
 	                
-	                <ul class="list-group">
-						<li class="list-group-item show-grid">
+	                <ul class="list-group" id="show">
+	                	
+						
+						<!--<li class="list-group-item show-grid">
 							<p class="user list-group-item">
 								<span>用户名：kgdin</span><span class="pp2 pull-right">留言时间: 2018-09-07 21:13:40</span>
 							</p>
@@ -304,7 +306,7 @@
 							</p>
 							<p class="list-group-item">改版了，比旧版看起来顺眼很多</p>
 							<p class="list-group-item list-group-item-info admin">admin回复：嗯嗯 ^_^</p>
-						</li>
+						</li>-->
 						                    
 					</ul>
         	  		</div>
@@ -327,7 +329,52 @@
 <script type="text/javascript" src="js/layer.js"></script>
 <script type="text/javascript">
 $(document).ready(function(e) {
-   
+	$.post("guestbook/showAll",function(guestbooks){
+		
+		/*在表格内显示用户数据*/
+	    var strlis = '';
+	   
+	    $.each($.parseJSON(guestbooks), function(i, guestbook) {
+	    	console.log("guestbook:"+guestbook); //Object型
+			str = '';
+			str ='<li class="list-group-item show-grid">\n'+ 
+			     '	<p class="user list-group-item">\n'+
+			     '		<span>用户名：'+guestbook.user.userName+'</span>\n'+
+			     '		<span class="pull-right">留言时间: '+guestbook.addtime+'</span>\n'+
+			     '	</p>\n'+
+			     '	<p class="list-group-item list-group-item-warning">\n'+
+			     '		'+guestbook.content+'\n';
+			    
+			if(guestbook.user.userName == '<%=session.getAttribute("username")%>'){
+	        	str += '<a class="btn btn-xs btn-default pull-right">删除</a>\n';
+	        }
+			 str += '	</p>\n';
+			 $.ajax({
+				async:false,
+				url:"reply/searchOne",
+				type:"post",
+				dataType:"json",
+				data: {gbid:guestbook.gbID},
+				success:function(reply){
+					
+	 				 console.log("reply:"+reply);//String型
+					 console.log("typeof reply:"+typeof reply); 
+//	 				 console.log("reply.content:"+reply.content);
+					 if(reply != null){ 
+						 console.log("1");
+						 str += '	<p class="list-group-item list-group-item-info admin">\n'+
+					        	'		<span>admin回复：'+reply.content+'</span>\n'+
+					        	'		<span class="pull-right">回复时间: '+reply.replytime+'</span>\n'+
+					        	'	</p>\n';
+						 console.log("2");
+					 }    
+				 }
+			 });
+			 str += '</li>\n';console.log("str:"+str);
+			 strlis += str; 			
+		});
+	    $("#show").html(strlis);
+  	});
 });
 
 //提交留言点击事件

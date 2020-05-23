@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" >
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-<title>留言板管理界面 - 超市会员管理系统</title>
+<title>���԰�������� - ���л�Ա����ϵͳ</title>
 <link rel="icon" href="favicon.ico" type="image/ico">
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/materialdesignicons.min.css" rel="stylesheet">
@@ -13,7 +13,7 @@
 <body>
 <div class="lyear-layout-web">
   <div class="lyear-layout-container">
-    <!--左侧导航-->
+    <!--��ർ��-->
     <aside class="lyear-layout-sidebar">
       
       <!-- logo -->
@@ -24,18 +24,18 @@
         
         <nav class="sidebar-main">
           <ul class="nav nav-drawer">
-            <li class="nav-item"> <a href="admin_homepage.html"><i class="mdi mdi-home"></i> 后台首页</a> </li>
-            <li class="nav-item"><a href="admin_user_MGT.html"><i class="mdi mdi-file-account"></i> 会员信息管理</a></li>
-            <li class="nav-item"><a href="admin_card_MGT.html"><i class="mdi mdi-account-card-details"></i> 会员卡信息管理</a></li>
+            <li class="nav-item"> <a href="admin_homepage.html"><i class="mdi mdi-home"></i> ��̨��ҳ</a> </li>
+            <li class="nav-item"><a href="admin_user_MGT.html"><i class="mdi mdi-file-account"></i> ��Ա��Ϣ����</a></li>
+            <li class="nav-item"><a href="admin_card_MGT.html"><i class="mdi mdi-account-card-details"></i> ��Ա����Ϣ����</a></li>
             <li class="nav-item nav-item-has-subnav">
-            	<a href="javascript:void(0)"><i class="mdi mdi-shopping"></i> 商品管理</a>
+            	<a href="javascript:void(0)"><i class="mdi mdi-shopping"></i> ��Ʒ����</a>
             	<ul class="nav nav-subnav">
-            		<li> <a href="admin_goods_add.html">商品增加</a> </li>
-            		<li> <a href="admin_goods_in.html">商品入库</a> </li>
-                <li> <a href="admin_goods_query.html">商品查看</a> </li>
+            		<li> <a href="admin_goods_add.html">��Ʒ����</a> </li>
+            		<li> <a href="admin_goods_in.html">��Ʒ���</a> </li>
+                <li> <a href="admin_goods_query.html">��Ʒ�鿴</a> </li>
               </ul>
             </li>
-            <li class="nav-item active"><a href="admin_guestbook_MGT.html"><i class="mdi mdi-comment-text-outline"></i> 留言板管理</a></li>
+            <li class="nav-item active"><a href="admin_guestbook_MGT.html"><i class="mdi mdi-comment-text-outline"></i> ���԰����</a></li>
           </ul>
         </nav>
         
@@ -45,9 +45,9 @@
       </div>
       
     </aside>
-    <!--End 左侧导航-->
+    <!--End ��ർ��-->
     
-    <!--头部信息-->
+    <!--ͷ����Ϣ-->
     <header class="lyear-layout-header">
       
       <nav class="navbar navbar-default">
@@ -59,7 +59,7 @@
               <span class="lyear-toggler-bar"></span>
               <span class="lyear-toggler-bar"></span>
             </div>
-            <span class="navbar-page-title"> 留言板管理页面 </span>
+            <span class="navbar-page-title"> ���԰����ҳ�� </span>
           </div>
           
           <ul class="topbar-right">
@@ -69,14 +69,14 @@
                 <span>admin <span class="caret"></span></span>
               </a>
               <ul class="dropdown-menu dropdown-menu-right">
-                <li> <a href="login.html"><i class="mdi mdi-logout-variant"></i> 退出登录</a> </li>
+                <li> <a href="login.html"><i class="mdi mdi-logout-variant"></i> �˳���¼</a> </li>
               </ul>
             </li>
-            <!--切换主题配色-->
+            <!--�л�������ɫ-->
 		    <li class="dropdown dropdown-skin">
 			  <span data-toggle="dropdown" class="icon-palette"><i class="mdi mdi-palette"></i></span>
 			  <ul class="dropdown-menu dropdown-menu-right" data-stopPropagation="true">
-                <li class="drop-title"><p>主题</p></li>
+                <li class="drop-title"><p>����</p></li>
                 <li class="drop-skin-li clearfix">
                   <span class="inverse">
                     <input type="radio" name="site_theme" value="default" id="site_theme_1" checked>
@@ -126,7 +126,7 @@
                     <label for="logo_bg_8"></label>
                   </span>
 				</li>
-				<li class="drop-title"><p>头部</p></li>
+				<li class="drop-title"><p>ͷ��</p></li>
 				<li class="drop-skin-li clearfix">
                   <span class="inverse">
                     <input type="radio" name="header_bg" value="default" id="header_bg_1" checked>
@@ -161,7 +161,7 @@
                     <label for="header_bg_8"></label>
                   </span>
 				</li>
-				<li class="drop-title"><p>侧边栏</p></li>
+				<li class="drop-title"><p>�����</p></li>
 				<li class="drop-skin-li clearfix">
                   <span class="inverse">
                     <input type="radio" name="sidebar_bg" value="default" id="sidebar_bg_1" checked>
@@ -198,16 +198,16 @@
 				</li>
 			  </ul>
 			</li>
-            <!--切换主题配色-->
+            <!--�л�������ɫ-->
           </ul>
           
         </div>
       </nav>
       
     </header>
-    <!--End 头部信息-->
+    <!--End ͷ����Ϣ-->
     
-    <!--页面主要内容-->
+    <!--ҳ����Ҫ����-->
     <main class="lyear-layout-content">
       
       <div class="container-fluid">
@@ -216,49 +216,49 @@
           <div class="col-lg-12">
             <div class="card">
               <div class="card-header">
-                <h4>留言板</h4>
+                <h4>���԰�</h4>
               </div>
               <div class="card-body" style="width: 100%; height:90%; overflow-y:scroll;">
           
                 <ul class="list-group">
 									<li class="list-group-item show-grid">
 										<p class="user list-group-item">
-											<span>user：kgdin</span><span class="pp2 pull-right">留言时间: 2018-09-07 21:13:40</span>
+											<span>user��kgdin</span><span class="pp2 pull-right">����ʱ��: 2018-09-07 21:13:40</span>
 										</p>
 										<p class="list-group-item list-group-item-warning">
-											今天下载的WAP手机版的模板 出现的这种问题，权限啥的都修改过来
-											<a class="btn btn-xs btn-default pull-right">删除</a>
+											�������ص�WAP�ֻ����ģ�� ���ֵ��������⣬Ȩ��ɶ�Ķ��޸Ĺ���
+											<a class="btn btn-xs btn-default pull-right">ɾ��</a>
 										</p>
-										<p class="list-group-item list-group-item-info admin">admin回复：你已Q上联系过</p>
+										<p class="list-group-item list-group-item-info admin">admin�ظ�������Q����ϵ��</p>
 									</li>
 									                    
 									<li class="list-group-item show-grid">
 										<p class="user list-group-item"><i></i>
-											<span>user：womuban</span><span class="pull-right">留言时间: 2018-06-23 12:47:03</span>
+											<span>user��womuban</span><span class="pull-right">����ʱ��: 2018-06-23 12:47:03</span>
 										</p>
-										<p class="list-group-item">	妙笔阁的模板没有登录和注册啊</p>
-										<p class="list-group-item list-group-item-info admin" >admin回复：你已Q上联系过</p>
+										<p class="list-group-item">	��ʸ��ģ��û�е�¼��ע�ᰡ</p>
+										<p class="list-group-item list-group-item-info admin" >admin�ظ�������Q����ϵ��</p>
 									</li>
 									                    
 									<li class="list-group-item show-grid">
-										<p class="user"><i></i><span class="pp1">user：我可以</span><span class="pull-right">留言时间: 2018-06-03 23:42:23</span></p>
-										<p class="list-group-item">不错不错..</p>
+										<p class="user"><i></i><span class="pp1">user���ҿ���</span><span class="pull-right">����ʱ��: 2018-06-03 23:42:23</span></p>
+										<p class="list-group-item">��������..</p>
 									</li>
 									
 									<li class="list-group-item show-grid">
 										<p class="user">
-											<i></i><span>user：151772</span><span class="pull-right">留言时间: 2018-05-13 15:46:45</span>
+											<i></i><span>user��151772</span><span class="pull-right">����ʱ��: 2018-05-13 15:46:45</span>
 										</p>
-										<p class="list-group-item">新版模板下载不了是怎么回事？</p>
-										<p class="list-group-item list-group-item-info admin">admin回复：抱歉，现已经可以下载，谢谢。<span class="pp2 pull-right">回复时间: 2018-05-13 15:46:45</span></p>
+										<p class="list-group-item">�°�ģ�����ز�������ô���£�</p>
+										<p class="list-group-item list-group-item-info admin">admin�ظ�����Ǹ�����Ѿ��������أ�лл��<span class="pp2 pull-right">�ظ�ʱ��: 2018-05-13 15:46:45</span></p>
 									</li>                
 														                    
 									<li  class="list-group-item show-grid">
 										<p class="user"><i></i>
-											<span>user：xiao</span><span class="pull-right">留言时间: 2018-05-06 00:36:52</span>
+											<span>user��xiao</span><span class="pull-right">����ʱ��: 2018-05-06 00:36:52</span>
 										</p>
-										<p class="list-group-item">改版了，比旧版看起来顺眼很多</p>
-										<p class="list-group-item list-group-item-info admin">admin回复：嗯嗯 ^_^</p>
+										<p class="list-group-item">�İ��ˣ��Ⱦɰ濴����˳�ۺܶ�</p>
+										<p class="list-group-item list-group-item-info admin">admin�ظ������� ^_^</p>
 									</li>
 									                    
 								</ul>
@@ -272,7 +272,7 @@
       </div>
       
     </main>
-    <!--End 页面主要内容-->
+    <!--End ҳ����Ҫ����-->
   </div>
 </div>
 
@@ -281,7 +281,7 @@
 <script type="text/javascript" src="js/perfect-scrollbar.min.js"></script>
 <script type="text/javascript" src="js/main.min.js"></script>
 
-<!--图表插件-->
+<!--ͼ�����-->
 <script type="text/javascript" src="js/Chart.js"></script>
 <script type="text/javascript">
 $(document).ready(function(e) {

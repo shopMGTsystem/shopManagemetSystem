@@ -4,7 +4,10 @@ import com.dlnu.pojo.Guestbook;
 import com.dlnu.util.DBUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GuestbookDao {
 	
@@ -29,6 +32,35 @@ public class GuestbookDao {
 		}catch(SQLException e){
 			e.printStackTrace();
 			return false;
+		}
+	}
+	
+	public List<Guestbook> getAll() {
+		Connection connection  = DBUtil.getConnection();
+		String sql = "select gbid, uid, content, addtime, flag from tab_guestbook order by addtime desc";
+		
+		try {
+			ArrayList<Guestbook> guestbooks = new ArrayList<Guestbook>();
+			PreparedStatement pstmt;
+			pstmt = connection.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				Guestbook guestbook = new Guestbook();
+				guestbook.setGbID(rs.getInt(1));
+				guestbook.setuID(rs.getInt(2));
+				guestbook.setContent(rs.getString(3));
+				guestbook.setAddtime(rs.getString(4));
+				guestbook.setFlag(rs.getInt(5));
+				
+				guestbooks.add(guestbook);
+			}
+			pstmt.close();
+			connection.close();
+			
+			return guestbooks;
+		}catch(SQLException e){
+			e.printStackTrace();
+			return null;
 		}
 	}
 }
