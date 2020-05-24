@@ -35,6 +35,25 @@ public class GuestbookDao {
 		}
 	}
 	
+	public int deleteByGbid(int gbid) {
+		Connection conn = DBUtil.getConnection();
+		String sql = "delete from tab_guestbook where gbid = ?";
+		try {
+
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, gbid);
+			int count = pstmt.executeUpdate();	
+			pstmt.close();
+			conn.close();
+			
+			return count;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
+		}
+		
+	}
+	
 	public List<Guestbook> getAll() {
 		Connection connection  = DBUtil.getConnection();
 		String sql = "select gbid, uid, content, addtime, flag from tab_guestbook order by addtime desc";

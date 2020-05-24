@@ -48,4 +48,23 @@ public class ReplyDao {
 		
 	}
 	
+	public int deleteByGbid(int gbid) {
+		Connection conn = DBUtil.getConnection();
+		String sql = "delete from tab_reply where gbid = ?";
+		try {
+
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, gbid);
+			int count = pstmt.executeUpdate();	
+			pstmt.close();
+			conn.close();
+			
+			return count;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
+		}
+		
+	}
+	
 }

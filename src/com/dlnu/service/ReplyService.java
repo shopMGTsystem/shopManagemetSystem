@@ -16,4 +16,18 @@ public class ReplyService {
 		reply.setReplytime(time.substring(0, time.length()-2));
 		return reply;
 	}
+	
+	/**
+	 * É¾³ý»Ø¸´±í by gbid
+	 * @param gbid
+	 * @return
+	 */
+	public boolean deleteReply(int gbid) {
+		int result = dao.deleteByGbid(gbid);
+		if (result == -1) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 }

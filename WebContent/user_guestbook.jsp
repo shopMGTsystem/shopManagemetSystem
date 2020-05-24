@@ -275,38 +275,7 @@
 							</p>
 							<p class="list-group-item list-group-item-info admin">admin回复：你已Q上联系过</p>
 						</li>
-						                    
-						<li class="list-group-item show-grid">
-							<p class="user list-group-item"><i></i>
-								<span>用户名：womuban</span><span class="pull-right">留言时间: 2018-06-23 12:47:03</span>
-							</p>
-							<p class="list-group-item">	
-								妙笔阁的模板没有登录和注册啊
-								<a class="btn btn-xs btn-default pull-right">删除</a>
-							</p>
-							<p class="list-group-item list-group-item-info admin" >admin回复：你已Q上联系过</p>
-						</li>
-						                    
-						<li class="list-group-item show-grid">
-							<p class="user"><i></i><span class="pp1">user：我可以</span><span class="pull-right">留言时间: 2018-06-03 23:42:23</span></p>
-							<p class="list-group-item">不错不错..</p>
-						</li>
-						
-						<li class="list-group-item show-grid">
-							<p class="user">
-								<i></i><span>user：151772</span><span class="pull-right">留言时间: 2018-05-13 15:46:45</span>
-							</p>
-							<p class="list-group-item">新版模板下载不了是怎么回事？</p>
-							<p class="list-group-item list-group-item-info admin">admin回复：抱歉，现已经可以下载，谢谢。<span class="pp2 pull-right">回复时间: 2018-05-13 15:46:45</span></p>
-						</li>                
-											                    
-						<li  class="list-group-item show-grid">
-							<p class="user"><i></i>
-								<span>user：xiao</span><span class="pull-right">留言时间: 2018-05-06 00:36:52</span>
-							</p>
-							<p class="list-group-item">改版了，比旧版看起来顺眼很多</p>
-							<p class="list-group-item list-group-item-info admin">admin回复：嗯嗯 ^_^</p>
-						</li>-->
+						-->
 						                    
 					</ul>
         	  		</div>
@@ -335,7 +304,7 @@ $(document).ready(function(e) {
 	    var strlis = '';
 	   
 	    $.each($.parseJSON(guestbooks), function(i, guestbook) {
-	    	console.log("guestbook:"+guestbook); //Object型
+
 			str = '';
 			str ='<li class="list-group-item show-grid">\n'+ 
 			     '	<p class="user list-group-item">\n'+
@@ -346,7 +315,7 @@ $(document).ready(function(e) {
 			     '		'+guestbook.content+'\n';
 			    
 			if(guestbook.user.userName == '<%=session.getAttribute("username")%>'){
-	        	str += '<a class="btn btn-xs btn-default pull-right">删除</a>\n';
+	        	str += '<a class="btn btn-xs btn-default pull-right" onclick="deleteComment('+guestbook.gbID+')">删除</a>\n';
 	        }
 			 str += '	</p>\n';
 			 $.ajax({
@@ -357,9 +326,6 @@ $(document).ready(function(e) {
 				data: {gbid:guestbook.gbID},
 				success:function(reply){
 					
-	 				 console.log("reply:"+reply);//String型
-					 console.log("typeof reply:"+typeof reply); 
-//	 				 console.log("reply.content:"+reply.content);
 					 if(reply != null){ 
 						 console.log("1");
 						 str += '	<p class="list-group-item list-group-item-info admin">\n'+
@@ -394,6 +360,28 @@ function addComment(){
   		//留言添加失败时	
 		}else{
 			layer.msg("留言添加失败，请稍后重试",{time:3000});
+			window.location.reload();
+		}
+  	});
+  	
+}
+
+//删除留言点击事件
+function deleteComment(gbid){
+
+	var params = {
+		gbid:gbid
+	}
+	
+	$.post("guestbook/deleteComment", params ,function(result){
+		//留言添加成功时
+  		if (result) {
+  			layer.msg("留言删除成功!",{time:4000});
+			window.location.reload();
+  			
+  		//留言添加失败时	
+		}else{
+			layer.msg("留言删除失败，请稍后重试",{time:3000});
 			window.location.reload();
 		}
   	});

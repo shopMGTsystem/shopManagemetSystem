@@ -35,4 +35,18 @@ public class GuestbookService {
 		}
 		return guestbooks2;
 	}
+	
+	/**
+	 * É¾³ıÁôÑÔ±í by gbid
+	 * @param gbid
+	 * @return
+	 */
+	public boolean deleteGuestbook(int gbid) {
+		int result = dao.deleteByGbid(gbid);
+		if (result == -1) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 }
