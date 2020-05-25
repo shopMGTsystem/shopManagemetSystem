@@ -327,12 +327,10 @@ $(document).ready(function(e) {
 				success:function(reply){
 					
 					 if(reply != null){ 
-						 console.log("1");
 						 str += '	<p class="list-group-item list-group-item-info admin">\n'+
 					        	'		<span>admin回复：'+reply.content+'</span>\n'+
 					        	'		<span class="pull-right">回复时间: '+reply.replytime+'</span>\n'+
 					        	'	</p>\n';
-						 console.log("2");
 					 }    
 				 }
 			 });
@@ -374,12 +372,12 @@ function deleteComment(gbid){
 	}
 	
 	$.post("guestbook/deleteComment", params ,function(result){
-		//留言添加成功时
+		//留言删除成功时
   		if (result) {
   			layer.msg("留言删除成功!",{time:4000});
 			window.location.reload();
   			
-  		//留言添加失败时	
+  		//留言删除失败时	
 		}else{
 			layer.msg("留言删除失败，请稍后重试",{time:3000});
 			window.location.reload();

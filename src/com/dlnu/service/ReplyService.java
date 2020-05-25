@@ -1,19 +1,27 @@
 package com.dlnu.service;
 
-import java.util.List;
-
+import com.dlnu.dao.GuestbookDao;
 import com.dlnu.dao.ReplyDao;
+import com.dlnu.dao.UserDao;
+import com.dlnu.pojo.Guestbook;
 import com.dlnu.pojo.Reply;
-import com.sun.org.apache.bcel.internal.generic.DALOAD;
+import com.dlnu.pojo.User;
 
 public class ReplyService {
 
 	ReplyDao dao = new ReplyDao();
+	UserDao userDao = new UserDao();
+	GuestbookDao gbDao = new GuestbookDao();
 	
 	public Reply getByGbid(int gbid) {
 		Reply reply = dao.getByGbid(gbid);
 		String time = reply.getReplytime();
 		reply.setReplytime(time.substring(0, time.length()-2));
+
+		User user = userDao.queryById(reply.getuID());
+		Guestbook guestbook =gbDao.getOne(reply.getGbID());
+		reply.setUser(user);
+		reply.setGuestbook(guestbook);
 		return reply;
 	}
 	
@@ -29,5 +37,14 @@ public class ReplyService {
 		} else {
 			return true;
 		}
+	}
+	
+	/**
+	 * Ìí¼Ó»Ø¸´±í
+	 * @param reply
+	 * @return
+	 */
+	public boolean addReply(Reply reply) {
+		return dao.insert(reply);
 	}
 }

@@ -108,4 +108,22 @@ public class GuestbookServlet extends BaseServlet {
 		out.print(jsonStr);
 	    out.close(); 
 	}
+	
+	/**
+	 * 获取一个留言表信息
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void showOne(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String strGbid = request.getParameter("gbid");
+		int gbid = Integer.parseInt(strGbid);
+		Guestbook guestbook = gbService.getOneByGbid(gbid);
+		Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+		String jsonStr = gson.toJson(guestbook);
+		PrintWriter out = response.getWriter();
+		out.print(jsonStr);
+	    out.close(); 
+	}
 }

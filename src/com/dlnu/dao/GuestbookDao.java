@@ -35,6 +35,24 @@ public class GuestbookDao {
 		}
 	}
 	
+	public int update(int gbid) {
+		Connection conn = DBUtil.getConnection();
+		String sql = "update tab_guestbook set flag=1 where gbid = ?";
+		try {
+
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, gbid);
+			int count = pstmt.executeUpdate();	
+			pstmt.close();
+			conn.close();
+			
+			return count;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
+		}
+	}
+	
 	public int deleteByGbid(int gbid) {
 		Connection conn = DBUtil.getConnection();
 		String sql = "delete from tab_guestbook where gbid = ?";
@@ -77,6 +95,33 @@ public class GuestbookDao {
 			connection.close();
 			
 			return guestbooks;
+		}catch(SQLException e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public Guestbook getOne(int gbid) {
+		Connection connection  = DBUtil.getConnection();
+		String sql = "select gbid, uid, content, addtime, flag from tab_guestbook where gbid=?";
+		Guestbook guestbook = new Guestbook();
+		try {
+			PreparedStatement pstmt;
+			pstmt = connection.prepareStatement(sql);
+			pstmt.setInt(1, gbid);
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) {
+				guestbook.setGbID(rs.getInt(1));
+				guestbook.setuID(rs.getInt(2));
+				guestbook.setContent(rs.getString(3));
+				guestbook.setAddtime(rs.getString(4));
+				guestbook.setFlag(rs.getInt(5));
+				
+			}
+			pstmt.close();
+			connection.close();
+			
+			return guestbook;
 		}catch(SQLException e){
 			e.printStackTrace();
 			return null;

@@ -28,6 +28,16 @@ public class Reply {
 		super();
 	}
 
+	
+	public Reply(Integer gbID, Integer uID, String content, String replytime) {
+		super();
+		this.gbID = gbID;
+		this.uID = uID;
+		this.content = content;
+		this.replytime = replytime;
+	}
+
+
 	public Reply(Integer rID, Integer gbID, Integer uID, String content, String replytime) {
 		super();
 		this.rID = rID;

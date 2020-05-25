@@ -67,4 +67,25 @@ public class ReplyDao {
 		
 	}
 	
+	public boolean insert(Reply reply) {
+		Connection conn = DBUtil.getConnection();
+		String sql = "insert into tab_reply(gbid, uid, content, replytime) values(?,?,?,?) ";
+		try {
+
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, reply.getGbID());
+			pstmt.setInt(2, reply.getuID());
+			pstmt.setString(3, reply.getContent());
+			pstmt.setString(4, reply.getReplytime());
+			pstmt.executeUpdate();	
+			pstmt.close();
+			conn.close();
+			
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+	}
 }

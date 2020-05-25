@@ -36,6 +36,22 @@ public class GuestbookService {
 		return guestbooks2;
 	}
 	
+	public Guestbook getOneByGbid(int gbid){
+		Guestbook guestbook = dao.getOne(gbid);
+		String time = guestbook.getAddtime();
+		guestbook.setAddtime(time.substring(0, time.length()-2));
+		return guestbook;
+	}
+	
+	public boolean updateFlag(int gbid) {
+		int result = dao.update(gbid);
+		if (result == -1) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
 	/**
 	 * …æ≥˝¡Ù—‘±Ì by gbid
 	 * @param gbid

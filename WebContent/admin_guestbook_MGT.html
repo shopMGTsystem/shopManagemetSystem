@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=gb2312" >
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 <title>留言板管理界面 - 超市会员管理系统</title>
 <link rel="icon" href="favicon.ico" type="image/ico">
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/materialdesignicons.min.css" rel="stylesheet">
 <link href="css/style.min.css" rel="stylesheet">
+<link href="css/layer.css" rel="stylesheet">
 <style>
 /* 最外框外框 无滚动条 */
 .div-out-height {
@@ -27,6 +28,7 @@
 .false_table table{
     margin: 0;
     width: calc(100% - 19px);
+    table-layout: fixed;
 }
 /* 表格滚动条 */
 .out_scoll {
@@ -41,15 +43,18 @@
 }	
 
 .th1,.td1{
-	width: 10px;
+	width: 40px;
 }
 
 .th2,.td2{
 	width: 200px;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow: ellipsis;
 }
 
 .th3,.td3{
-	width: 70px;
+	width: 100px;
 }
 
 .th4,.td4{
@@ -282,7 +287,7 @@
 										<table class="table">
 											<thead>
 												<tr class="tableTh">
-													<th class="th1" style="width: 55px;">留言ID</th>
+													<th class="th1">留言ID</th>
 	                        <th class="th2">留言内容</th>
 	                        <th class="th3">用户名</th>
 	                        <th class="th4">留言时间</th>
@@ -294,7 +299,7 @@
 									</div>
 									<!-- 真表 -->
 							    <div class="out_scoll">
-							      <table class="table table-hover">
+							      <table class="table table-hover"  style="table-layout: fixed;">
 							        <thead> 
 							          <tr class="tableTh">
 							            <th class="th1" style="width: 55px;">留言ID</th>
@@ -305,39 +310,63 @@
 	                        <th class="th6">操作</th>
 							          </tr>
 							        </thead>
-							        <tbody>
+							        <tbody id="show">
 							        	
-							          <tr class="tableTd">
-							            <td class="td1">1</td>
-	                        <td class="td2" data-toggle="tooltip" data-placement="bottom" title="nihao">nihao</td>
-	                        <td class="td3">zhang</td>
-	                        <td class="td4">2020-05-24 23:53:01</td>
-	                        <td class="td5"><span class="label label-warning">待回复</span></td>
-	                        <td class="td6">
-	                          <div class="btn-group">
-	                            <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="tooltip"><i class="mdi mdi-pencil"></i></a>
-	                            <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="tooltip"><i class="mdi mdi-window-close"></i></a>
-	                          </div>
-	                        </td>
-							          </tr>
-							          
-							          <tr class="tableTd">
-							            <td class="td1" style="width: 55px;">1</td>
-	                        <td class="td2" data-toggle="tooltip" data-placement="bottom" title="hello">hello</td>
-	                        <td class="td3">zhang</td>
-	                        <td class="td4">2020-05-24 23:53:01</td>
-	                        <td class="td5"><span class="label label-success">已回复</span></td>
-	                        <td class="td6">
-	                          <div class="btn-group">
-	                            <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="tooltip"><i class="mdi mdi-pencil"></i></a>
-	                            <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="tooltip"><i class="mdi mdi-window-close"></i></a>
-	                          </div>
-	                        </td>
-							          </tr>
-							          
-							          
+							          <!--
+							          	留言板内容
+							          -->
 							        </tbody>
 							      </table>
+							      
+							      <!--编辑的弹出框-->
+							      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	                  <div class="modal-dialog" role="document">
+	                    <div class="modal-content">
+	                      <div class="modal-header">
+	                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                        <h4 class="modal-title">用户留言内容</h4> <br>
+	                        <p class="list-group-item list-group-item-info"  id="comment" ></p>
+	                        <input type="text" id="uid" hidden="hidden" >
+	                        <input type="text" id="gbid" hidden="hidden" >
+	                      </div>
+	                      <div class="modal-body">
+	                      	<h4 class="modal-title">请在以下填写留言内容</h4>
+	                      	
+	                        <textarea style="width: 100%; height: 200px;" id="replyContent"></textarea>
+	                      </div>
+	                      <div class="modal-footer">
+	                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+	                        <button type="button" class="btn btn-primary" onclick="addReply()">点击回复</button>
+	                      </div>
+	                    </div>
+	                  </div>
+	                </div>
+	                
+	                <!--查看回复的弹出框-->
+							      <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	                  <div class="modal-dialog" role="document">
+	                    <div class="modal-content">
+	                      <div class="modal-header">
+	                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                        <h4 class="modal-title">用户留言内容</h4> <br>
+	                        <p class="list-group-item list-group-item-info "  id="comment2" ></p>
+	                        <input type="text" id="uid2"  hidden="hidden" >
+	                        <input type="text" id="gbid2" hidden="hidden" >
+	                      </div>
+	                      <div class="modal-body">
+	                      	<h4 class="modal-title">您回复的内容</h4>
+	                      	<p class="list-group-item list-group-item-info" id="replyContent2"></p>
+	                      </div>
+	                      <div class="modal-footer">
+	                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+	                        <button type="button" class="btn btn-danger" onclick="deleteReply()">删除您的回复</button>
+	                      </div>
+	                    </div>
+	                  </div>
+	                </div>
+	                
+	                
+	                
 							    </div>
                  
                 </div>
@@ -359,11 +388,134 @@
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/perfect-scrollbar.min.js"></script>
 <script type="text/javascript" src="js/main.min.js"></script>
-
+<script type="text/javascript" src="js/layer.js"></script>
 <script type="text/javascript">
 $(document).ready(function(e) {
-
+	$.post("guestbook/showAll",function(guestbooks){
+		
+		/*在表格内显示用户数据*/
+	    var strlis = '';
+	   
+	    $.each($.parseJSON(guestbooks), function(i, guestbook) {
+			str = '';
+			str ='<tr class="tableTd">\n'+ 
+			     '	<td class="td1">'+guestbook.gbID+'</td>\n'+
+			     '	<td class="td2" data-toggle="tooltip" data-placement="bottom" title="'+guestbook.content+'">'+guestbook.content+'</td>\n'+
+			     '	<td class="td3">'+guestbook.user.userName+'</td>\n'+
+			     '	<td class="td4">'+guestbook.addtime+'</td>\n';
+			if (guestbook.flag == 0) {
+				str += '	<td class="td5"><span class="label label-warning">待回复</span></td>';
+			} else{
+				str += '	<td class="td5"><span class="label label-success">已回复</span></td>';
+			}     
+			str +='	<td class="td6">'+
+					 '		<div class="btn-group">';
+			if (guestbook.flag == 0) {
+				str += '			<a class="btn btn-xs btn-default" title="编辑" onclick="getComment('+guestbook.gbID+')" data-toggle="modal" data-target="#myModal"><i class="mdi mdi-pencil"></i></a>\n';
+			} else{
+				str += '			<a class="btn btn-xs btn-default" title="查看您的回复" onclick="getReply('+guestbook.gbID+')" data-toggle="modal" data-target="#myModal2"><i class="mdi mdi-eye"></i></a>\n';
+			}  
+			     
+			str +='			<a class="btn btn-xs btn-default" title="删除整条留言" data-toggle="tooltip"><i class="mdi mdi-window-close"></i></a>\n'+
+			     '		</div>\n'+
+			     '	</td>\n'+
+			     '</tr>\n';
+		
+			 strlis += str; 			
+		});
+	    $("#show").html(strlis);
+	});
 });
+
+//模态框1显示留言
+function getComment(gbid){
+
+	$.ajax({
+				async:false,
+				url:"guestbook/showOne",
+				type:"post",
+				dataType:"json",
+				data: {gbid:gbid},
+				success:function(guestbook){
+					$("#comment").html(guestbook.content);
+					$("#uid").val(guestbook.uID);
+					$("#gbid").val(guestbook.gbID);
+				}    
+	});
+}
+
+//1管理员回复
+function addReply(){
+	$.ajax({
+			async:false,
+			url:"reply/addReply",
+			type:"post",
+			dataType:"json",
+			data: {
+				gbid:$('#gbid').val(),
+				uid:$('#uid').val(),
+				content:$('#replyContent').val()
+			},
+			success:function(result){
+				//回复添加成功时	
+				if (result) {
+	  			layer.msg("回复添加成功!",{time:4000});
+					window.location.reload();
+	  			
+	  		//回复添加失败时	
+				}else{
+					layer.msg("回复添加失败，请稍后重试",{time:3000});
+					window.location.reload();
+				}
+		  }  
+	});
+}
+
+//模态框2显示回复
+function getReply(gbid){
+
+	$.ajax({
+				async:false,
+				url:"reply/searchOne",
+				type:"post",
+				dataType:"json",
+				data: {gbid:gbid},
+				success:function(reply){
+					console.log(reply);
+					$("#comment2").html(reply.guestbook.content);
+					$("#replyContent2").html(reply.content);
+					$("#uid2").val(reply.uID);
+					$("#gbid2").val(reply.gbID);
+				}    
+	});
+}
+
+//2删除回复点击事件
+//function deleteReply() {
+//	$.ajax({
+//			async:false,
+//			url:"reply/deleteReply",
+//			type:"post",
+//			dataType:"json",
+//			data: {
+//				gbid:$('#gbid2').val(),
+//				uid:$('#uid2').val(),
+//				content:$('#comment2').val()
+//			},
+//			success:function(result){
+//				//回复删除成功时
+//				if (result) {
+//	  			layer.msg("回复信息删除成功!",{time:4000});
+//					window.location.reload();
+//	  			
+//	  		//回复删除失败时	
+//				}else{
+//					layer.msg("回复信息删除失败，请稍后重试",{time:3000});
+//					window.location.reload();
+//				}
+//		  }  
+//	});
+//}
 </script>
 </body>
 </html>
